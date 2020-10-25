@@ -8,7 +8,7 @@
 export default {
   data() {
     return {
-      loaded: false
+      loaded: false,
     };
   },
   mounted() {
@@ -18,14 +18,12 @@ export default {
     async initData() {
       await this.$store.dispatch("loadEnvConfig");
       this.loaded = true;
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style lang="less">
-#app {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+@import "./styles/reset";
+@import "./styles/typography";
 </style>

@@ -15,7 +15,7 @@ module.exports = {
 
   // A page object can have elements
   elements: {
-    appContainer: "#app"
+    appContainer: "#app",
   },
 
   // Or a page objects can also have sections
@@ -24,14 +24,14 @@ module.exports = {
       selector: "#app",
 
       elements: {
-        logo: "img"
+        logo: "img",
       },
 
       // - a page object section can also have sub-sections
       // - elements or sub-sections located here are retrieved using the "app" section as the base
       sections: {
         headline: {
-          selector: "h1"
+          selector: "h1",
         },
 
         welcome: {
@@ -42,11 +42,11 @@ module.exports = {
           elements: {
             cliPluginLinks: {
               selector: "ul",
-              index: 0
-            }
-          }
-        }
-      }
-    }
-  }
+              index: 0,
+            },
+          },
+        },
+      },
+    },
+  },
 };

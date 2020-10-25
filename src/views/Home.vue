@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div v-if="me">
-      <a v-if="userInfo" key="logout" href="#" @click="logout">Logout</a>
+      <a v-if="userName" key="logout" href="#" @click="logout">Logout</a>
       <a v-else key="login" :href="loginUrl">Authorize</a>
     </div>
 
@@ -19,19 +19,16 @@ export default {
   name: "Home",
   data() {
     return {
-      me: null
+      me: null,
     };
   },
   computed: {
     loginUrl() {
       return this.getApiURL("/_oauth/authorize").toString();
     },
-    userInfo() {
-      return this.me && this.me.subreddit;
-    },
     userName() {
-      return this.userInfo && this.userInfo.display_name_prefixed;
-    }
+      return this.me && this.me.name;
+    },
   },
   mounted() {
     this.getMe();
@@ -43,7 +40,7 @@ export default {
     async logout() {
       await this.apiCall("POST", "/_oauth/revoke");
       await this.getMe();
-    }
-  }
+    },
+  },
 };
 </script>

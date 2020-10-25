@@ -12,17 +12,14 @@ async function _processJSONResponse(response) {
     // 204 (No Content)
     return {};
   }
-  const contentType = response.headers
-    .get("Content-Type")
-    .split(";")[0]
-    .trim();
+  const contentType = response.headers.get("Content-Type").split(";")[0].trim();
   // We don't know what to do with anything other than a JSON
   // so just quit here and don't read the body.
   if (contentType !== "application/json") {
     throw new APIError("Unknown API error", {
       requestURL: response.url,
       statusCode: response.status,
-      detail: response.statusText
+      detail: response.statusText,
     });
   }
 
@@ -43,7 +40,7 @@ async function _processJSONResponse(response) {
 
 export default {
   methods: {
-    getApiURL: function(endpoint, params = {}) {
+    getApiURL: function (endpoint, params = {}) {
       let url;
       if (!endpoint) return;
 
@@ -56,13 +53,13 @@ export default {
       if (!Array.isArray(params)) {
         params = Object.entries(params);
       }
-      params.forEach(entry => {
+      params.forEach((entry) => {
         url.searchParams.append(entry[0], entry[1]);
       });
       url.searchParams.append("raw_json", "1");
       return url;
     },
-    apiCall: async function(
+    apiCall: async function (
       method = "GET",
       endpoint = "/",
       params = {},
@@ -77,16 +74,16 @@ export default {
         cache: cacheMode,
         credentials: "include",
         headers: {
-          Accept: "application/json"
+          Accept: "application/json",
         },
-        redirect: "follow"
+        redirect: "follow",
       };
 
       if (data) {
         switch (contentType) {
           case "multipart/form-data":
             fetchOptions.body = new FormData();
-            Object.entries(data).forEach(value => {
+            Object.entries(data).forEach((value) => {
               fetchOptions.body.append(...value);
             });
             break;
@@ -102,6 +99,6 @@ export default {
 
       const response = await fetch(url.toString(), fetchOptions);
       return await _processJSONResponse(response);
-    }
-  }
+    },
+  },
 };

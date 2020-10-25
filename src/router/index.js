@@ -9,19 +9,19 @@ const routes = [
   {
     path: "/",
     name: "home",
-    component: Home
+    component: Home,
   },
   {
     path: "/_oauth/redirect",
     name: "oauth-redirect",
-    component: OAuthRedirect
-  }
+    component: OAuthRedirect,
+  },
 ];
 
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
-  routes
+  routes,
 });
 
 export default router;

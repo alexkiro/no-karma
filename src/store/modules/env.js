@@ -1,15 +1,15 @@
 export default {
   strict: true,
   state: {
-    envConfig: { ...process.env }
+    envConfig: { ...process.env },
   },
   mutations: {
     updateEnvConfig(state, newEnv) {
       state.envConfig = {
         ...state.envConfig,
-        ...newEnv
+        ...newEnv,
       };
-    }
+    },
   },
   actions: {
     async loadEnvConfig(context) {
@@ -23,7 +23,7 @@ export default {
       } catch (e) {
         // pass
       }
-    }
+    },
   },
   getters: {
     apiBaseDefault(state) {
@@ -35,6 +35,6 @@ export default {
       return state.envConfig.VUE_APP_API_HOST
         ? `${window.location.protocol}//${state.envConfig.VUE_APP_API_HOST}`
         : getters.apiBaseDefault;
-    }
-  }
+    },
+  },
 };

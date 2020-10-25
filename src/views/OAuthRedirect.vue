@@ -14,8 +14,8 @@ export default {
     async completeOAuth() {
       await this.apiCall("GET", "/_oauth/complete", this.$route.query);
       await this.$router.push({ name: "home" });
-    }
-  }
+    },
+  },
 };
 </script>
 
