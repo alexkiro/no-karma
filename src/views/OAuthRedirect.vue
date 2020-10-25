@@ -5,8 +5,6 @@
 </template>
 
 <script>
-import { apiCall } from "@/lib/api";
-
 export default {
   name: "OAuthRedirect",
   mounted() {
@@ -14,7 +12,7 @@ export default {
   },
   methods: {
     async completeOAuth() {
-      await apiCall("GET", "/_oauth/complete", this.$route.query);
+      await this.apiCall("GET", "/_oauth/complete", this.$route.query);
       await this.$router.push({ name: "home" });
     }
   }

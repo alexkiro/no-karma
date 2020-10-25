@@ -2,7 +2,7 @@
   <div class="home">
     <div v-if="me">
       <a v-if="userInfo" key="logout" href="#" @click="logout">Logout</a>
-      <a v-else :href="loginUrl" key="login">Authorize</a>
+      <a v-else key="login" :href="loginUrl">Authorize</a>
     </div>
 
     <div>
@@ -15,8 +15,6 @@
 </template>
 
 <script>
-import { apiCall, getApiURL } from "@/lib/api";
-
 export default {
   name: "Home",
   data() {
@@ -26,7 +24,7 @@ export default {
   },
   computed: {
     loginUrl() {
-      return getApiURL("/_oauth/authorize").toString();
+      return this.getApiURL("/_oauth/authorize").toString();
     },
     userInfo() {
       return this.me && this.me.subreddit;
@@ -40,10 +38,10 @@ export default {
   },
   methods: {
     async getMe() {
-      this.me = await apiCall("GET", "/api/v1/me");
+      this.me = await this.apiCall("GET", "/api/v1/me");
     },
     async logout() {
-      await apiCall("POST", "/_oauth/revoke");
+      await this.apiCall("POST", "/_oauth/revoke");
       await this.getMe();
     }
   }

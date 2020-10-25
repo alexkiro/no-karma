@@ -18,7 +18,7 @@ FROM nginx:stable
 RUN rm /etc/nginx/conf.d/default.conf
 
 RUN apt update && \
-    apt install -y python3 python3-dev libffi6 libffi-dev libssl-dev curl build-essential procps && \
+    apt install -y python3 python3-dev libffi6 libffi-dev libssl-dev curl build-essential procps jq && \
     curl -L 'https://bootstrap.pypa.io/get-pip.py' | python3 && \
     pip install -U cffi certbot certbot-nginx && \
     apt remove --purge -y python3-dev build-essential libffi-dev libssl-dev curl && \
@@ -29,8 +29,9 @@ RUN apt update && \
 RUN mkdir -p /etc/nginx/templates
 COPY docker/frontend/templates/ /etc/nginx/templates/
 # Scripts added to this folder are run before the nginx daemon is started.
-# Using the 99 prefix ensures that it is run after the nginx templates
+# Using the large prefix ensures that it is run after the nginx templates
 # have been generated.
+COPY scripts/98-process-env.sh /docker-entrypoint.d/
 COPY scripts/99-install-certbot.sh /docker-entrypoint.d/
 # Add script that can be used to renew certificates
 COPY scripts/run-certbot.sh /usr/bin/

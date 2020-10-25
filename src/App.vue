@@ -1,8 +1,27 @@
 <template>
-  <div id="app">
+  <div v-if="loaded" id="app">
     <router-view />
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      loaded: false
+    };
+  },
+  mounted() {
+    this.initData();
+  },
+  methods: {
+    async initData() {
+      await this.$store.dispatch("loadEnvConfig");
+      this.loaded = true;
+    }
+  }
+};
+</script>
 
 <style lang="less">
 #app {

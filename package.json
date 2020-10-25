@@ -40,7 +40,7 @@
       "node": true
     },
     "extends": [
-      "plugin:vue/essential",
+      "plugin:vue/recommended",
       "eslint:recommended",
       "@vue/prettier"
     ],
@@ -50,9 +50,10 @@
     "rules": {}
   },
   "browserslist": [
-    "> 1%",
+    "> 5%",
     "last 2 versions",
-    "not dead"
+    "not IE > 0",
+    "not IE_mob > 0"
   ],
   "gitHooks": {
     "pre-commit": "lint-staged"
