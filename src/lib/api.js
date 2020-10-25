@@ -25,6 +25,7 @@ export function getApiURL(endpoint, params = {}) {
   params.forEach(entry => {
     url.searchParams.append(entry[0], entry[1]);
   });
+  url.searchParams.append("raw_json", "1");
   return url;
 }
 
@@ -75,10 +76,13 @@ async function _processJSONResponse(response) {
     // 204 (No Content)
     return {};
   }
-
+  const contentType = response.headers
+    .get("Content-Type")
+    .split(";")[0]
+    .trim();
   // We don't know what to do with anything other than a JSON
   // so just quit here and don't read the body.
-  if (response.headers.get("Content-Type") !== "application/json") {
+  if (contentType !== "application/json") {
     throw new APIError("Unknown API error", {
       requestURL: response.url,
       statusCode: response.status,

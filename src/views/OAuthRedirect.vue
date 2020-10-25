@@ -14,12 +14,8 @@ export default {
   },
   methods: {
     async completeOAuth() {
-      const response = await apiCall(
-        "GET",
-        "/_oauth/complete",
-        this.$route.query
-      );
-      console.log(response);
+      await apiCall("GET", "/_oauth/complete", this.$route.query);
+      await this.$router.push({ name: "home" });
     }
   }
 };

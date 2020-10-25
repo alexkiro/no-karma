@@ -1,6 +1,4 @@
 """Miscellaneous utilities"""
-import urllib.parse
-from flask import url_for
 
 
 def str2bool(val, default_to_none=False):
