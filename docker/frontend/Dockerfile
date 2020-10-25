@@ -28,7 +28,11 @@ RUN apt update && \
 
 RUN mkdir -p /etc/nginx/templates
 COPY docker/frontend/templates/ /etc/nginx/templates/
+# Scripts added to this folder are run before the nginx daemon is started.
+# Using the 99 prefix ensures that it is run after the nginx templates
+# have been generated.
 COPY scripts/99-install-certbot.sh /docker-entrypoint.d/
+# Add script that can be used to renew certificates
 COPY scripts/run-certbot.sh /usr/bin/
 
 COPY --from=builder /dist /usr/share/nginx/html
