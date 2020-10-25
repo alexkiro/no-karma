@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -v
+set -evx
 
 # Check if any certificates are already available and install them into the nginx conf
 certbot install --nginx --cert-name "${VUE_APP_HOST//\"}" -n || echo ""
