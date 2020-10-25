@@ -63,7 +63,14 @@ def get_token():
         # Token available check if it's expired, and refresh it if needed.
         # Refresh token 5 minutes before it expires, to prevent weirdness.
         if (int(time.time()) - token["timestamp"]) > (token["expires_in"] - (60 * 5)):
-            token = reddit_access_token(
-                {"grant_type": "refresh_token", "refresh_token": token["refresh_token"]}
-            )
+            if "refresh_token" in token:
+                token = reddit_access_token(
+                    {
+                        "grant_type": "refresh_token",
+                        "refresh_token": token["refresh_token"],
+                    }
+                )
+            else:
+                # Anonymous tokens cannot be refreshed.
+                token = reddit_access_token({"grant_type": "client_credentials"})
     return token
