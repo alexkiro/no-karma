@@ -5,11 +5,21 @@ services:
     build:
       dockerfile: "./docker/api/Dockerfile"
       context: "."
+    env_file:
+      - .env.local
 
   frontend:
     build:
       dockerfile: "./docker/frontend/Dockerfile"
       context: "."
-    environment:
-      - API_HOST=api.no-karma.app
-      - FRONTEND_HOST=no-karma.app
+    ports:
+      - "80:80"
+      - "443:443"
+    env_file:
+      - .env.local
+    volumes:
+      - letsencrypt:/etc/letsencrypt
+
+
+volumes:
+  letsencrypt:

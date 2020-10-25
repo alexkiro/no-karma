@@ -27,13 +27,16 @@ RUN apt update && \
     rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /etc/nginx/templates
-COPY docker/frontend/ /etc/nginx/templates/
+COPY docker/frontend/templates/ /etc/nginx/templates/
+COPY scripts/99-install-certbot.sh /docker-entrypoint.d/
+COPY scripts/run-certbot.sh /usr/bin/
 
 COPY --from=builder /dist /usr/share/nginx/html
 
 EXPOSE 80
 EXPOSE 443
 STOPSIGNAL SIGTERM
+VOLUME /etc/letsencrypt
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["nginx", "-g", "daemon off;"]
