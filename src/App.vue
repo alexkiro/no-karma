@@ -12,13 +12,7 @@ export default {
     };
   },
   mounted() {
-    this.initData();
-  },
-  methods: {
-    async initData() {
-      await this.$store.dispatch("loadEnvConfig");
-      this.loaded = true;
-    },
+    this.$store.dispatch("initStore").then(() => (this.loaded = true));
   },
 };
 </script>

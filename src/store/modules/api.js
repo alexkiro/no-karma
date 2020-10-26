@@ -39,15 +39,42 @@ async function _processJSONResponse(response) {
 }
 
 export default {
-  methods: {
-    getApiURL: function (endpoint, params = {}) {
+  strict: true,
+  state: {},
+  mutations: {},
+  actions: {
+    /**
+     * Perform an API call to the backend.
+     *
+     * @param context
+     * @param method {string} HTTP method to use
+     * @param endpoint {string} API endpoint or full URL.
+     * @param params {Object|Array} Object with URL parameters. Alternatively an Array can
+     *  be passed as parameters with pairs of (key, value). This can be used
+     *  when repeating query args needs to be passed to the API.
+     * @param {Object} data request body
+     * @param contentType {string} specify the request body content type
+     * @param cacheMode {string} value for Request.cache
+     * @returns {Promise<Object>} rejects in case of connection or HTTP Errors.
+     */
+    async apiCall(
+      context,
+      {
+        method = "GET",
+        endpoint = "/",
+        params = {},
+        data = undefined,
+        contentType = "application/json",
+        cacheMode = "no-cache",
+      }
+    ) {
       let url;
       if (!endpoint) return;
 
-      if (endpoint.startsWith(this.$store.getters.apiBase)) {
+      if (endpoint.startsWith(context.getters.apiBase)) {
         url = new URL(endpoint);
       } else {
-        url = new URL(this.$store.getters.apiBase + endpoint);
+        url = new URL(context.getters.apiBase + endpoint);
       }
 
       if (!Array.isArray(params)) {
@@ -57,17 +84,7 @@ export default {
         url.searchParams.append(entry[0], entry[1]);
       });
       url.searchParams.append("raw_json", "1");
-      return url;
-    },
-    apiCall: async function (
-      method = "GET",
-      endpoint = "/",
-      params = {},
-      data = undefined,
-      contentType = "application/json",
-      cacheMode = "no-cache"
-    ) {
-      const url = this.getApiURL(endpoint, params);
+
       const fetchOptions = {
         method,
         mode: "cors",
@@ -101,4 +118,5 @@ export default {
       return await _processJSONResponse(response);
     },
   },
+  getters: {},
 };

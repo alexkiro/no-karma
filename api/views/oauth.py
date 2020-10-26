@@ -86,12 +86,19 @@ def oauth_revoke():
         # Optionally try to revoke the token.
         app.logger.debug("Attempting to revoke token")
         token = get_token()
-        reddit_response = requests.post(
-            settings.REDDIT_OAUTH_REVOKE_TOKEN_URL,
-            {
+        try:
+            data = {
                 "token": token["refresh_token"],
                 "token_type_hint": "refresh_token",
-            },
+            }
+        except KeyError:
+            data = {
+                "token": token["access_token"],
+                "token_type_hint": "access_token",
+            }
+        reddit_response = requests.post(
+            settings.REDDIT_OAUTH_REVOKE_TOKEN_URL,
+            data,
             headers={
                 "User-Agent": settings.REDDIT_OAUTH_USER_AGENT,
             },

@@ -13,6 +13,7 @@ CORS(
     expose_headers=["Content-Type", "Content-Disposition"],
     supports_credentials=True,
     max_age=3600,
+    automatic_options=True,
 )
 
 

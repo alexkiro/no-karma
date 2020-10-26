@@ -1,20 +1,19 @@
 <template>
   <div class="home">
-    <div v-if="me">
-      <a v-if="userName" key="logout" href="#" @click="logout">Logout</a>
+    <div>
+      <a v-if="user.name" key="logout" href="#" @click="logout">Logout</a>
       <a v-else key="login" :href="loginUrl">Authorize</a>
     </div>
 
     <div>
-      <h1>This me: {{ userName }}</h1>
-      <pre>
-        {{ me }}
-      </pre>
+      <h1>This me: {{ user.name }}</h1>
     </div>
   </div>
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
+
 export default {
   name: "Home",
   data() {
@@ -23,23 +22,16 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(["user", "apiBase"]),
     loginUrl() {
-      return this.getApiURL("/_oauth/authorize").toString();
+      return new URL("/_oauth/authorize", this.apiBase).toString();
     },
-    userName() {
-      return this.me && this.me.name;
-    },
-  },
-  mounted() {
-    this.getMe();
   },
   methods: {
-    async getMe() {
-      this.me = await this.apiCall("GET", "/api/v1/me");
-    },
+    ...mapActions(["apiCall"]),
     async logout() {
-      await this.apiCall("POST", "/_oauth/revoke");
-      await this.getMe();
+      await this.apiCall({ method: "POST", endpoint: "/_oauth/revoke" });
+      await this.$store.dispatch("getMe");
     },
   },
 };

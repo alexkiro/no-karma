@@ -12,6 +12,12 @@ export default {
     },
   },
   actions: {
+    /**
+     * Load any critical app information, normally available in process.env
+     *
+     * @param context
+     * @return {Promise<void>}
+     */
     async loadEnvConfig(context) {
       try {
         const newEnv = {};
@@ -26,11 +32,17 @@ export default {
     },
   },
   getters: {
+    /**
+     * Default API base if none is specified.
+     */
     apiBaseDefault(state) {
       return state.envConfig.NODE_ENV === "development"
         ? `${window.location.protocol}//localhost:8000`
         : `${window.location.protocol}//${window.location.host}`;
     },
+    /**
+     * Base url for the API
+     */
     apiBase(state, getters) {
       return state.envConfig.VUE_APP_API_HOST
         ? `${window.location.protocol}//${state.envConfig.VUE_APP_API_HOST}`

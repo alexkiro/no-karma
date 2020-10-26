@@ -2,11 +2,8 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
-import api from "@/lib/mixins/api";
 
 Vue.config.productionTip = false;
-
-Vue.mixin(api);
 
 new Vue({
   router,
