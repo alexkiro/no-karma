@@ -4,6 +4,7 @@ import Vuex from "vuex";
 import api from "@/store/modules/api";
 import env from "@/store/modules/env";
 import user from "@/store/modules/user";
+import subreddits from "@/store/modules/subreddits";
 
 Vue.use(Vuex);
 
@@ -18,11 +19,13 @@ export default new Vuex.Store({
 
       // Load user data
       await context.dispatch("getMe");
+      context.dispatch("loadRSubs");
     },
   },
   modules: {
     env,
     api,
     user,
+    subreddits,
   },
 });

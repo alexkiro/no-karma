@@ -7,6 +7,9 @@
 
     <div>
       <h1>This me: {{ user.name }}</h1>
+      <pre>
+        {{ rSubs }}
+      </pre>
     </div>
   </div>
 </template>
@@ -17,12 +20,10 @@ import { mapActions, mapGetters } from "vuex";
 export default {
   name: "Home",
   data() {
-    return {
-      me: null,
-    };
+    return {};
   },
   computed: {
-    ...mapGetters(["user", "apiBase"]),
+    ...mapGetters(["user", "apiBase", "rSubs"]),
     loginUrl() {
       return new URL("/_oauth/authorize", this.apiBase).toString();
     },

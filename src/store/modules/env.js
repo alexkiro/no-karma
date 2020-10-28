@@ -1,7 +1,9 @@
 export default {
   strict: true,
   state: {
-    envConfig: { ...process.env },
+    envConfig: {
+      ...process.env,
+    },
   },
   mutations: {
     updateEnvConfig(state, newEnv) {
