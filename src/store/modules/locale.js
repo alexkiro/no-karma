@@ -1,28 +1,36 @@
 export default {
   strict: true,
   state: {
-    relativeTimeFormat: null,
+    locales: {
+      relTime: null,
+      longDateTime: null,
+    },
   },
   mutations: {
-    setRelativeTimeFormat(state, fmt) {
-      state.relativeTimeFormat = fmt;
+    setLocales(state, locales) {
+      state.locales = locales;
     },
   },
   actions: {
     initLocales(context, locale = "en") {
-      context.commit(
-        "setRelativeTimeFormat",
-        new Intl.RelativeTimeFormat(locale, {
-          localeMatcher: "best fit",
+      const localeMatcher = "best fit";
+      const newLocales = {
+        relTime: new Intl.RelativeTimeFormat(locale, {
+          localeMatcher,
           numeric: "always",
           style: "long",
-        })
-      );
+        }),
+        longDateTime: new Intl.DateTimeFormat(locale, {
+          dateStyle: "long",
+          timeStyle: "short",
+        }),
+      };
+      context.commit("setLocales", newLocales);
     },
   },
   getters: {
-    relativeTimeFormat(state) {
-      return state.relativeTimeFormat;
+    locales(state) {
+      return state.locales;
     },
   },
 };

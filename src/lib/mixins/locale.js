@@ -1,5 +1,19 @@
+import { mapGetters } from "vuex";
+
 export default {
+  computed: {
+    ...mapGetters(["locales"]),
+  },
   methods: {
+    /**
+     * Find and compute the "best" human readable relative
+     * date string from the specified dates.
+     *
+     * @param dateTo {Date}, date to format
+     * @param dateFrom {Date}, relative from date; defaults to
+     *   current time
+     * @return {string|*}
+     */
     relativeDateString(dateTo, dateFrom = null) {
       if (!dateTo) return;
       dateFrom = dateFrom || new Date();
@@ -18,7 +32,7 @@ export default {
         .slice(-1)[0];
 
       if (!args) return "just now";
-      return this.$store.getters.relativeTimeFormat.format(...args);
+      return this.locales.relTime.format(...args);
     },
   },
 };

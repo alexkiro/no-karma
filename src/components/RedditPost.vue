@@ -4,7 +4,9 @@
     <div>u/{{ post.author }}</div>
     <div>{{ post.subreddit_name_prefixed }}</div>
     <img :src="post.thumbnail" loading="lazy" />
-    {{ createdDate }}
+    <div>
+      {{ locales.longDateTime.format(createdDate) }}
+    </div>
     <div v-if="createdDate" v-tippy="{ content: createdDate }">
       <b>{{ relativeDateString(createdDate) }}</b>
     </div>
