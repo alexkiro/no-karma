@@ -1,3 +1,4 @@
+import time
 import urllib.parse
 import uuid
 
@@ -8,11 +9,11 @@ from flask import current_app as app
 from flask import jsonify
 from flask import redirect
 from flask import request
+from flask import session
 
 from api import settings
 from api.token import get_token
 from api.token import reddit_access_token
-from api.token import set_token
 
 urls = Blueprint("oauth", __name__)
 
@@ -36,14 +37,10 @@ def oauth_authorize():
         }
     )
     response = redirect(f"{settings.REDDIT_OAUTH_AUTHORIZE_URL}?{query}")
-    response.set_cookie(
-        "state",
-        state,
-        secure=settings.HAS_HTTPS,
-        httponly=True,
-        samesite="strict",
-        max_age=300,
-    )
+    session[settings.REDDIT_OAUTH_NONCE_KEY] = {
+        "state": state,
+        "timestamp": int(time.time()),
+    }
     return response
 
 
@@ -59,9 +56,9 @@ def oauth_complete():
         app.logger.debug("Unable to the complete OAuth: %s", request.args.get("error"))
         return abort(403)
 
-    new_state = request.cookies["state"]
     state = request.args["state"]
-    if new_state != state:
+    nonce = session[settings.REDDIT_OAUTH_NONCE_KEY]
+    if nonce["state"] != state or time.time() - nonce["timestamp"] > 300:
         app.logger.debug("Invalid state code")
         return abort(403)
 
@@ -74,8 +71,8 @@ def oauth_complete():
     )
 
     response = jsonify({"status": "ok"})
-    response.delete_cookie("state")
-    set_token(response, token)
+    del session[settings.REDDIT_OAUTH_NONCE_KEY]
+    session[settings.REDDIT_OAUTH_SESSION_KEY] = token
     return response
 
 
@@ -111,5 +108,5 @@ def oauth_revoke():
         app.logger.warning("Unable to revoke token: %s", e, exc_info=True)
 
     response = jsonify({"status": "ok"})
-    response.delete_cookie("oauth")
+    session.clear()
     return response

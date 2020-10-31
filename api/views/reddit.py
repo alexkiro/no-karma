@@ -7,7 +7,6 @@ from flask import request
 
 from api import settings
 from api.token import get_token
-from api.token import set_token
 
 urls = Blueprint("reddit", __name__)
 
@@ -20,8 +19,8 @@ def reddit_api(path):
     headers = filter_headers(request.headers)
     headers["User-Agent"] = settings.REDDIT_OAUTH_USER_AGENT
 
-    oauth = get_token()
-    headers["Authorization"] = f"{oauth['token_type']} {oauth['access_token']}"
+    token = get_token()
+    headers["Authorization"] = f"{token['token_type']} {token['access_token']}"
 
     # Proxy API call to Reddit, make sure to handle gzipped types.
     # TODO: handle connection errors and so on
@@ -42,8 +41,6 @@ def reddit_api(path):
         proxy_resp.status_code,
         filter_headers(proxy_resp.headers),
     )
-    # Update cookie with new token
-    set_token(response, oauth)
     return response
 
 

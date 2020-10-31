@@ -1,13 +1,11 @@
 """Handle OAuth access token."""
 
-import base64
-import json
 import time
 
 import requests
 from flask import abort
 from flask import current_app as app
-from flask import request
+from flask import session
 
 from api import settings
 
@@ -40,25 +38,15 @@ def reddit_access_token(data):
     return token
 
 
-def set_token(response, token):
-    """Set cookie with the new access token details."""
-    response.set_cookie(
-        "oauth",
-        base64.b64encode(json.dumps(token).encode()),
-        secure=settings.HAS_HTTPS,
-        httponly=True,
-        samesite="strict",
-    )
-
-
 def get_token():
     """Get access token details from cookies."""
     # TODO: check if the required scopes have changed, and force re-authorization
     try:
-        token = json.loads(base64.b64decode(request.cookies["oauth"]))
+        token = session[settings.REDDIT_OAUTH_SESSION_KEY]
     except (KeyError, AttributeError, ValueError):
         # No token available, request an anonymous one.
         token = reddit_access_token({"grant_type": "client_credentials"})
+        session[settings.REDDIT_OAUTH_SESSION_KEY] = token
     else:
         # Token available; check if it's expired, and refresh it if needed.
         # Refresh token 5 minutes before it expires, to prevent weirdness.
@@ -72,7 +60,9 @@ def get_token():
                         }
                     )
                 )
+                session.modified = True
             else:
                 # Anonymous tokens cannot be refreshed, just get a new one.
                 token = reddit_access_token({"grant_type": "client_credentials"})
+                session[settings.REDDIT_OAUTH_SESSION_KEY] = token
     return token

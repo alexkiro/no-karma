@@ -14,13 +14,18 @@ HAS_HTTPS = str2bool(os.getenv("HAS_HTTPS", "true"))
 PROTOCOL = "https" if HAS_HTTPS else "http"
 
 # Host of the frontend application
-VUE_APP_HOST = os.getenv("VUE_APP_HOST", "localhost:8080")
+VUE_APP_HOST = os.getenv("VUE_APP_HOST")
 
 # URL to the frontend application
 VUE_APP_URL = f"{PROTOCOL}://{VUE_APP_HOST}"
 
+# URL of the backend application
+VUE_APP_API_HOST = os.getenv("VUE_APP_API_HOST")
+
 # ====================================================================
 # === Reddit OAuth details.
+REDDIT_OAUTH_NONCE_KEY = "_nonce"
+REDDIT_OAUTH_SESSION_KEY = "_oauth"
 REDDIT_OAUTH_APP_NAME = os.getenv("REDDIT_OAUTH_APP_NAME")
 REDDIT_OAUTH_CLIENT_ID = os.getenv("REDDIT_OAUTH_CLIENT_ID")
 REDDIT_OAUTH_CLIENT_SECRET = os.getenv("REDDIT_OAUTH_CLIENT_SECRET")
