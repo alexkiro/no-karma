@@ -24,6 +24,13 @@ export default {
       posts: [],
     };
   },
+  watch: {
+    endpoint() {
+      this.posts = [];
+      this.nextParams = {};
+      this.getData();
+    },
+  },
   mounted() {
     this.getData();
   },

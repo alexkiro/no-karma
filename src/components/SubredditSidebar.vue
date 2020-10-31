@@ -1,11 +1,17 @@
 <template>
   <aside class="subreddit-sidebar hidden-scroll">
     <nav>
-      <div
+      <router-link
         v-for="sub in rSubs"
         :key="sub.name"
         v-tippy="{ content: sub.url, placement: 'right' }"
+        :to="{
+          name: 'home-sub',
+          params: { subreddit: sub.display_name, sort: $route.params.sort },
+        }"
         class="subreddit-icon"
+        :class="{ 'not-active': $route.params.subreddit }"
+        active-class="active"
       >
         <img
           v-if="sub.community_icon || sub.icon_img"
@@ -15,7 +21,7 @@
           :alt="sub.display_name_prefixed"
         />
         <span v-else class="material-icons">public</span>
-      </div>
+      </router-link>
     </nav>
   </aside>
 </template>
@@ -58,6 +64,8 @@ export default {
   transition-duration: 100ms;
   transition-timing-function: ease-in-out;
 
+  text-decoration: none;
+
   img {
     max-width: 100%;
     max-height: 100%;
@@ -68,7 +76,13 @@ export default {
     margin-top: 1.5rem;
   }
 
+  &.not-active {
+    opacity: 0.6;
+  }
+
+  &.active,
   &:hover {
+    opacity: 1;
     transform: scale(1.2);
   }
 }

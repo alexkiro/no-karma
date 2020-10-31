@@ -5,9 +5,12 @@
       <a v-else key="login" :href="loginUrl">Authorize</a>
       <h1>This me: {{ user.name }}</h1>
       <button @click="getMe">Get me?</button>
+      <div>{{ endpoint }}</div>
     </div>
     <main>
-      <post-listing />
+      <keep-alive :max="3">
+        <post-listing :key="endpoint" :endpoint="endpoint" />
+      </keep-alive>
     </main>
   </div>
 </template>
@@ -19,11 +22,30 @@ import PostListing from "@/components/PostListing";
 export default {
   name: "Home",
   components: { PostListing },
+  props: {
+    subreddit: {
+      type: String,
+      required: false,
+      default: "",
+    },
+    sort: {
+      type: String,
+      required: false,
+      default: "hot",
+      choices: ["hot", "new", "top", "controversial"],
+    },
+  },
   data() {
     return {};
   },
   computed: {
     ...mapGetters(["user", "apiBase", "rSubs"]),
+    endpoint() {
+      const parts = [""];
+      if (this.subreddit) parts.push("r", this.subreddit);
+      parts.push(this.sort);
+      return parts.join("/");
+    },
     loginUrl() {
       return new URL("/_oauth/authorize", this.apiBase).toString();
     },

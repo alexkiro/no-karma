@@ -7,9 +7,16 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/",
+    path: "/:sort?",
     name: "home",
     component: Home,
+    props: true,
+  },
+  {
+    path: "/r/:subreddit/:sort?",
+    name: "home-sub",
+    component: Home,
+    props: true,
   },
   {
     path: "/_oauth/redirect",

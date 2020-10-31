@@ -3,7 +3,7 @@
     <div>{{ post.title }}</div>
     <div>u/{{ post.author }}</div>
     <div>{{ post.subreddit_name_prefixed }}</div>
-    <img :src="post.thumbnail" loading="lazy" />
+    <img :src="post.thumbnail" loading="lazy" referrerpolicy="no-referrer" />
     <div>
       {{ locales.longDateTime.format(createdDate) }}
     </div>

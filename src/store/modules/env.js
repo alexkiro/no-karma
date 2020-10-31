@@ -21,6 +21,7 @@ export default {
      * @return {Promise<void>}
      */
     async loadEnvConfig(context) {
+      if (context.state.envConfig.NODE_ENV === "development") return;
       try {
         const newEnv = {};
         const response = await fetch("/env.json");
