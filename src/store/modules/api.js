@@ -26,6 +26,12 @@ async function _processJSONResponse(response) {
   let jsonBody;
   jsonBody = await response.json();
 
+  // XXX Reddit API weirdness, if there is no data, it returns a string
+  //  instead of an empty Object.
+  if (jsonBody === "{}") {
+    jsonBody = {};
+  }
+
   jsonBody.requestURL = new URL(response.url);
   jsonBody.statusCode = response.status;
 

@@ -1,7 +1,11 @@
 <template>
   <div v-if="loaded" id="app">
-    <subreddit-sidebar class="hidden-scroll col1" />
-    <router-view class="router-view col2" />
+    <div class="col1">
+      <subreddit-sidebar />
+    </div>
+    <div class="col2">
+      <router-view class="router-view" />
+    </div>
   </div>
 </template>
 
@@ -30,14 +34,18 @@ export default {
 @import "./styles/misc";
 
 #app {
-  padding-left: 10rem;
+  display: flex;
 
   .col1 {
-    position: fixed;
+    position: sticky;
     height: 100vh;
     top: 0;
     bottom: 0;
     left: 0;
+  }
+
+  .col2 {
+    flex-grow: 1;
   }
 }
 </style>

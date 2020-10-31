@@ -6,6 +6,7 @@ export default {
   },
   mutations: {
     addRSubs(state, { after, children }) {
+      // TODO: don't store unnecessary data.
       state.rSubs = [...state.rSubs, ...children.map((child) => child.data)];
       // Store next params to load more
       state.nextParams = {
@@ -15,6 +16,7 @@ export default {
     },
   },
   actions: {
+    // TODO: Add defaults subs for anon
     async loadRSubs(context, { limit = 50 } = {}) {
       const response = await context.dispatch("apiCall", {
         method: "GET",
@@ -24,8 +26,9 @@ export default {
           limit,
         },
       });
-
-      context.commit("addRSubs", response.data);
+      if (response.data) {
+        context.commit("addRSubs", response.data);
+      }
     },
   },
   getters: {

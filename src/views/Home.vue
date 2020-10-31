@@ -3,22 +3,21 @@
     <div>
       <a v-if="user.name" key="logout" href="#" @click="logout">Logout</a>
       <a v-else key="login" :href="loginUrl">Authorize</a>
-    </div>
-
-    <div>
       <h1>This me: {{ user.name }}</h1>
-      <pre>
-        {{ rSubs }}
-      </pre>
     </div>
+    <main>
+      <post-listing />
+    </main>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import PostListing from "@/components/PostListing";
 
 export default {
   name: "Home",
+  components: { PostListing },
   data() {
     return {};
   },
@@ -37,3 +36,10 @@ export default {
   },
 };
 </script>
+
+<style scoped lang="less">
+main {
+  display: flex;
+  justify-content: center;
+}
+</style>

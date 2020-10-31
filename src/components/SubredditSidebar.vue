@@ -1,5 +1,5 @@
 <template>
-  <aside class="subreddit-sidebar">
+  <aside class="subreddit-sidebar hidden-scroll">
     <nav>
       <div
         v-for="sub in rSubs"
@@ -12,9 +12,9 @@
           :src="sub.community_icon || sub.icon_img"
           loading="lazy"
           referrerpolicy="no-referrer"
+          :alt="sub.display_name_prefixed"
         />
         <span v-else class="material-icons">public</span>
-        <!--        <span>{{ sub.url }}</span>-->
       </div>
     </nav>
   </aside>
@@ -33,8 +33,10 @@ export default {
 
 <style scoped lang="less">
 .subreddit-sidebar {
+  user-select: none;
   background-color: @background-dark;
   padding: 1rem 1.5rem;
+  height: 100%;
 }
 
 .subreddit-icon {
@@ -70,26 +72,4 @@ export default {
     transform: scale(1.2);
   }
 }
-//
-//.subreddit-item {
-//  cursor: pointer;
-//  display: flex;
-//  align-items: center;
-//  justify-content: flex-start;
-//  padding: 0.5rem 1.5rem;
-//  border-top-right-radius: 2rem;
-//  border-bottom-right-radius: 2rem;
-//
-//  .material-icons {
-//    margin-right: 2rem;
-//  }
-//
-//  & + .subreddit-icon {
-//    margin-top: 1.5rem;
-//  }
-//
-//  &:hover {
-//    background-color: #595959;
-//  }
-//}
 </style>

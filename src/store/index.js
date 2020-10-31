@@ -5,6 +5,7 @@ import api from "@/store/modules/api";
 import env from "@/store/modules/env";
 import user from "@/store/modules/user";
 import subreddits from "@/store/modules/subreddits";
+import locale from "@/store/modules/locale";
 
 Vue.use(Vuex);
 
@@ -15,7 +16,10 @@ export default new Vuex.Store({
   actions: {
     async initStore(context) {
       // Env data always needs to be loaded first!
-      await context.dispatch("loadEnvConfig");
+      await Promise.all([
+        context.dispatch("loadEnvConfig"),
+        context.dispatch("initLocales"),
+      ]);
 
       // Load user data
       await context.dispatch("getMe");
@@ -26,6 +30,7 @@ export default new Vuex.Store({
     env,
     api,
     user,
+    locale,
     subreddits,
   },
 });
