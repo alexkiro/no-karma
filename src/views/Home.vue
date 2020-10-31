@@ -4,6 +4,7 @@
       <a v-if="user.name" key="logout" href="#" @click="logout">Logout</a>
       <a v-else key="login" :href="loginUrl">Authorize</a>
       <h1>This me: {{ user.name }}</h1>
+      <button @click="getMe">Get me?</button>
     </div>
     <main>
       <post-listing />
@@ -28,10 +29,10 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["apiCall"]),
+    ...mapActions(["apiCall", "getMe"]),
     async logout() {
       await this.apiCall({ method: "POST", endpoint: "/_oauth/revoke" });
-      await this.$store.dispatch("getMe");
+      await this.getMe();
     },
   },
 };
