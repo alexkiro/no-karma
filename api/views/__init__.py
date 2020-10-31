@@ -1,3 +1,5 @@
+from logging.config import dictConfig
+
 from flask import Flask
 from flask import redirect
 from flask import session
@@ -10,6 +12,25 @@ from api.views import reddit
 
 app = Flask(__name__)
 app.config.from_mapping(CONF)
+
+dictConfig(
+    {
+        "version": 1,
+        "formatters": {
+            "default": {
+                "format": "[%(asctime)s] %(levelname)s: %(message)s",
+            }
+        },
+        "handlers": {
+            "wsgi": {
+                "class": "logging.StreamHandler",
+                "stream": "ext://flask.logging.wsgi_errors_stream",
+                "formatter": "default",
+            }
+        },
+        "root": {"level": "INFO", "handlers": ["wsgi"]},
+    }
+)
 
 CORS(
     app,
