@@ -1,11 +1,24 @@
 <template>
   <div class="home">
     <div>
+      <div>{{ endpoint }}</div>
+
       <a v-if="user.name" key="logout" href="#" @click="logout">Logout</a>
       <a v-else key="login" :href="loginUrl">Authorize</a>
-      <h1>This me: {{ user.name }}</h1>
-      <button @click="getMe">Get me?</button>
-      <div>{{ endpoint }}</div>
+      <h3>This me: {{ user.name }}</h3>
+
+      <div>
+        <button @click="getMe">Get me?</button>
+        <router-link
+          v-for="link in sortLinks"
+          :key="link.params.sort"
+          :to="link"
+          class="link"
+          active-class="active"
+        >
+          {{ link.params.sort }}
+        </router-link>
+      </div>
     </div>
     <main>
       <keep-alive :max="3">
@@ -18,6 +31,8 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import PostListing from "@/components/PostListing";
+
+const sortChoices = ["hot", "new", "top", "best", "controversial", "rising"];
 
 export default {
   name: "Home",
@@ -32,7 +47,7 @@ export default {
       type: String,
       required: false,
       default: "best",
-      choices: ["hot", "new", "top", "best", "controversial"],
+      choices: sortChoices,
     },
   },
   data() {
@@ -49,6 +64,14 @@ export default {
     loginUrl() {
       return new URL("/_oauth/authorize", this.apiBase).toString();
     },
+    sortLinks() {
+      return sortChoices.map((sort) => {
+        return {
+          name: this.$route.name,
+          params: { ...this.$route.params, sort },
+        };
+      });
+    },
   },
   methods: {
     ...mapActions(["apiCall", "getMe"]),
@@ -64,5 +87,21 @@ export default {
 main {
   display: flex;
   justify-content: center;
+}
+
+.link {
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &.active {
+    color: var(--secondary-200);
+    font-weight: 500;
+
+    &:hover {
+      cursor: default;
+      text-decoration: none;
+    }
+  }
 }
 </style>
