@@ -7,6 +7,7 @@ services:
       context: "."
     env_file:
       - .env.local
+    restart: always
 
   frontend:
     build:
@@ -17,6 +18,7 @@ services:
       - "443:443"
     env_file:
       - .env.local
+    restart: always
     volumes:
       - letsencrypt:/etc/letsencrypt
 
