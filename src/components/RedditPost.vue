@@ -35,10 +35,19 @@ export default {
 
 <style scoped lang="less">
 .reddit-post {
-  background-color: @roman-silver;
-  max-width: 75rem;
+  position: relative;
+  background: var(--surface);
+  background: var(--elevation-overlay-03dp);
+  max-width: 100rem;
   padding: 2rem;
-  border-radius: @border-radius;
+  border-radius: var(--rounded);
+  box-shadow: var(--shadow-02dp);
+  transition: box-shadow 0.3s var(--ease-in);
+
+  &:hover {
+    background-color: var(--states-surface-overlay-hover);
+    box-shadow: var(--shadow-12dp);
+  }
 
   & + .reddit-post {
     margin-top: 2rem;

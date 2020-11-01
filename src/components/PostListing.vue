@@ -14,7 +14,7 @@ export default {
   props: {
     endpoint: {
       type: String,
-      default: "/hot",
+      default: "/best",
       required: false,
     },
   },

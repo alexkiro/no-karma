@@ -31,8 +31,8 @@ export default {
     sort: {
       type: String,
       required: false,
-      default: "hot",
-      choices: ["hot", "new", "top", "controversial"],
+      default: "best",
+      choices: ["hot", "new", "top", "best", "controversial"],
     },
   },
   data() {

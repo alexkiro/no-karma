@@ -9,18 +9,23 @@
           name: 'home-sub',
           params: { subreddit: sub.display_name, sort: $route.params.sort },
         }"
-        class="subreddit-icon"
+        class="subreddit-item"
         :class="{ 'not-active': $route.params.subreddit }"
         active-class="active"
       >
-        <img
-          v-if="sub.community_icon || sub.icon_img"
-          :src="sub.community_icon || sub.icon_img"
-          loading="lazy"
-          referrerpolicy="no-referrer"
-          :alt="sub.display_name_prefixed"
-        />
-        <span v-else class="material-icons">public</span>
+        <div class="subreddit-icon">
+          <img
+            v-if="sub.community_icon || sub.icon_img"
+            :src="sub.community_icon || sub.icon_img"
+            loading="lazy"
+            referrerpolicy="no-referrer"
+            :alt="sub.display_name_prefixed"
+          />
+          <span v-else class="material-icons">public</span>
+        </div>
+        <div>
+          {{ sub.url }}
+        </div>
       </router-link>
     </nav>
   </aside>
@@ -40,50 +45,74 @@ export default {
 <style scoped lang="less">
 .subreddit-sidebar {
   user-select: none;
-  background-color: @background-dark;
-  padding: 1rem 1.5rem;
+  background: var(--surface);
+  background: var(--elevation-overlay-01dp);
+  padding: 1rem 0;
   height: 100%;
+  box-shadow: var(--shadow-16dp);
 }
 
-.subreddit-icon {
+.subreddit-item {
   cursor: pointer;
-  color: black;
   display: flex;
   align-items: center;
-  justify-content: center;
-  background-color: white;
-  overflow: hidden;
+  justify-content: flex-start;
+  transition: all 0.3s var(--ease-function);
+  padding: 0.5rem;
 
-  width: 5rem;
-  height: 5rem;
-  border-radius: 50%;
-  border: 2px solid @border-normal;
-
-  transition-property: transform;
-  transition-delay: 10ms;
-  transition-duration: 100ms;
-  transition-timing-function: ease-in-out;
-
-  text-decoration: none;
-
-  img {
-    max-width: 100%;
-    max-height: 100%;
-    border-radius: 50%;
-  }
-
-  & + .subreddit-icon {
-    margin-top: 1.5rem;
-  }
-
-  &.not-active {
-    opacity: 0.6;
-  }
-
-  &.active,
   &:hover {
-    opacity: 1;
-    transform: scale(1.2);
+    background-color: var(--states-surface-overlay-hover);
+  }
+
+  &.active {
+    background-color: var(--states-surface-overlay-selected);
+  }
+
+  .subreddit-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    overflow: hidden;
+
+    width: 3.75rem;
+    height: 3.75rem;
+    border-radius: 50%;
+    border: 1px solid var(--outline);
+
+    margin-right: 1rem;
+    //box-shadow: var(--shadow-02dp);
+
+    text-decoration: none;
+
+    img {
+      max-width: 100%;
+      max-height: 100%;
+      border-radius: 50%;
+    }
+
+    & + .subreddit-icon {
+      margin-top: 1.5rem;
+    }
   }
 }
+//
+//.subreddit-icon {
+//  &.not-active {
+//    opacity: 0.7;
+//  }
+//
+//  &.active,
+//  &:focus,
+//  &:hover {
+//    opacity: 1;
+//    transform: scale(1.2);
+//    box-shadow: var(--shadow-12dp);
+//    border-color: var(--states-primary-overlay-hover);
+//  }
+//
+//  &.active {
+//    border-color: var(--states-primary-overlay-selected);
+//  }
+//}
 </style>

@@ -1,9 +1,16 @@
 <template>
-  <div v-if="loaded" id="app">
+  <div v-if="loaded" id="app" :class="theme">
     <div class="col1">
       <subreddit-sidebar />
     </div>
     <div class="col2">
+      <div style="text-align: center">
+        <input id="theme-dark" v-model="theme" type="radio" value="dark" />
+        <label for="theme-dark">dark</label>
+        <input id="theme-light" v-model="theme" type="radio" value="light" />
+        <label for="theme-light">light</label>
+      </div>
+
       <router-view class="router-view" />
     </div>
   </div>
@@ -18,6 +25,7 @@ export default {
   components: { SubredditSidebar },
   data() {
     return {
+      theme: "dark",
       loaded: false,
     };
   },
@@ -29,6 +37,9 @@ export default {
 
 <style lang="less">
 @import "./styles/reset";
+@import "./styles/vars/base";
+@import "./styles/vars/dark";
+@import "./styles/vars/light";
 @import "./styles/fonts";
 @import "./styles/typography";
 @import "./styles/misc";
@@ -46,6 +57,7 @@ export default {
 
   .col2 {
     flex-grow: 1;
+    padding: 2rem;
   }
 }
 </style>

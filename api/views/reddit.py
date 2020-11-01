@@ -16,7 +16,7 @@ urls = Blueprint("reddit", __name__)
 def reddit_api(path):
     """Proxy API request to Reddit"""
     # Prepare API call details
-    app.logger.debug("%s: preparing", path)
+    app.logger.debug("/%s: preparing", path)
     url = urllib.parse.urljoin(settings.REDDIT_API_HOST, "/" + path)
     headers = filter_headers(request.headers)
     headers["User-Agent"] = settings.REDDIT_OAUTH_USER_AGENT
@@ -33,15 +33,15 @@ def reddit_api(path):
         data=request.data,
         headers=headers,
     )
-    app.logger.debug("%s: sending", path)
+    app.logger.debug("/%s: sending", path)
     proxy_resp = requests.Session().send(
         proxy_req.prepare(),
         stream=True,
         timeout=(settings.REDDIT_CONNECT_TIMEOUT, settings.REDDIT_READ_TIMEOUT),
     )
-    app.logger.debug("%s: reading", path)
+    app.logger.debug("/%s: reading", path)
     content = proxy_resp.raw.read()
-    app.logger.debug("%s: making response", path)
+    app.logger.debug("/%s: making response", path)
     response = make_response(
         content,
         proxy_resp.status_code,
