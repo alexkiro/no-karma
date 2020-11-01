@@ -17,7 +17,7 @@ export default {
   },
   actions: {
     // TODO: Add defaults subs for anon
-    async loadRSubs(context, { limit = 50 } = {}) {
+    async loadRSubs(context, { limit = 100 } = {}) {
       const response = await context.dispatch("apiCall", {
         method: "GET",
         endpoint: "/subreddits/mine/subscriber",

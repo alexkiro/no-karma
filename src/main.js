@@ -21,6 +21,14 @@ Vue.directive("tippy", {
   },
 });
 
+/**
+ * Directive that hides the visibility of an element, instead of removing it
+ * from the DOM
+ */
+Vue.directive("visible", function (el, binding) {
+  el.style.visibility = binding.value ? "visible" : "hidden";
+});
+
 Vue.mixin(locale);
 
 new Vue({
