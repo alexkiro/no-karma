@@ -1,6 +1,15 @@
 <template>
-  <aside class="subreddit-sidebar hidden-scroll">
-    <nav>
+  <aside class="subreddit-sidebar hidden-scroll" :class="{ collapsed }">
+    <nav class="subreddit-list">
+      <h6 class="nav-header primary emphasis">
+        <span v-if="!collapsed">Communities</span>
+        <button
+          class="material-icons icon-button"
+          @click="collapsed = !collapsed"
+        >
+          {{ collapsed ? "chevron_right" : "chevron_left" }}
+        </button>
+      </h6>
       <router-link
         v-for="sub in rSubs"
         :key="sub.name"
@@ -23,8 +32,8 @@
           />
           <span v-else class="material-icons">public</span>
         </div>
-        <div>
-          {{ sub.url }}
+        <div v-if="!collapsed">
+          {{ sub.url.slice(1) }}
         </div>
       </router-link>
     </nav>
@@ -36,6 +45,11 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "SubredditSidebar",
+  data() {
+    return {
+      collapsed: false,
+    };
+  },
   computed: {
     ...mapGetters(["rSubs"]),
   },
@@ -47,9 +61,30 @@ export default {
   user-select: none;
   background: var(--surface);
   background: var(--elevation-overlay-01dp);
-  padding: 1rem 0;
   height: 100%;
   box-shadow: var(--shadow-16dp);
+  width: 30rem;
+
+  .subreddit-list {
+    margin-bottom: 25vh;
+  }
+
+  .nav-header {
+    position: sticky;
+    top: 0;
+
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+
+    box-shadow: var(--shadow-01dp);
+  }
+
+  &.collapsed {
+    width: unset;
+  }
 }
 
 .subreddit-item {
@@ -80,7 +115,6 @@ export default {
     border-radius: 50%;
     border: 1px solid var(--outline);
 
-    margin-right: 1rem;
     //box-shadow: var(--shadow-02dp);
 
     text-decoration: none;
@@ -91,28 +125,14 @@ export default {
       border-radius: 50%;
     }
 
-    & + .subreddit-icon {
-      margin-top: 1.5rem;
+    .material-icons {
+      font-size: 2.5rem;
+      color: black;
+    }
+
+    & + * {
+      margin-left: 1rem;
     }
   }
 }
-//
-//.subreddit-icon {
-//  &.not-active {
-//    opacity: 0.7;
-//  }
-//
-//  &.active,
-//  &:focus,
-//  &:hover {
-//    opacity: 1;
-//    transform: scale(1.2);
-//    box-shadow: var(--shadow-12dp);
-//    border-color: var(--states-primary-overlay-hover);
-//  }
-//
-//  &.active {
-//    border-color: var(--states-primary-overlay-selected);
-//  }
-//}
 </style>

@@ -37,11 +37,13 @@ export default {
 
 <style lang="less">
 @import "./styles/reset";
+@import "./styles/fonts";
 @import "./styles/vars/base";
 @import "./styles/vars/dark";
 @import "./styles/vars/light";
-@import "./styles/fonts";
 @import "./styles/typography";
+@import "./styles/theme";
+@import "./styles/buttons";
 @import "./styles/misc";
 
 #app {
