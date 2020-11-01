@@ -8,11 +8,16 @@ import locale from "@/lib/mixins/locale";
 Vue.config.productionTip = false;
 
 Vue.directive("tippy", {
-  inserted: function (el, binding) {
+  inserted(el, binding) {
     tippy(el, binding.value);
   },
-  update: function (el, binding) {
-    tippy(el, binding.value);
+  update(el, { value, oldValue }) {
+    if (value !== oldValue) {
+      if (el._tippy) {
+        el._tippy.destroy();
+      }
+      tippy(el, value);
+    }
   },
 });
 
