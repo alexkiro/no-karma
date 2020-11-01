@@ -42,7 +42,7 @@ export default {
   padding: 2rem;
   border-radius: var(--rounded);
   box-shadow: var(--shadow-02dp);
-  transition: box-shadow 0.3s var(--ease-in);
+  transition: all 0.3s var(--ease-function);
 
   &:hover {
     background-color: var(--states-surface-overlay-hover);

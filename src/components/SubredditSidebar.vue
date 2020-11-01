@@ -64,6 +64,7 @@ export default {
   height: 100%;
   box-shadow: var(--shadow-16dp);
   width: 30rem;
+  transition: all 0.3s var(--ease-function);
 
   .subreddit-list {
     margin-bottom: 25vh;
@@ -107,15 +108,14 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: white;
+    background-color: var(--surface);
+    box-shadow: var(--shadow-01dp);
+
     overflow: hidden;
 
     width: 3.75rem;
     height: 3.75rem;
     border-radius: 50%;
-    border: 1px solid var(--outline);
-
-    //box-shadow: var(--shadow-02dp);
 
     text-decoration: none;
 
@@ -126,8 +126,8 @@ export default {
     }
 
     .material-icons {
-      font-size: 2.5rem;
-      color: black;
+      font-size: 2rem;
+      color: var(--on-surface-high-emphasis);
     }
 
     & + * {
