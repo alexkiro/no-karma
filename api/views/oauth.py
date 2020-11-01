@@ -57,7 +57,11 @@ def oauth_complete():
         return abort(403)
 
     state = request.args["state"]
-    nonce = session[settings.REDDIT_OAUTH_NONCE_KEY]
+    try:
+        nonce = session[settings.REDDIT_OAUTH_NONCE_KEY]
+    except KeyError:
+        return abort(403)
+
     if nonce["state"] != state or time.time() - nonce["timestamp"] > 300:
         app.logger.debug("Invalid state code")
         return abort(403)
