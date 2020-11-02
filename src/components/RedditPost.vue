@@ -45,6 +45,7 @@
           chevron_right
         </button>
       </div>
+      <!--      <div v-if="embedded" v-html="embedded.content || embedded.html"></div>-->
     </div>
     <a
       v-if="post.url_overridden_by_dest"
@@ -107,6 +108,14 @@ export default {
     redditLink() {
       if (!this.post.permalink) return;
       return `https://reddit.com${this.post.permalink}`;
+    },
+    embedded() {
+      const embed =
+        this.post.secure_media_embed ||
+        (this.post.secure_media && this.post.secure_media.oembed) ||
+        this.post.media_embed ||
+        (this.post.media && this.post.media.oembed);
+      return embed.html || embed.content;
     },
   },
 };
