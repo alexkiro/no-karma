@@ -27,7 +27,9 @@ RUN apt update && \
     rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /etc/nginx/templates
-COPY docker/frontend/templates/ /etc/nginx/templates/
+COPY docker/frontend/nginx/templates/ /etc/nginx/templates/
+COPY docker/frontend/nginx/includes/ /etc/nginx/templates/includes/
+
 # Scripts added to this folder are run before the nginx daemon is started.
 # Using the large prefix ensures that it is run after the nginx templates
 # have been generated.
