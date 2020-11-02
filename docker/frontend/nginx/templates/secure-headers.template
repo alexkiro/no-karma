@@ -14,5 +14,5 @@ add_header Feature-Policy "geolocation 'none';midi 'none'; sync-xhr 'none';micro
 add_header Permissions-Policy "geolocation=();midi=();notifications=();push=();sync-xhr=();microphone=();camera=();magnetometer=();gyroscope=();speaker=(self);vibrate=();fullscreen=(self);payment=();" always;
 
 # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security
-# add_header Strict-Transport-Security "max-age=63072000; includeSubDomains" always;
+add_header Strict-Transport-Security "max-age=$HSTS_MAX_AGE; includeSubDomains" always;
 
