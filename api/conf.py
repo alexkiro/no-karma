@@ -11,8 +11,10 @@ from api.settings import VUE_APP_API_HOST
 CONF = {
     # https://flask.palletsprojects.com/en/1.1.x/config/#SECRET_KEY
     "SECRET_KEY": os.getenv("SECRET_KEY"),
+    # https://flask.palletsprojects.com/en/1.1.x/config/#SESSION_COOKIE_NAME
+    "SESSION_COOKIE_NAME": "__Host-session" if HAS_HTTPS else "session",
     # https://flask.palletsprojects.com/en/1.1.x/config/#SESSION_COOKIE_DOMAIN
-    # "SESSION_COOKIE_DOMAIN": VUE_APP_API_HOST,
+    "SESSION_COOKIE_DOMAIN": False,
     # https://flask.palletsprojects.com/en/1.1.x/config/#SESSION_COOKIE_SAMESITE
     "SESSION_COOKIE_SAMESITE": "Strict",
     # https://flask.palletsprojects.com/en/1.1.x/config/#SESSION_COOKIE_HTTPONLY
