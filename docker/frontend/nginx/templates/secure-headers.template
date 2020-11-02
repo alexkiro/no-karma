@@ -1,9 +1,7 @@
 # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
 add_header X-Content-Type-Options "nosniff" always;
-
 #  https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
-add_header Content-Security-Policy "default-src 'self'; connect-src 'self' $VUE_APP_API_HOST; img-src *; media-src *" always;
-
+add_header Content-Security-Policy "default-src $VUE_APP_HOST; connect-src $VUE_APP_HOST $VUE_APP_API_HOST; img-src *; media-src *; object-src 'none'" always;
 # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
 add_header X-Frame-Options "DENY" always;
 # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection
