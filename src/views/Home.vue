@@ -4,7 +4,7 @@
       <div>{{ endpoint }}</div>
 
       <a v-if="user.name" key="logout" href="#" @click="logout">Logout</a>
-      <a v-else key="login" :href="loginUrl">Authorize</a>
+      <a v-else key="login" @click="login">Login</a>
       <h3>This me: {{ user.name }}</h3>
 
       <div>
@@ -61,9 +61,6 @@ export default {
       parts.push(this.sort);
       return parts.join("/");
     },
-    loginUrl() {
-      return new URL("/_oauth/authorize", this.apiBase).toString();
-    },
     sortLinks() {
       return sortChoices.map((sort) => {
         return {
@@ -75,6 +72,13 @@ export default {
   },
   methods: {
     ...mapActions(["apiCall", "getMe"]),
+    async login() {
+      const response = await this.apiCall({
+        method: "GET",
+        endpoint: "/_oauth/authorize",
+      });
+      window.setTimeout(() => (window.location = response.url), 100);
+    },
     async logout() {
       await this.apiCall({ method: "POST", endpoint: "/_oauth/revoke" });
       await this.getMe();

@@ -7,7 +7,6 @@ from flask import abort
 from flask import Blueprint
 from flask import current_app as app
 from flask import jsonify
-from flask import redirect
 from flask import request
 from flask import session
 
@@ -36,12 +35,11 @@ def oauth_authorize():
             "scope": settings.REDDIT_OAUTH_SCOPES,
         }
     )
-    response = redirect(f"{settings.REDDIT_OAUTH_AUTHORIZE_URL}?{query}")
     session[settings.REDDIT_OAUTH_NONCE_KEY] = {
         "state": state,
         "timestamp": int(time.time()),
     }
-    return response
+    return jsonify({"url": f"{settings.REDDIT_OAUTH_AUTHORIZE_URL}?{query}"})
 
 
 @urls.route("/_oauth/complete")
@@ -74,10 +72,9 @@ def oauth_complete():
         }
     )
 
-    response = jsonify({"status": "ok"})
     del session[settings.REDDIT_OAUTH_NONCE_KEY]
     session[settings.REDDIT_OAUTH_SESSION_KEY] = token
-    return response
+    return jsonify({"status": "ok"})
 
 
 @urls.route("/_oauth/revoke", methods=["POST"])
@@ -111,6 +108,5 @@ def oauth_revoke():
     except requests.RequestException as e:
         app.logger.warning("Unable to revoke token: %s", e, exc_info=True)
 
-    response = jsonify({"status": "ok"})
     session.clear()
-    return response
+    return jsonify({"status": "ok"})
