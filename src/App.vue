@@ -61,6 +61,7 @@ export default {
   }
 
   .col2 {
+    position: relative;
     flex-grow: 1;
     padding: 2rem;
   }
