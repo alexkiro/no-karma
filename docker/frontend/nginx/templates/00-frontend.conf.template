@@ -6,7 +6,7 @@ server {
 
     # The *.html file should never be cached!
     location @appHTML {
-        include /etc/nginx/includes/secure-headers.conf;
+        include /etc/nginx/conf.d/secure-headers;
 
         expires off;
         add_header Cache-Control "no-store, no-cache, must-revalidate";
@@ -17,7 +17,7 @@ server {
     }
 
     location / {
-        include /etc/nginx/includes/secure-headers.conf;
+        include /etc/nginx/conf.d/secure-headers;
 
         sendfile on;
         tcp_nopush on;
