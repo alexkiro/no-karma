@@ -3,6 +3,7 @@ const path = require("path");
 process.env.VUE_APP_VERSION = require("./package.json").version;
 
 module.exports = {
+  integrity: true,
   lintOnSave: false,
 
   pluginOptions: {
