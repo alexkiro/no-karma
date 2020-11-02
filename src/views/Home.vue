@@ -1,14 +1,13 @@
 <template>
   <div class="home">
     <div>
-      <div>{{ endpoint }}</div>
-
-      <a v-if="user.name" key="logout" href="#" @click="logout">Logout</a>
-      <a v-else key="login" @click="login">Login</a>
-      <h3>This me: {{ user.name }}</h3>
+      <h6>This me: {{ user.name }}</h6>
+      <button v-if="user.name" key="logout" @click="logout">Logout</button>
+      <button v-else key="login" @click="login">Login</button>
+      <button @click="getMe">Get me?</button>
+      <div>Current: {{ endpoint }}</div>
 
       <div>
-        <button @click="getMe">Get me?</button>
         <router-link
           v-for="link in sortLinks"
           :key="link.params.sort"
