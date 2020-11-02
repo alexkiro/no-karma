@@ -21,7 +21,7 @@
       </div>
     </div>
     <main>
-      <keep-alive :max="3">
+      <keep-alive :max="5">
         <post-listing :key="endpoint" :endpoint="endpoint" />
       </keep-alive>
     </main>

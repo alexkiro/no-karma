@@ -1,23 +1,31 @@
 <template>
   <div class="reddit-post">
     <div class="post-metadata small">
-      <span>{{ post.subreddit_name_prefixed }}</span>
-      &nbsp;
-      <span class="muted">&middot; by u/{{ post.author }}</span>
-      &nbsp;
-      <span v-tippy="{ content: longDate }" class="muted">
-        {{ relativeDateString(createdDate) }}
-      </span>
+      <div>
+        <span>{{ post.subreddit_name_prefixed }}</span>
+        &nbsp;
+        <span class="muted">&middot; by u/{{ post.author }}</span>
+        &nbsp;
+        <span v-tippy="{ content: longDate }" class="muted">
+          {{ relativeDateString(createdDate) }}
+        </span>
+      </div>
+      <a
+        :href="redditLink"
+        class="material-icons"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        open_in_new
+      </a>
     </div>
     <h6 class="post-title">{{ post.title }}</h6>
     <div class="post-body">
       <transition>
-        <img
-          v-if="currentImage"
+        <responsive-image
+          v-if="showImage"
           :key="currentImage.id"
-          :src="currentImage.url"
-          loading="lazy"
-          referrerpolicy="no-referrer"
+          :image="currentImage"
           :alt="post.title"
         />
       </transition>
@@ -46,14 +54,16 @@
       rel="noopener noreferrer"
     >
       <span class="url">{{ post.url_overridden_by_dest }}</span>
-      <span class="material-icons">launch</span>
+      <span class="material-icons">open_in_new</span>
     </a>
   </div>
 </template>
 
 <script>
+import ResponsiveImage from "@/components/ResponsiveImage";
 export default {
   name: "RedditPost",
+  components: { ResponsiveImage },
   props: {
     post: {
       type: Object,
@@ -72,31 +82,31 @@ export default {
     longDate() {
       return this.locales.longDateTime.format(this.createdDate);
     },
+    showImage() {
+      return (
+        // Text post maybe, no need to show an image for these?
+        this.post.post_hint !== "self" &&
+        // Only show thumbnail for links
+        this.post.post_hint !== "link" &&
+        // We actually need an image to display
+        this.currentImage
+      );
+    },
     images() {
-      let imageList = [];
       if (this.post.preview && this.post.preview.images) {
-        imageList = this.post.preview.images;
+        return this.post.preview.images;
       }
       if (this.post.media_metadata) {
-        imageList = Object.values(this.post.media_metadata);
+        return Object.values(this.post.media_metadata);
       }
-
-      return imageList.map((image) => {
-        const source = image.source || image.s;
-        const resolutions = image.resolutions || image.p;
-        const preview = [...resolutions]
-          .reverse()
-          .find((res) => (res.width || res.x) < 1000);
-
-        return {
-          id: image.id,
-          source: source.url || source.u,
-          url: preview && (preview.url || preview.u),
-        };
-      });
+      return [];
     },
     currentImage() {
       return this.images[this.imageIndex];
+    },
+    redditLink() {
+      if (!this.post.permalink) return;
+      return `https://reddit.com${this.post.permalink}`;
     },
   },
 };
@@ -120,6 +130,16 @@ export default {
 
   & > * + * {
     margin-top: 1rem;
+  }
+
+  .post-metadata {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .material-icons {
+      font-size: 2rem;
+    }
   }
 
   .post-url {
@@ -161,11 +181,6 @@ export default {
         color: black;
         background-color: white;
       }
-    }
-
-    img {
-      max-width: 100%;
-      max-height: 100%;
     }
   }
 

@@ -30,6 +30,9 @@ export default {
     };
   },
   mounted() {
+    if (window.matchMedia("(prefers-color-scheme: light)").matches) {
+      this.theme = "light";
+    }
     this.$store.dispatch("initStore").then(() => (this.loaded = true));
   },
 };
