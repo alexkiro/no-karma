@@ -44,7 +44,10 @@ EXPOSE 80
 EXPOSE 443
 STOPSIGNAL SIGTERM
 VOLUME /etc/letsencrypt
+
+# Env defaults
 ENV HSTS_MAX_AGE=63072000
+ENV NGINX_WORKER_PROCESSES=1
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["nginx", "-g", "daemon off;"]
