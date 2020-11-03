@@ -1,6 +1,7 @@
 from logging.config import dictConfig
 
 from flask import Flask
+from flask import jsonify
 from flask import redirect
 from flask import session
 from flask_cors import CORS
@@ -46,6 +47,12 @@ CORS(
 def make_session_permanent():
     if app.config["PERMANENT_SESSION_LIFETIME"] > 0:
         session.permanent = True
+
+
+@app.route("/_ping")
+def ping():
+    """Pong"""
+    return jsonify({"status": "pong"})
 
 
 @app.route("/")
