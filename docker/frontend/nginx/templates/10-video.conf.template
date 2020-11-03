@@ -9,6 +9,6 @@ server {
 
     proxy_pass https://v.redd.it/;
     proxy_hide_header 'Access-Control-Allow-Origin';
-    add_header 'Access-Control-Allow-Origin' '$VUE_APP_VIDEO_HOST' always;
+    add_header 'Access-Control-Allow-Origin' '$scheme://$VUE_APP_HOST' always;
   }
 }
