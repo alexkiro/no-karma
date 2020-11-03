@@ -1,13 +1,14 @@
 FROM node:14 as builder
 
 # Install packages
-COPY vue.config.js .
-COPY babel.config.js .
 COPY package.json .
 COPY package-lock.json .
 RUN npm install
 
 # Copy app
+COPY vue.config.js .
+COPY babel.config.js .
+
 COPY public public/
 COPY src src/
 
