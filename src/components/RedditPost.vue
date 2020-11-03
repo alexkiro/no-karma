@@ -9,6 +9,7 @@
         <span v-tippy="{ content: longDate }" class="muted">
           {{ relativeDateString(createdDate) }}
         </span>
+        <b>{{ post.post_hint }}</b>
       </div>
       <a
         :href="redditLink"
@@ -19,16 +20,21 @@
         open_in_new
       </a>
     </div>
-    <h6 class="post-title">{{ post.title }}</h6>
-    <div class="post-body">
-      <transition>
-        <responsive-image
-          v-if="showImage"
-          :key="currentImage.id"
-          :image="currentImage"
-          :alt="post.title"
-        />
-      </transition>
+    <h5 class="post-title">{{ post.title }}</h5>
+    <div class="post-body-container">
+      <div v-if="showImage" key="image-post" class="post-body image">
+        <transition>
+          <responsive-image
+            v-if="showImage"
+            :key="currentImage.id"
+            :image="currentImage"
+            :alt="post.title"
+          />
+        </transition>
+        <!--      <div v-if="embedded" v-html="embedded.content || embedded.html"></div>-->
+      </div>
+      <div v-else-if="postText" class="post-body text" v-html="postText" />
+
       <div v-if="images.length > 1" class="gallery-controls">
         <button
           v-visible="imageIndex > 0"
@@ -45,16 +51,15 @@
           chevron_right
         </button>
       </div>
-      <!--      <div v-if="embedded" v-html="embedded.content || embedded.html"></div>-->
     </div>
     <a
-      v-if="post.url_overridden_by_dest"
-      :href="post.url_overridden_by_dest"
+      v-if="postUrl"
+      :href="postUrl"
       class="post-url small"
       target="_blank"
       rel="noopener noreferrer"
     >
-      <span class="url">{{ post.url_overridden_by_dest }}</span>
+      <span class="url">{{ displayUrl }}</span>
       <span class="material-icons">open_in_new</span>
     </a>
   </div>
@@ -117,9 +122,44 @@ export default {
         (this.post.media && this.post.media.oembed);
       return embed.html || embed.content;
     },
+    postUrl() {
+      if (
+        this.post.post_hint !== "link" ||
+        this.post.is_self ||
+        this.post.is_reddit_media_domain ||
+        this.post.domain === "reddit.com"
+      )
+        return;
+      return this.post.url || this.post.url_overridden_by_dest;
+    },
+    displayUrl() {
+      if (!this.postUrl) return;
+      const url = new URL(this.postUrl);
+      const domain =
+        (!this.post.is_self && this.post.domain) || url.host || url.hostname;
+
+      let path = url.pathname.slice(0, 20);
+      if (path.length < url.pathname.length) {
+        path += "...";
+      }
+      return domain + path;
+    },
+    postText() {
+      return this.post.selftext_html || this.post.selftext;
+    },
   },
 };
 </script>
+
+<style lang="less">
+.md {
+  //color: var(--on-surface-medium-emphasis);
+
+  p + p {
+    margin-top: 1.5rem;
+  }
+}
+</style>
 
 <style scoped lang="less">
 .reddit-post {
@@ -127,7 +167,6 @@ export default {
   background: var(--surface);
   background: var(--elevation-overlay-03dp);
   max-width: 100rem;
-  overflow: hidden;
 
   padding: 2rem;
   border-radius: var(--rounded);
@@ -135,6 +174,7 @@ export default {
   transition: all 0.3s var(--ease-function);
 
   display: flex;
+  align-items: flex-start;
   flex-direction: column;
 
   & > * + * {
@@ -144,6 +184,7 @@ export default {
   .post-metadata {
     display: flex;
     align-items: center;
+    width: 100%;
     justify-content: space-between;
 
     .material-icons {
@@ -166,6 +207,10 @@ export default {
     }
   }
 
+  .post-body-container {
+    width: 100%;
+  }
+
   .post-body {
     position: relative;
     margin-top: 2rem;
@@ -174,22 +219,28 @@ export default {
     justify-content: center;
     //max-height: 70rem;
     overflow: hidden;
+  }
 
-    .gallery-controls {
-      position: absolute;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+  .gallery-controls {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem;
 
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-
-      button {
-        color: black;
-        background-color: white;
-      }
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    A button {
+      color: black;
+      background-color: white;
+      box-shadow: var(--shadow-12dp);
+      font-size: 4rem;
+      min-width: 6rem;
+      min-height: 6rem;
+      max-width: 6rem;
+      max-height: 6rem;
     }
   }
 
