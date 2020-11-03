@@ -3,7 +3,7 @@ add_header Referrer-Policy "no-referrer" always;
 # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
 add_header X-Content-Type-Options "nosniff" always;
 #  https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
-add_header Content-Security-Policy "default-src 'none'; font-src $VUE_APP_HOST; style-src $VUE_APP_HOST; script-src $VUE_APP_HOST; manifest-src $VUE_APP_HOST; prefetch-src $VUE_APP_HOST; worker-src $VUE_APP_HOST; connect-src $VUE_APP_HOST $VUE_APP_API_HOST $VUE_APP_VIDEO_HOST; img-src *; media-src *; frame-ancestors 'none'; base-uri 'none'; form-action 'none'" always;
+add_header Content-Security-Policy "default-src 'none'; font-src $VUE_APP_HOST; style-src $VUE_APP_HOST; script-src $VUE_APP_HOST; manifest-src $VUE_APP_HOST; prefetch-src $VUE_APP_HOST; worker-src $VUE_APP_HOST; connect-src $VUE_APP_HOST $VUE_APP_API_HOST $VUE_APP_VIDEO_HOST; img-src *; media-src * blob:; frame-ancestors 'none'; base-uri 'none'; form-action 'none'" always;
 # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
 add_header X-Frame-Options "DENY" always;
 # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection
