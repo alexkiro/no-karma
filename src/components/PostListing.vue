@@ -66,7 +66,9 @@ export default {
         });
         this.posts = [
           ...this.posts,
-          ...response.data.children.map((child) => child.data),
+          ...response.data.children.map((child) => {
+            return { ...child.data, all_awardings: undefined };
+          }),
         ];
         this.nextParams = {
           after: response.data.after,

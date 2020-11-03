@@ -51,5 +51,8 @@ export default {
         ? `${window.location.protocol}//${state.envConfig.VUE_APP_API_HOST}`
         : getters.apiBaseDefault;
     },
+    videoBase(state) {
+      return state.envConfig.VUE_APP_VIDEO_HOST;
+    },
   },
 };

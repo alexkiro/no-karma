@@ -22,7 +22,11 @@
     </div>
     <h5 class="post-title">{{ post.title }}</h5>
     <div class="post-body-container">
-      <div v-if="showImage" key="image-post" class="post-body image">
+      <div v-if="postText" class="post-body text" v-html="postText" />
+      <div v-else-if="video" key="image-post" class="post-body image">
+        <responsive-video :video="video" />
+      </div>
+      <div v-else-if="showImage" key="image-post" class="post-body image">
         <transition>
           <responsive-image
             v-if="showImage"
@@ -33,7 +37,6 @@
         </transition>
         <!--      <div v-if="embedded" v-html="embedded.content || embedded.html"></div>-->
       </div>
-      <div v-else-if="postText" class="post-body text" v-html="postText" />
 
       <div v-if="images.length > 1" class="gallery-controls">
         <button
@@ -67,9 +70,10 @@
 
 <script>
 import ResponsiveImage from "@/components/ResponsiveImage";
+import ResponsiveVideo from "@/components/ResponsiveVideo";
 export default {
   name: "RedditPost",
-  components: { ResponsiveImage },
+  components: { ResponsiveVideo, ResponsiveImage },
   props: {
     post: {
       type: Object,
@@ -121,6 +125,12 @@ export default {
         this.post.media_embed ||
         (this.post.media && this.post.media.oembed);
       return embed.html || embed.content;
+    },
+    video() {
+      return (
+        (this.post.secure_media && this.post.secure_media.reddit_video) ||
+        (this.post.media && this.post.media.reddit_video)
+      );
     },
     postUrl() {
       if (
@@ -232,7 +242,7 @@ export default {
     bottom: 0;
     left: 0;
     right: 0;
-    A button {
+    button {
       color: black;
       background-color: white;
       box-shadow: var(--shadow-12dp);

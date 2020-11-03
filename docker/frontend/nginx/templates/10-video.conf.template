@@ -1,0 +1,14 @@
+server {
+  listen 80 http2;
+  server_tokens off;
+  server_name $VUE_APP_VIDEO_HOST;
+  keepalive_timeout 5;
+
+  location / {
+    include /etc/nginx/conf.d/secure-headers;
+
+    proxy_pass https://v.redd.it/;
+    proxy_hide_header 'Access-Control-Allow-Origin';
+    add_header 'Access-Control-Allow-Origin' '$VUE_APP_VIDEO_HOST' always;
+  }
+}
