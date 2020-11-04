@@ -1,10 +1,10 @@
 <template>
   <video
     controls
-    preload="auto"
+    autoplay
+    muted
     :height="video.height"
     :width="video.width"
-    muted
   ></video>
 </template>
 
