@@ -164,6 +164,12 @@ export default {
 <style lang="less">
 .md {
   //color: var(--on-surface-medium-emphasis);
+  max-width: 100%;
+
+  hr {
+    // Make line thinner.
+    margin: 2rem;
+  }
 
   p + p {
     margin-top: 1.5rem;
