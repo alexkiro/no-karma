@@ -69,25 +69,4 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
-main {
-  display: flex;
-  justify-content: center;
-}
-
-.link {
-  &:hover {
-    text-decoration: underline;
-  }
-
-  &.active {
-    color: var(--secondary-200);
-    font-weight: 500;
-
-    &:hover {
-      cursor: default;
-      text-decoration: none;
-    }
-  }
-}
-</style>
+<style scoped lang="scss"></style>

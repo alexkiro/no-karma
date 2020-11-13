@@ -1,10 +1,10 @@
 <template>
-  <div class="loading-layer">
+  <v-overlay absolute>
     <div class="spinner">
-      <div class="double-bounce1"></div>
-      <div class="double-bounce2"></div>
+      <div class="double-bounce1 primary"></div>
+      <div class="double-bounce2 primary"></div>
     </div>
-  </div>
+  </v-overlay>
 </template>
 
 <script>
@@ -28,7 +28,6 @@ export default {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background-color: var(--v-primary-base);
   opacity: 0.6;
   position: absolute;
   top: 0;
