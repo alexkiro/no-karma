@@ -1,14 +1,16 @@
 <template>
   <div>
-    {{ $route.query }}
+    <double-bounce-spinner />
   </div>
 </template>
 
 <script>
 import { mapActions } from "vuex";
+import DoubleBounceSpinner from "@/components/DoubleBounceSpinner";
 
 export default {
   name: "OAuthRedirect",
+  components: { DoubleBounceSpinner },
   mounted() {
     this.completeOAuth();
   },

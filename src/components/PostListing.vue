@@ -1,19 +1,22 @@
 <template>
-  <div class="post-listing">
+  <div class="d-flex flex-grow-1 justify-space-around">
     <double-bounce-spinner v-if="loading" />
     <div>
-      <reddit-post
-        v-for="post in posts"
-        :key="post.name"
-        :post="post"
-        class="rpost"
-        :class="{ active: selectedPost && post.name === selectedPost.name }"
-        @click.native="selectedPost = post"
-      />
+      <v-hover v-for="post in posts" v-slot="{ hover }" :key="post.name">
+        <v-sheet
+          :elevation="hover ? 16 : 4"
+          max-width="55rem"
+          @click="selectedPost = post"
+        >
+          <reddit-post :post="post" />
+        </v-sheet>
+      </v-hover>
     </div>
-    <pre v-if="selectedPost" class="selected-post">
+    <v-card v-if="selectedPost" elevation="24" class="selected-post">
+      <pre>
       {{ selectedPost }}
-    </pre>
+      </pre>
+    </v-card>
   </div>
 </template>
 
@@ -82,23 +85,10 @@ export default {
 };
 </script>
 
-<style scoped lang="less">
-.post-listing {
-  display: flex;
-  flex-grow: 1;
-  justify-content: space-evenly;
-}
-
-.rpost.active {
-  background-color: var(--states-surface-overlay-hover);
-  box-shadow: var(--shadow-16dp);
-}
-
+<style scoped lang="scss">
 .selected-post {
   position: relative;
-  background: var(--surface);
-  background: var(--elevation-overlay-03dp);
-  max-width: 100rem;
+  max-width: 55rem;
   overflow: auto;
   height: min-content;
 }

@@ -1,69 +1,55 @@
 <template>
-  <div class="reddit-post">
-    <div class="post-metadata small">
+  <div class="reddit-post mb-4 pa-4">
+    <div class="caption d-flex justify-space-between align-center">
       <div>
         <span>{{ post.subreddit_name_prefixed }}</span>
         &nbsp;
-        <span class="muted">&middot; by u/{{ post.author }}</span>
+        <span class="text--secondary">&middot; by u/{{ post.author }}</span>
         &nbsp;
-        <span v-tippy="{ content: longDate }" class="muted">
+        <span class="text--secondary">
           {{ relativeDateString(createdDate) }}
         </span>
-        <b>{{ post.post_hint }}</b>
+        <b class="text--secondary">{{ post.post_hint }}</b>
       </div>
       <a
         :href="redditLink"
-        class="material-icons"
+        class="material-icons text-decoration-none"
         target="_blank"
         rel="noopener noreferrer"
       >
-        open_in_new
+        <v-icon dense small>open_in_new</v-icon>
       </a>
     </div>
-    <h5 class="post-title">{{ post.title }}</h5>
-    <div class="post-body-container">
-      <div v-if="postText" class="post-body text" v-html="postText" />
-      <div v-else-if="video" key="image-post" class="post-body image">
-        <responsive-video :video="video" />
-      </div>
-      <div v-else-if="showImage" key="image-post" class="post-body image">
-        <transition>
-          <responsive-image
-            v-if="showImage"
-            :key="currentImage.id"
-            :image="currentImage"
-            :alt="post.title"
-          />
-        </transition>
-        <!--      <div v-if="embedded" v-html="embedded.content || embedded.html"></div>-->
-      </div>
-
-      <div v-if="images.length > 1" class="gallery-controls">
-        <button
-          v-visible="imageIndex > 0"
-          class="icon-button material-icons"
-          @click="imageIndex = imageIndex - 1"
+    <div class="text-h5">{{ post.title }}</div>
+    <div class="d-flex align-start justify-center body-2 mt-3">
+      <div v-if="postText" class="" v-html="postText" />
+      <div v-else-if="video" key="image-post">
+        <v-lazy
+          :max-height="video.height + 'px'"
+          :max-width="video.width + 'px'"
         >
-          chevron_left
-        </button>
-        <button
-          v-visible="images.length - imageIndex > 1"
-          class="icon-button material-icons"
-          @click="imageIndex = imageIndex + 1"
-        >
-          chevron_right
-        </button>
+          <responsive-video :video="video" />
+        </v-lazy>
       </div>
+      <div v-else-if="showImage" key="image-post">
+        <responsive-image
+          v-if="showImage"
+          :key="currentImage.id"
+          :image="currentImage"
+          :alt="post.title"
+        />
+      </div>
+      <!--      <div v-if="embedded" v-html="embedded.content || embedded.html"></div>-->
     </div>
     <a
       v-if="postUrl"
       :href="postUrl"
-      class="post-url small"
+      class="caption d-flex align-center text-decoration-none"
       target="_blank"
       rel="noopener noreferrer"
     >
       <span class="url">{{ displayUrl }}</span>
-      <span class="material-icons">open_in_new</span>
+      <v-icon small color="info">open_in_new</v-icon>
     </a>
   </div>
 </template>
@@ -161,112 +147,10 @@ export default {
 };
 </script>
 
-<style lang="less">
-.md {
-  //color: var(--on-surface-medium-emphasis);
-  max-width: 100%;
-
-  hr {
-    // Make line thinner.
-    margin: 2rem;
-  }
-
-  p + p {
-    margin-top: 1.5rem;
-  }
-}
-</style>
-
-<style scoped lang="less">
+<style scoped lang="scss">
 .reddit-post {
-  position: relative;
-  background: var(--surface);
-  background: var(--elevation-overlay-03dp);
-  max-width: 100rem;
-
-  padding: 2rem;
-  border-radius: var(--rounded);
-  box-shadow: var(--shadow-02dp);
-  transition: all 0.3s var(--ease-function);
-
-  display: flex;
-  align-items: flex-start;
-  flex-direction: column;
-
   & > * + * {
-    margin-top: 1rem;
-  }
-
-  .post-metadata {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    justify-content: space-between;
-
-    .material-icons {
-      font-size: 2rem;
-    }
-  }
-
-  .post-url {
-    display: flex;
-    align-items: center;
-    margin-top: 2rem;
-
-    .material-icons {
-      margin-left: 0.5rem;
-      font-size: 2rem;
-    }
-
-    .url:hover {
-      text-decoration: underline;
-    }
-  }
-
-  .post-body-container {
-    width: 100%;
-  }
-
-  .post-body {
-    position: relative;
-    margin-top: 2rem;
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    //max-height: 70rem;
-    overflow: hidden;
-  }
-
-  .gallery-controls {
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1.5rem;
-
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    button {
-      color: black;
-      background-color: white;
-      box-shadow: var(--shadow-12dp);
-      font-size: 4rem;
-      min-width: 6rem;
-      min-height: 6rem;
-      max-width: 6rem;
-      max-height: 6rem;
-    }
-  }
-
-  &:hover {
-    background-color: var(--states-surface-overlay-hover);
-    box-shadow: var(--shadow-12dp);
-  }
-
-  & + .reddit-post {
-    margin-top: 2rem;
+    margin-top: 4px;
   }
 }
 </style>

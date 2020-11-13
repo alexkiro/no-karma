@@ -1,0 +1,58 @@
+.v-navigation-drawer__content {
+  overflow: auto;
+
+  /* Webkit */
+
+  &::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    background: transparent !important;
+  }
+
+  /* Firefox */
+  scrollbar-width: none !important;
+  /* MS */
+  -ms-overflow-style: none !important;
+}
+
+.hidden-scroll {
+  overflow: auto;
+
+  /* Webkit */
+
+  &::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    background: transparent !important;
+  }
+
+  /* Firefox */
+  scrollbar-width: none !important;
+  /* MS */
+  -ms-overflow-style: none !important;
+}
+
+.normal-scroll {
+  overflow: auto;
+}
+
+.text--anchor {
+  color: var(--v-anchor-base);
+}
+
+.loading-layer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  //background-color: var(--states-surface-overlay-hover);
+  z-index: 9000;
+  user-select: none;
+  pointer-events: none;
+}

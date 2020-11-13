@@ -13,7 +13,7 @@ export default {
 };
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
 // See https://github.com/tobiasahlin/SpinKit
 .spinner {
   width: 5rem;
@@ -28,7 +28,7 @@ export default {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background-color: var(--secondary-300);
+  background-color: var(--v-primary-base);
   opacity: 0.6;
   position: absolute;
   top: 0;

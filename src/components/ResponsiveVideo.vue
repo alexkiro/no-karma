@@ -1,11 +1,5 @@
 <template>
-  <video
-    controls
-    autoplay
-    muted
-    :height="video.height"
-    :width="video.width"
-  ></video>
+  <video controls muted :height="video.height" :width="video.width"></video>
 </template>
 
 <script>
@@ -33,14 +27,22 @@ export default {
     },
   },
   mounted() {
-    this.player = dashjs.MediaPlayer().create();
-    this.player.initialize(this.$el, this.dashUrl);
+    this.initPlayer();
+  },
+  methods: {
+    initPlayer() {
+      // TODO Only init if set to play, otherwise show the placeholder
+      this.player = dashjs.MediaPlayer().create();
+      this.player.initialize(this.$el, this.dashUrl);
+    },
   },
 };
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
 video {
   outline: none;
+  max-width: 100%;
+  height: auto;
 }
 </style>

@@ -1,25 +1,35 @@
 <template>
-  <div v-if="loaded" id="app" :class="theme">
-    <div class="col1">
-      <subreddit-sidebar />
-    </div>
-    <div class="col2">
-      <div style="text-align: center">
-        <input id="theme-dark" v-model="theme" type="radio" value="dark" />
-        <label for="theme-dark">dark</label>
-        <input id="theme-light" v-model="theme" type="radio" value="light" />
-        <label for="theme-light">light</label>
-      </div>
+  <v-app v-if="loaded" id="app">
+    <subreddit-sidebar />
 
+    <v-main>
+      <v-switch
+        v-model="$vuetify.theme.dark"
+        dense
+        append-icon="brightness_4"
+        color="accent"
+      />
       <router-view class="router-view" />
-    </div>
-  </div>
+    </v-main>
+  </v-app>
+  <!--  <div v-if="loaded" id="app" :class="theme">-->
+  <!--    <div class="col1">-->
+  <!--      <subreddit-sidebar />-->
+  <!--    </div>-->
+  <!--    <div class="col2">-->
+  <!--      <div style="text-align: center">-->
+  <!--        <input id="theme-dark" v-model="theme" type="radio" value="dark" />-->
+  <!--        <label for="theme-dark">dark</label>-->
+  <!--        <input id="theme-light" v-model="theme" type="radio" value="light" />-->
+  <!--        <label for="theme-light">light</label>-->
+  <!--      </div>-->
+
+  <!--      <router-view class="router-view" />-->
+  <!--    </div>-->
+  <!--  </div>-->
 </template>
 
 <script>
-// eslint-disable-next-line no-unused-vars
-import styles from "tippy.js/dist/tippy.css";
-
 import SubredditSidebar from "@/components/SubredditSidebar";
 export default {
   components: { SubredditSidebar },
@@ -29,25 +39,36 @@ export default {
       loaded: false,
     };
   },
+  watch: {
+    "$vuetify.theme.dark"(dark) {
+      this.setLocalStorage("theme", dark ? "dark" : "light");
+    },
+  },
   mounted() {
-    if (window.matchMedia("(prefers-color-scheme: light)").matches) {
-      this.theme = "light";
-    }
+    this.$vuetify.theme.dark = this.getLocalStorage("theme") === "dark";
     this.$store.dispatch("initStore").then(() => (this.loaded = true));
   },
 };
 </script>
 
-<style lang="less">
-@import "./styles/reset";
-@import "./styles/fonts";
-@import "./styles/vars/base";
-@import "./styles/vars/dark";
-@import "./styles/vars/light";
-@import "./styles/typography";
-@import "./styles/theme";
-@import "./styles/buttons";
-@import "./styles/misc";
+<style lang="scss">
+@import "styles/misc";
+
+@font-face {
+  font-family: "Rubik";
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("./assets/fonts/Rubik-VariableFont_wght.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Rubik";
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("./assets/fonts/Rubik-Italic-VariableFont_wght.ttf")
+    format("truetype");
+}
 
 #app {
   display: flex;

@@ -20,21 +20,21 @@ export default {
 .lds-ring {
   display: inline-block;
   position: relative;
-  width: 10rem;
-  height: 10rem;
+  width: 5.5rem;
+  height: 5.5rem;
 }
 
 .lds-ring div {
   box-sizing: border-box;
   display: block;
   position: absolute;
-  width: 8rem;
-  height: 8rem;
-  margin: 1rem;
-  border: 1rem solid;
+  width: 4.5rem;
+  height: 4.5rem;
+  margin: 0.75rem;
+  border: 0.75rem solid;
   border-radius: 50%;
   animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-  border-color: var(--secondary-300) transparent transparent transparent;
+  border-color: var(--v-primary-base) transparent transparent transparent;
 }
 
 .lds-ring div:nth-child(1) {

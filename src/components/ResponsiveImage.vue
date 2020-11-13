@@ -1,6 +1,11 @@
 <template>
-  <div>
-    <loading v-if="showLoading && !loaded" />
+  <div class="responsive-image">
+    <v-overlay v-if="showLoading && !loaded" absolute>
+      <v-progress-circular
+        indeterminate
+        color="grey lighten-5"
+      ></v-progress-circular>
+    </v-overlay>
     <picture>
       <source
         v-for="r in resolutions"
@@ -23,10 +28,8 @@
 </template>
 
 <script>
-import Loading from "@/components/Loading";
 export default {
   name: "ResponsiveImage",
-  components: { Loading },
   props: {
     image: {
       type: Object,
@@ -81,5 +84,9 @@ export default {
 img {
   max-width: 100%;
   height: auto;
+}
+
+.responsive-image {
+  position: relative;
 }
 </style>

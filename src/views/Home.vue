@@ -2,9 +2,6 @@
   <div class="home">
     <div>
       <h6>This me: {{ user.name }}</h6>
-      <button v-if="user.name" key="logout" @click="logout">Logout</button>
-      <button v-else key="login" @click="login">Login</button>
-      <button @click="getMe">Get me?</button>
       <div>Current: {{ endpoint }}</div>
 
       <div>
@@ -28,7 +25,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapGetters } from "vuex";
 import PostListing from "@/components/PostListing";
 
 const sortChoices = ["hot", "new", "top", "best", "controversial", "rising"];
@@ -69,24 +66,10 @@ export default {
       });
     },
   },
-  methods: {
-    ...mapActions(["apiCall", "getMe"]),
-    async login() {
-      const response = await this.apiCall({
-        method: "GET",
-        endpoint: "/_oauth/authorize",
-      });
-      window.setTimeout(() => (window.location = response.url), 100);
-    },
-    async logout() {
-      await this.apiCall({ method: "POST", endpoint: "/_oauth/revoke" });
-      await this.getMe();
-    },
-  },
 };
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
 main {
   display: flex;
   justify-content: center;
