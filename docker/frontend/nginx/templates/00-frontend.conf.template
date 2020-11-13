@@ -27,7 +27,7 @@ server {
         gzip_types text/plain text/css application/javascript application/json;
         # For added speed boost we could in theory set theses as immutable for
         # the cache as we always have hashes at the end of resources.
-        expires 7d;
+        expires 365d;
 
         try_files $uri $uri/ @appHTML;
     }
