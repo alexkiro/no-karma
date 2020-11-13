@@ -3,8 +3,6 @@
 </template>
 
 <script>
-import dashjs from "dashjs";
-
 export default {
   name: "ResponsiveVideo",
   props: {
@@ -30,7 +28,8 @@ export default {
     this.initPlayer();
   },
   methods: {
-    initPlayer() {
+    async initPlayer() {
+      const dashjs = await import("dashjs");
       // TODO Only init if set to play, otherwise show the placeholder
       this.player = dashjs.MediaPlayer().create();
       this.player.initialize(this.$el, this.dashUrl);
