@@ -12,21 +12,6 @@
       <router-view class="router-view" />
     </v-main>
   </v-app>
-  <!--  <div v-if="loaded" id="app" :class="theme">-->
-  <!--    <div class="col1">-->
-  <!--      <subreddit-sidebar />-->
-  <!--    </div>-->
-  <!--    <div class="col2">-->
-  <!--      <div style="text-align: center">-->
-  <!--        <input id="theme-dark" v-model="theme" type="radio" value="dark" />-->
-  <!--        <label for="theme-dark">dark</label>-->
-  <!--        <input id="theme-light" v-model="theme" type="radio" value="light" />-->
-  <!--        <label for="theme-light">light</label>-->
-  <!--      </div>-->
-
-  <!--      <router-view class="router-view" />-->
-  <!--    </div>-->
-  <!--  </div>-->
 </template>
 
 <script>
@@ -52,8 +37,8 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~vuetify/src/styles/styles.sass";
 @import "styles/misc";
+@import "styles/theme";
 
 @font-face {
   font-family: "Rubik";
