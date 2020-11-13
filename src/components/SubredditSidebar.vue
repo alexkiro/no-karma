@@ -65,6 +65,8 @@
                   rel="noopener noreferrer"
                   referrerpolicy="no-referrer"
                   :alt="item.display"
+                  width="256px"
+                  height="256px"
                 />
                 <v-icon v-else>{{ item.icon }}</v-icon>
               </v-list-item-avatar>
