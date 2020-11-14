@@ -6,6 +6,7 @@
         <v-sheet
           :elevation="hover ? 16 : 4"
           max-width="55rem"
+          class="ma-4"
           @click="selectedPost = post"
         >
           <reddit-post :post="post" />

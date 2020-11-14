@@ -28,13 +28,16 @@
             </v-list-item-action-text>
           </v-list-item-content>
           <v-list-item-content v-else>
-            <v-list-item-action-text class="anchor" @click="login">
+            <v-list-item-actiAon-text class="anchor" @click="login">
               <a href="#" class="text-decoration-none text--primary">Login</a>
-            </v-list-item-action-text>
+            </v-list-item-actiAon-text>
           </v-list-item-content>
 
-          <v-btn icon @click="mini = true">
+          <v-btn icon class="d-none d-sm-flex" @click="mini = true">
             <v-icon>chevron_left</v-icon>
+          </v-btn>
+          <v-btn icon class="d-flex d-sm-none" @click="drawer = false">
+            <v-icon>close</v-icon>
           </v-btn>
         </v-list-item>
       </template>
@@ -91,11 +94,11 @@
           mini = false;
         "
       />
-      <v-toolbar-title class="pa-0 d-flex d-sm-none">
-        <span>no-karma</span>
-        &nbsp;
-        <span class="text--secondary">for Reddit</span>
-      </v-toolbar-title>
+      <!--      <v-toolbar-title class="pa-0 d-flex d-sm-none">-->
+      <!--        <span>no-karma</span>-->
+      <!--        &nbsp;-->
+      <!--        <span class="text&#45;&#45;secondary">for Reddit</span>-->
+      <!--      </v-toolbar-title>-->
     </v-app-bar>
   </div>
 </template>

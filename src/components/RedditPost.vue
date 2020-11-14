@@ -1,5 +1,5 @@
 <template>
-  <div class="reddit-post mb-4 pa-4">
+  <div class="reddit-post pa-4">
     <div class="caption d-flex justify-space-between align-center">
       <div>
         <router-link
@@ -158,10 +158,4 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
-.reddit-post {
-  & > * + * {
-    margin-top: 4px;
-  }
-}
-</style>
+<style scoped lang="scss"></style>
