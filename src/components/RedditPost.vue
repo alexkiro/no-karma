@@ -27,7 +27,8 @@
     </div>
     <div class="text-h5">{{ post.title }}</div>
     <div class="d-flex align-start justify-center body-2 mt-3">
-      <div v-if="postText" class="" v-html="postText" />
+      <div v-if="postText" key="text-post" v-html="postText" />
+      <div v-else-if="embedded" key="embedded-post" v-html="embedded" />
       <div v-else-if="video" key="image-post">
         <v-lazy
           :max-height="video.height + 'px'"
@@ -44,7 +45,6 @@
           :alt="post.title"
         />
       </div>
-      <!--      <div v-if="embedded" v-html="embedded.content || embedded.html"></div>-->
     </div>
     <a
       v-if="postUrl"
