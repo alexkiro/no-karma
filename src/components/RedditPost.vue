@@ -2,7 +2,12 @@
   <div class="reddit-post mb-4 pa-4">
     <div class="caption d-flex justify-space-between align-center">
       <div>
-        <span>{{ post.subreddit_name_prefixed }}</span>
+        <router-link
+          :to="toSubRedditPage"
+          class="text-decoration-none text--primary"
+        >
+          {{ post.subreddit_name_prefixed }}
+        </router-link>
         &nbsp;
         <span class="text--secondary">&middot; by u/{{ post.author }}</span>
         &nbsp;
@@ -72,6 +77,12 @@ export default {
     };
   },
   computed: {
+    toSubRedditPage() {
+      return {
+        name: "home-sub",
+        params: { ...this.$route.params, subreddit: this.post.subreddit },
+      };
+    },
     createdDate() {
       return new Date(this.post.created_utc * 1000);
     },

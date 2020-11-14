@@ -1,27 +1,31 @@
 <template>
-  <div>
-    <double-bounce-spinner />
-  </div>
+  <double-bounce-spinner />
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import DoubleBounceSpinner from "@/components/DoubleBounceSpinner";
 
 export default {
   name: "OAuthRedirect",
   components: { DoubleBounceSpinner },
+  computed: {
+    ...mapGetters(["user"]),
+  },
   mounted() {
     this.completeOAuth();
   },
   methods: {
     ...mapActions(["apiCall"]),
     async completeOAuth() {
-      await this.apiCall({
-        method: "GET",
-        endpoint: "/_oauth/complete",
-        params: this.$route.query,
-      });
+      if (!this.user.name) {
+        // TODO, catch error and redirect to an error page.
+        await this.apiCall({
+          method: "GET",
+          endpoint: "/_oauth/complete",
+          params: this.$route.query,
+        });
+      }
       await this.$store.dispatch("initStore");
       await this.$router.push({ name: "home" });
     },

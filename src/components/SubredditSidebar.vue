@@ -1,85 +1,103 @@
 <template>
-  <v-navigation-drawer
-    app
-    class="pt-4 elevation-2"
-    :mini-variant="mini"
-    disable-route-watcher
-  >
-    <template #prepend>
-      <v-list-item class="px-2">
-        <v-list-item-avatar
-          color="primary"
-          class="elevation-2"
-          @click="mini = false"
-        >
-          <v-img v-if="user.icon" :src="user.icon" />
-          <v-icon v-else dark>person</v-icon>
-        </v-list-item-avatar>
+  <div>
+    <v-navigation-drawer
+      v-model="drawer"
+      app
+      class="pt-4 elevation-2"
+      :mini-variant="mini"
+      bottom
+      fixed
+    >
+      <template #prepend>
+        <v-list-item class="px-2">
+          <v-list-item-avatar
+            color="primary"
+            class="elevation-2"
+            @click="mini = false"
+          >
+            <v-img v-if="user.icon" :src="user.icon" />
+            <v-icon v-else dark>person</v-icon>
+          </v-list-item-avatar>
 
-        <v-list-item-content v-if="user.name">
-          <v-list-item-title>
-            {{ user.name }}
-          </v-list-item-title>
-          <v-list-item-action-text @click="logout">
-            <a href="#">Logout</a>
-          </v-list-item-action-text>
-        </v-list-item-content>
-        <v-list-item-content v-else>
-          <v-list-item-action-text class="anchor" @click="login">
-            <a href="#">Login</a>
-          </v-list-item-action-text>
-        </v-list-item-content>
+          <v-list-item-content v-if="user.name">
+            <v-list-item-title>
+              {{ user.name }}
+            </v-list-item-title>
+            <v-list-item-action-text @click="logout">
+              <a href="#" class="text-decoration-none text--primary">Logout</a>
+            </v-list-item-action-text>
+          </v-list-item-content>
+          <v-list-item-content v-else>
+            <v-list-item-action-text class="anchor" @click="login">
+              <a href="#" class="text-decoration-none text--primary">Login</a>
+            </v-list-item-action-text>
+          </v-list-item-content>
 
-        <v-btn icon @click="mini = true">
-          <v-icon>chevron_left</v-icon>
-        </v-btn>
-      </v-list-item>
-    </template>
-    <template #default>
-      <v-list v-for="group in menuItems" :key="group.groupName">
-        <v-list-item dense class="px-2">
-          <v-list-item-subtitle>
-            {{ group.groupName }}
-          </v-list-item-subtitle>
+          <v-btn icon @click="mini = true">
+            <v-icon>chevron_left</v-icon>
+          </v-btn>
         </v-list-item>
-        <v-tooltip
-          v-for="item in group.items"
-          :key="item.display"
-          right
-          :disabled="!mini"
-        >
-          <template #activator="{ on, attrs }">
-            <v-list-item
-              :to="item.to"
-              link
-              class="px-2"
-              dense
-              v-bind="attrs"
-              v-on="on"
-            >
-              <v-list-item-avatar class="elevation-2">
-                <img
-                  v-if="item.img"
-                  :src="item.img"
-                  loading="lazy"
-                  rel="noopener noreferrer"
-                  referrerpolicy="no-referrer"
-                  :alt="item.display"
-                  width="256px"
-                  height="256px"
-                />
-                <v-icon v-else>{{ item.icon }}</v-icon>
-              </v-list-item-avatar>
-              <v-list-item-title>
-                {{ item.display }}
-              </v-list-item-title>
-            </v-list-item>
-          </template>
-          <span> {{ item.display }}</span>
-        </v-tooltip>
-      </v-list>
-    </template>
-  </v-navigation-drawer>
+      </template>
+      <template #default>
+        <v-list v-for="group in menuItems" :key="group.groupName">
+          <v-list-item dense class="px-2">
+            <v-list-item-subtitle>
+              {{ group.groupName }}
+            </v-list-item-subtitle>
+          </v-list-item>
+          <v-tooltip
+            v-for="item in group.items"
+            :key="item.display"
+            right
+            :disabled="!mini"
+          >
+            <template #activator="{ on, attrs }">
+              <v-list-item
+                :to="item.to"
+                link
+                class="px-2"
+                dense
+                v-bind="attrs"
+                v-on="on"
+              >
+                <v-list-item-avatar class="elevation-2">
+                  <img
+                    v-if="item.img"
+                    :src="item.img"
+                    loading="lazy"
+                    rel="noopener noreferrer"
+                    referrerpolicy="no-referrer"
+                    :alt="item.display"
+                    width="256px"
+                    height="256px"
+                  />
+                  <v-icon v-else>{{ item.icon }}</v-icon>
+                </v-list-item-avatar>
+                <v-list-item-title>
+                  {{ item.display }}
+                </v-list-item-title>
+              </v-list-item>
+            </template>
+            <span> {{ item.display }}</span>
+          </v-tooltip>
+        </v-list>
+      </template>
+    </v-navigation-drawer>
+    <v-app-bar app dense fixed hide-on-scroll>
+      <v-app-bar-nav-icon
+        class="d-flex d-sm-none"
+        @click="
+          drawer = !drawer;
+          mini = false;
+        "
+      />
+      <v-toolbar-title class="pa-0 d-flex d-sm-none">
+        <span>no-karma</span>
+        &nbsp;
+        <span class="text--secondary">for Reddit</span>
+      </v-toolbar-title>
+    </v-app-bar>
+  </div>
 </template>
 
 <script>
@@ -90,6 +108,7 @@ export default {
   name: "SubredditSidebar",
   data() {
     return {
+      drawer: true,
       mini: false,
       searchText: "",
     };
