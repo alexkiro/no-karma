@@ -62,6 +62,7 @@
 <script>
 import ResponsiveImage from "@/components/ResponsiveImage";
 import ResponsiveVideo from "@/components/ResponsiveVideo";
+import { mapGetters } from "vuex";
 export default {
   name: "RedditPost",
   components: { ResponsiveVideo, ResponsiveImage },
@@ -77,6 +78,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(["csp"]),
     toSubRedditPage() {
       return {
         name: "home-sub",
@@ -116,12 +118,23 @@ export default {
       return `https://reddit.com${this.post.permalink}`;
     },
     embedded() {
+      const parser = new DOMParser();
       const embed =
         this.post.secure_media_embed ||
         (this.post.secure_media && this.post.secure_media.oembed) ||
         this.post.media_embed ||
         (this.post.media && this.post.media.oembed);
-      return embed.html || embed.content;
+      const html = parser.parseFromString(
+        embed.html || embed.content,
+        "text/html"
+      );
+      const iframe = html.body.querySelector("iframe");
+      if (!iframe) return "";
+      iframe.allow = "";
+      iframe.loading = "lazy";
+      iframe.referrerpolicy = "no-referrer";
+      // iframe.sandbox = "allow-scripts allow-same-origin";
+      return iframe.outerHTML;
     },
     video() {
       return (
