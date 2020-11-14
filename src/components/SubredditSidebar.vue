@@ -28,9 +28,9 @@
             </v-list-item-action-text>
           </v-list-item-content>
           <v-list-item-content v-else>
-            <v-list-item-actiAon-text class="anchor" @click="login">
+            <v-list-item-action-text class="anchor" @click="login">
               <a href="#" class="text-decoration-none text--primary">Login</a>
-            </v-list-item-actiAon-text>
+            </v-list-item-action-text>
           </v-list-item-content>
 
           <v-btn icon class="d-none d-sm-flex" @click="mini = true">
@@ -57,6 +57,7 @@
             <template #activator="{ on, attrs }">
               <v-list-item
                 :to="item.to"
+                exact
                 link
                 class="px-2"
                 dense
@@ -94,11 +95,30 @@
           mini = false;
         "
       />
-      <!--      <v-toolbar-title class="pa-0 d-flex d-sm-none">-->
-      <!--        <span>no-karma</span>-->
-      <!--        &nbsp;-->
-      <!--        <span class="text&#45;&#45;secondary">for Reddit</span>-->
-      <!--      </v-toolbar-title>-->
+      <v-toolbar-title class="pa-0 mr-2">
+        <span>
+          {{ this.$route.params.subreddit || "no-karma" }}
+        </span>
+      </v-toolbar-title>
+      <v-spacer />
+      <sort-switch class="mr-2" />
+      <!-- TODO: Add full screen settings on mobile.  -->
+      <v-menu
+        v-model="menu"
+        left
+        bottom
+        offset-y
+        :close-on-content-click="false"
+      >
+        <template #activator="{ on, attrs }">
+          <v-btn icon v-bind="attrs" v-on="on">
+            <v-icon>more_vert</v-icon>
+          </v-btn>
+        </template>
+        <v-card>
+          <app-settings />
+        </v-card>
+      </v-menu>
     </v-app-bar>
   </div>
 </template>
@@ -106,11 +126,15 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import { includesLax } from "@/lib/utils";
+import AppSettings from "@/components/AppSettings";
+import SortSwitch from "@/components/SortSwitch";
 
 export default {
   name: "SubredditSidebar",
+  components: { SortSwitch, AppSettings },
   data() {
     return {
+      menu: false,
       drawer: true,
       mini: false,
       searchText: "",
@@ -188,6 +212,9 @@ export default {
   },
   methods: {
     ...mapActions(["apiCall", "getMe"]),
+    closeMenu() {
+      this.menu = false;
+    },
     async login() {
       const response = await this.apiCall({
         method: "GET",

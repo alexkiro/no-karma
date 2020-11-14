@@ -1,14 +1,7 @@
 <template>
   <v-app v-if="loaded" id="app">
     <subreddit-sidebar />
-
     <v-main>
-      <v-switch
-        v-model="$vuetify.theme.dark"
-        dense
-        append-icon="brightness_4"
-        color="accent"
-      />
       <router-view class="router-view" />
     </v-main>
   </v-app>

@@ -1,20 +1,17 @@
 <template>
   <div class="home">
     <div>
-      <h6>This me: {{ user.name }}</h6>
-      <div>Current: {{ endpoint }}</div>
-
-      <div>
-        <router-link
-          v-for="link in sortLinks"
-          :key="link.params.sort"
-          :to="link"
-          class="link"
-          active-class="active"
-        >
-          {{ link.params.sort }}
-        </router-link>
-      </div>
+      <!--      <div>-->
+      <!--        <router-link-->
+      <!--          v-for="link in sortLinks"-->
+      <!--          :key="link.params.sort"-->
+      <!--          :to="link"-->
+      <!--          class="link"-->
+      <!--          active-class="active"-->
+      <!--        >-->
+      <!--          {{ link.params.sort }}-->
+      <!--        </router-link>-->
+      <!--      </div>-->
     </div>
     <main>
       <keep-alive :max="5">
@@ -27,8 +24,6 @@
 <script>
 import { mapGetters } from "vuex";
 import PostListing from "@/components/PostListing";
-
-const sortChoices = ["hot", "new", "top", "best", "controversial", "rising"];
 
 export default {
   name: "Home",
@@ -43,7 +38,6 @@ export default {
       type: String,
       required: false,
       default: "best",
-      choices: sortChoices,
     },
   },
   data() {
@@ -57,14 +51,14 @@ export default {
       parts.push(this.sort);
       return parts.join("/");
     },
-    sortLinks() {
-      return sortChoices.map((sort) => {
-        return {
-          name: this.$route.name,
-          params: { ...this.$route.params, sort },
-        };
-      });
-    },
+    // sortLinks() {
+    //   return sortChoices.map((sort) => {
+    //     return {
+    //       name: this.$route.name,
+    //       params: { ...this.$route.params, sort },
+    //     };
+    //   });
+    // },
   },
 };
 </script>

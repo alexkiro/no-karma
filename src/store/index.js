@@ -6,6 +6,7 @@ import env from "@/store/modules/env";
 import user from "@/store/modules/user";
 import subreddits from "@/store/modules/subreddits";
 import locale from "@/store/modules/locale";
+import settings from "@/store/modules/settings";
 
 Vue.use(Vuex);
 
@@ -19,6 +20,7 @@ export default new Vuex.Store({
       await Promise.all([
         context.dispatch("loadEnvConfig"),
         context.dispatch("initLocales"),
+        context.dispatch("initUserSettings"),
       ]);
 
       // Load user data
@@ -31,6 +33,7 @@ export default new Vuex.Store({
     api,
     user,
     locale,
+    settings,
     subreddits,
   },
 });
