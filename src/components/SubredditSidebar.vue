@@ -87,7 +87,7 @@
         </v-list>
       </template>
     </v-navigation-drawer>
-    <v-app-bar app dense fixed hide-on-scroll>
+    <v-app-bar app dense fixed :hide-on-scroll="$vuetify.breakpoint.mobile">
       <v-app-bar-nav-icon
         class="d-flex d-sm-none"
         @click="
@@ -209,12 +209,15 @@ export default {
   },
   mounted() {
     this.mini = this.getLocalStorage("drawerMini") === "true";
+    this.$nextTick(() => {
+      if (this.$vuetify.breakpoint.mobile) {
+        this.drawer = false;
+        this.mini = false;
+      }
+    });
   },
   methods: {
     ...mapActions(["apiCall", "getMe"]),
-    closeMenu() {
-      this.menu = false;
-    },
     async login() {
       const response = await this.apiCall({
         method: "GET",
