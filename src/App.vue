@@ -23,7 +23,8 @@ export default {
     },
   },
   mounted() {
-    this.$vuetify.theme.dark = this.getLocalStorage("theme") === "dark";
+    this.$vuetify.theme.dark =
+      (this.getLocalStorage("theme") || "dark") === "dark";
     this.$store.dispatch("initStore").then(() => (this.loaded = true));
   },
 };
