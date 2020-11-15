@@ -76,6 +76,10 @@
 import ResponsiveImage from "@/components/ResponsiveImage";
 import ResponsiveVideo from "@/components/ResponsiveVideo";
 import { mapGetters } from "vuex";
+
+// Google and others are doo-doo, and do not work while sandboxed.
+const sandboxExceptions = new Set(["youtube.com", "streamable.com"]);
+
 export default {
   name: "RedditPost",
   components: { ResponsiveVideo, ResponsiveImage },
@@ -138,8 +142,7 @@ export default {
         return;
       let sandbox = "allow-scripts";
       if (this.post.secure_media) {
-        // Google is doo-doo, youtube cannot work while sandboxed.
-        if (this.post.secure_media.type === "youtube.com") {
+        if (sandboxExceptions.has(this.post.secure_media.type)) {
           sandbox = undefined;
         }
       }
@@ -189,7 +192,7 @@ export default {
     },
     postUrl() {
       if (
-        this.post.post_hint !== "link" ||
+        (this.post.post_hint && this.post.post_hint !== "link") ||
         this.post.is_self ||
         this.post.is_reddit_media_domain ||
         this.post.domain === "reddit.com"
