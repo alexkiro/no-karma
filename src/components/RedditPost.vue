@@ -26,17 +26,24 @@
       </a>
     </div>
     <div class="text-h5">{{ post.title }}</div>
-    <div class="d-flex align-start justify-center body-2 mt-3">
+    <div class="d-flex align-start justify-center body-2 mt-3 post-body">
       <div v-if="postText" key="text-post" v-html="postText" />
-      <div v-else-if="embedded" key="embedded-post" v-html="embedded" />
-      <div v-else-if="video" key="image-post">
-        <v-lazy
-          :max-height="video.height + 'px'"
-          :max-width="video.width + 'px'"
-        >
-          <responsive-video :video="video" />
-        </v-lazy>
-      </div>
+      <iframe
+        v-else-if="secureEmbed"
+        key="embedded-post"
+        class="embedded-media"
+        :src="secureEmbed.url"
+        :width="secureEmbed.width"
+        :height="secureEmbed.height"
+        allowfullscreen
+        loading="lazy"
+        referrerpolicy="no-referrer"
+        :sandbox="secureEmbed.sandbox"
+        scrolling="no"
+      />
+      <v-lazy v-else-if="video" key="image-post" class="video-post">
+        <responsive-video :video="video" />
+      </v-lazy>
       <div v-else-if="showImage" key="image-post">
         <responsive-image
           v-if="showImage"
@@ -45,17 +52,18 @@
           :alt="post.title"
         />
       </div>
+      <div v-else-if="postUrl" key="link-post" class="flex-grow-1">
+        <a
+          :href="postUrl"
+          class="caption d-flex align-center text-decoration-none"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span class="url">{{ displayUrl }}</span>
+          <v-icon small color="info">open_in_new</v-icon>
+        </a>
+      </div>
     </div>
-    <a
-      v-if="postUrl"
-      :href="postUrl"
-      class="caption d-flex align-center text-decoration-none"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      <span class="url">{{ displayUrl }}</span>
-      <v-icon small color="info">open_in_new</v-icon>
-    </a>
   </div>
 </template>
 
@@ -117,28 +125,60 @@ export default {
       if (!this.post.permalink) return;
       return `https://reddit.com${this.post.permalink}`;
     },
-    embedded() {
-      const parser = new DOMParser();
-      const embed =
-        this.post.secure_media_embed ||
-        (this.post.secure_media && this.post.secure_media.oembed) ||
-        this.post.media_embed ||
-        (this.post.media && this.post.media.oembed);
-      const html = parser.parseFromString(
-        embed.html || embed.content,
-        "text/html"
+    secureEmbed() {
+      if (
+        !this.post.secure_media_embed ||
+        !this.post.secure_media_embed.media_domain_url
+      )
+        return;
+      let sandbox = "allow-scripts";
+      if (this.post.secure_media) {
+        // Google is doo-doo, youtube cannot work while sandboxed.
+        if (this.post.secure_media.type === "youtube.com") {
+          sandbox = undefined;
+        }
+      }
+
+      const url = new URL(this.post.secure_media_embed.media_domain_url);
+      // Mistery params from reddit
+      url.searchParams.append("responsive", "true");
+      url.searchParams.append(
+        "is_nightmode",
+        this.$vuetify.theme.dark.toString()
       );
-      const iframe = html.body.querySelector("iframe");
-      if (!iframe) return "";
-      iframe.allow = "";
-      iframe.loading = "lazy";
-      iframe.referrerpolicy = "no-referrer";
-      // iframe.sandbox = "allow-scripts allow-same-origin";
-      return iframe.outerHTML;
+
+      return {
+        sandbox,
+        url: url.toString(),
+        width: this.post.secure_media_embed.width,
+        height: this.post.secure_media_embed.height,
+      };
     },
+    // XXX Unsafe embedding
+    // embedded() {
+    //   const parser = new DOMParser();
+    //   const embed =
+    //     this.post.secure_media_embed ||
+    //     (this.post.secure_media && this.post.secure_media.oembed) ||
+    //     this.post.media_embed ||
+    //     (this.post.media && this.post.media.oembed);
+    //   const html = parser.parseFromString(
+    //     embed.html || embed.content,
+    //     "text/html"
+    //   );
+    //   const iframe = html.body.querySelector("iframe");
+    //   if (!iframe) return "";
+    //   iframe.allow = "";
+    //   iframe.loading = "lazy";
+    //   iframe.referrerpolicy = "no-referrer";
+    //   iframe.style = null;
+    //   // iframe.sandbox = "allow-scripts allow-same-origin";
+    //   return iframe.outerHTML;
+    // },
     video() {
       return (
         (this.post.secure_media && this.post.secure_media.reddit_video) ||
+        (this.post.preview && this.post.preview.reddit_video_preview) ||
         (this.post.media && this.post.media.reddit_video)
       );
     },
@@ -171,4 +211,22 @@ export default {
 };
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.video-post,
+.embedded-media {
+  width: 100%;
+  max-height: 36rem;
+
+  @media #{map-get($display-breakpoints, 'md-and-up')} {
+    height: 36rem;
+  }
+}
+
+.embedded-media {
+  object-fit: contain;
+  outline: none;
+  border: none;
+  overflow: hidden;
+  margin: 0 auto;
+}
+</style>
