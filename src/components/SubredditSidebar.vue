@@ -50,7 +50,7 @@
           </v-list-item>
           <v-tooltip
             v-for="item in group.items"
-            :key="item.display"
+            :key="item.id"
             right
             :disabled="!mini"
           >
@@ -191,6 +191,7 @@ export default {
           },
           display: sub.display_name_prefixed,
           img: sub.community_icon || sub.icon_img,
+          id: sub.id,
           icon: "public",
         };
       });

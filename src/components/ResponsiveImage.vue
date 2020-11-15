@@ -84,9 +84,13 @@ export default {
 img {
   max-width: 100%;
   height: auto;
+  object-fit: contain;
+  max-height: 100%;
 }
 
 .responsive-image {
   position: relative;
+  max-height: inherit;
+  display: flex;
 }
 </style>

@@ -49,7 +49,7 @@
       <v-lazy v-else-if="video" key="image-post" class="video-post">
         <responsive-video :video="video" />
       </v-lazy>
-      <div v-else-if="showImage" key="image-post">
+      <div v-else-if="showImage" key="image-post" class="image-post">
         <responsive-image
           v-if="showImage"
           :key="currentImage.id"
@@ -238,6 +238,10 @@ export default {
 </style>
 
 <style scoped lang="scss">
+.image-post {
+  max-height: 36rem;
+}
+
 .video-post,
 .embedded-media {
   width: 100%;
