@@ -14,7 +14,6 @@
         <span class="text--secondary">
           {{ relativeDateString(createdDate) }}
         </span>
-        <b class="text--secondary">{{ post.post_hint }}</b>
       </div>
       <a
         :href="redditLink"
@@ -96,12 +95,14 @@
 import ResponsiveImage from "@/components/ResponsiveImage";
 import ResponsiveVideo from "@/components/ResponsiveVideo";
 
+// XXX TBH, not sure if this is sustainable.
 // Google and others are doo-doo, and do not work while sandboxed.
 const sandboxExceptions = new Set([
   "youtube.com",
   "streamable.com",
   "YouTube",
   "BandCamp", // Looks kinda wonky :/
+  "Gfycat",
 ]);
 
 export default {
