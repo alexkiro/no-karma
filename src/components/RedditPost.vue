@@ -56,6 +56,24 @@
           :image="currentImage"
           :alt="post.title"
         />
+        <div v-if="images.length > 0" class="image-controls">
+          <v-btn
+            v-visible="imageIndex > 0"
+            icon
+            elevation="8"
+            @click="imageIndex -= 1"
+          >
+            <v-icon> navigate_before </v-icon>
+          </v-btn>
+          <v-btn
+            v-visible="imageIndex < images.length - 1"
+            icon
+            elevation="8"
+            @click="imageIndex += 1"
+          >
+            <v-icon> navigate_next </v-icon>
+          </v-btn>
+        </div>
       </div>
       <div v-else-if="postUrl" key="link-post" class="flex-grow-1">
         <a
@@ -250,7 +268,19 @@ export default {
 
 <style scoped lang="scss">
 .image-post {
+  position: relative;
   max-height: 36rem;
+
+  .image-controls {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 }
 
 .video-post,
