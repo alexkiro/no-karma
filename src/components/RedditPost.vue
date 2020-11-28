@@ -148,7 +148,7 @@ export default {
       }
 
       const url = new URL(this.post.secure_media_embed.media_domain_url);
-      // Mistery params from reddit
+      // Mystery params from reddit
       url.searchParams.append("responsive", "true");
       url.searchParams.append(
         "is_nightmode",
