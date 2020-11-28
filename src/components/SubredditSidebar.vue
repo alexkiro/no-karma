@@ -89,7 +89,7 @@
     </v-navigation-drawer>
     <v-app-bar app dense fixed :hide-on-scroll="$vuetify.breakpoint.mobile">
       <v-app-bar-nav-icon
-        class="d-flex d-sm-none"
+        class="d-flex d-lg-none"
         @click="
           drawer = !drawer;
           mini = false;
