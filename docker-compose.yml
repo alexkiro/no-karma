@@ -21,7 +21,18 @@ services:
     restart: always
     volumes:
       - letsencrypt:/etc/letsencrypt
+    labels:
+      ofelia.enabled: "true"
+      ofelia.job-exec.certbotcron.schedule: "@midnight"
+      ofelia.job-exec.datecron.command: "run-certbot.sh"
 
+  ofelia:
+    image: mcuadros/ofelia:latest
+    depends_on:
+      - frontend
+    command: daemon --docker
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
 
 volumes:
   letsencrypt:
