@@ -7,3 +7,4 @@ grep -rh "server_name" /etc/nginx/conf.d/ | tr ';' ' ' | awk '{ print $2 }' | so
 done
 # Enable http2, see https://github.com/certbot/certbot/issues/3646
 sed -i "s/listen 443 ssl;/listen 443 ssl http2;/" /etc/nginx/conf.d/*.conf
+nginx -s reload
