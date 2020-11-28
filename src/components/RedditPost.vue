@@ -273,7 +273,6 @@ export default {
 
 <style scoped lang="scss">
 .image-post {
-  position: relative;
   max-height: 36rem;
 
   .image-controls {
@@ -311,6 +310,8 @@ export default {
 }
 
 .post-body {
+  position: relative;
+
   word-break: break-word;
   & > * {
     max-width: 100%;
