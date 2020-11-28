@@ -24,7 +24,7 @@ services:
     labels:
       ofelia.enabled: "true"
       ofelia.job-exec.certbotcron.schedule: "@midnight"
-      ofelia.job-exec.datecron.command: "run-certbot.sh"
+      ofelia.job-exec.certbotcron.command: "run-certbot.sh"
 
   ofelia:
     image: mcuadros/ofelia:latest
