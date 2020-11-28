@@ -85,6 +85,13 @@
             <span> {{ item.display }}</span>
           </v-tooltip>
         </v-list>
+        <div
+          v-if="hasMoreRSubs"
+          v-intersect="loadRSubs"
+          class="load-more-trigger d-flex align-center justify-center"
+        >
+          <double-bounce-spinner class="my-12" />
+        </div>
       </template>
     </v-navigation-drawer>
     <v-app-bar app dense fixed :hide-on-scroll="$vuetify.breakpoint.mobile">
@@ -128,10 +135,11 @@ import { mapActions, mapGetters } from "vuex";
 import { includesLax } from "@/lib/utils";
 import AppSettings from "@/components/AppSettings";
 import SortSwitch from "@/components/SortSwitch";
+import DoubleBounceSpinner from "@/components/DoubleBounceSpinner";
 
 export default {
   name: "SubredditSidebar",
-  components: { SortSwitch, AppSettings },
+  components: { DoubleBounceSpinner, SortSwitch, AppSettings },
   data() {
     return {
       menu: false,
@@ -141,7 +149,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["user", "rSubs"]),
+    ...mapGetters(["user", "rSubs", "hasMoreRSubs"]),
     menuItems() {
       return [
         {
@@ -218,7 +226,13 @@ export default {
     });
   },
   methods: {
-    ...mapActions(["apiCall", "logout", "clearStore", "initStore"]),
+    ...mapActions([
+      "apiCall",
+      "logout",
+      "clearStore",
+      "initStore",
+      "loadRSubs",
+    ]),
     async login() {
       const response = await this.apiCall({
         method: "GET",
@@ -235,4 +249,9 @@ export default {
 };
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.load-more-trigger {
+  position: relative;
+  margin-bottom: 30rem;
+}
+</style>

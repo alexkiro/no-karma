@@ -18,16 +18,19 @@ export default {
     addRSubs(state, { after, children }) {
       // TODO: don't store unnecessary data.
       state.rSubs = [...state.rSubs, ...children.map((child) => child.data)];
-      // Store next params to load more
-      state.nextParams = {
-        after,
-        count: state.rSubs.length,
-      };
+      if (after) {
+        // Store next params to load more
+        state.nextParams = {
+          after,
+          count: state.rSubs.length,
+        };
+      } else {
+        state.nextParams = {};
+      }
     },
   },
   actions: {
-    // TODO: Add defaults subs for anon
-    async loadRSubs(context, { limit = 100 } = {}) {
+    async loadRSubs(context, { limit = 25 } = {}) {
       const response = await context.dispatch("apiCall", {
         method: "GET",
         endpoint: "/subreddits/mine/subscriber",
@@ -44,6 +47,9 @@ export default {
   getters: {
     rSubs(state) {
       return state.rSubs;
+    },
+    hasMoreRSubs(state) {
+      return !!state.nextParams.after;
     },
   },
 };
