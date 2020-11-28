@@ -38,6 +38,51 @@ def reddit_access_token(data):
     return token
 
 
+def is_token_expired(token):
+    """Test if token is expired, to refresh it if needed. Adds a grace period of 5
+    minutes to prevent weirdness.
+    """
+    try:
+        return (time.time() - token["timestamp"]) > (token["expires_in"] - (60 * 5))
+    except KeyError:
+        return True
+
+
+def get_anon_token():
+    """Get an anonymous token and store it in the session"""
+    token = reddit_access_token({"grant_type": "client_credentials"})
+    session[settings.REDDIT_OAUTH_SESSION_KEY] = token
+    return token
+
+
+def maybe_refresh_token(token):
+    """Check if token needs to be refreshed and return the new token.
+    If there is no need to refresh the token, simply NOOP and return
+    the current token.
+    """
+    if not is_token_expired(token):
+        return token
+
+    if "refresh_token" not in token:
+        # Anonymous tokens cannot be refreshed, just get a new one.
+        return get_anon_token()
+
+    try:
+        new_token = reddit_access_token(
+            {
+                "grant_type": "refresh_token",
+                "refresh_token": token["refresh_token"],
+            }
+        )
+    except requests.exceptions.RequestException as e:
+        app.logger.debug("Unable to refresh token: %s", e)
+        return get_anon_token()
+
+    token.update(new_token)
+    session.modified = True
+    return token
+
+
 def get_token():
     """Get access token details from cookies."""
     # TODO: check if the required scopes have changed, and force re-authorization
@@ -45,24 +90,6 @@ def get_token():
         token = session[settings.REDDIT_OAUTH_SESSION_KEY]
     except (KeyError, AttributeError, ValueError):
         # No token available, request an anonymous one.
-        token = reddit_access_token({"grant_type": "client_credentials"})
-        session[settings.REDDIT_OAUTH_SESSION_KEY] = token
+        return get_anon_token()
     else:
-        # Token available; check if it's expired, and refresh it if needed.
-        # Refresh token 5 minutes before it expires, to prevent weirdness.
-        if (int(time.time()) - token["timestamp"]) > (token["expires_in"] - (60 * 5)):
-            if "refresh_token" in token:
-                token.update(
-                    reddit_access_token(
-                        {
-                            "grant_type": "refresh_token",
-                            "refresh_token": token["refresh_token"],
-                        }
-                    )
-                )
-                session.modified = True
-            else:
-                # Anonymous tokens cannot be refreshed, just get a new one.
-                token = reddit_access_token({"grant_type": "client_credentials"})
-                session[settings.REDDIT_OAUTH_SESSION_KEY] = token
-    return token
+        return maybe_refresh_token(token)

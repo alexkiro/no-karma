@@ -1,10 +1,20 @@
-export default {
-  strict: true,
-  state: {
+function initialState() {
+  return {
     nextParams: {},
     rSubs: [],
-  },
+  };
+}
+
+export default {
+  strict: true,
+  state: initialState(),
   mutations: {
+    clearRSubs(state) {
+      const s = initialState();
+      Object.keys(s).forEach((key) => {
+        state[key] = s[key];
+      });
+    },
     addRSubs(state, { after, children }) {
       // TODO: don't store unnecessary data.
       state.rSubs = [...state.rSubs, ...children.map((child) => child.data)];

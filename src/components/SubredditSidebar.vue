@@ -23,7 +23,7 @@
             <v-list-item-title>
               {{ user.name }}
             </v-list-item-title>
-            <v-list-item-action-text @click="logout">
+            <v-list-item-action-text @click="logoutAndReloadApp">
               <a href="#" class="text-decoration-none text--primary">Logout</a>
             </v-list-item-action-text>
           </v-list-item-content>
@@ -218,7 +218,7 @@ export default {
     });
   },
   methods: {
-    ...mapActions(["apiCall", "getMe"]),
+    ...mapActions(["apiCall", "logout", "clearStore", "initStore"]),
     async login() {
       const response = await this.apiCall({
         method: "GET",
@@ -226,9 +226,10 @@ export default {
       });
       window.setTimeout(() => (window.location = response.url), 100);
     },
-    async logout() {
-      await this.apiCall({ method: "POST", endpoint: "/_oauth/revoke" });
-      await this.getMe();
+    async logoutAndReloadApp() {
+      await this.logout();
+      await this.clearStore();
+      await this.initStore();
     },
   },
 };

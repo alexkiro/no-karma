@@ -24,8 +24,28 @@ export default new Vuex.Store({
       ]);
 
       // Load user data
-      await context.dispatch("getMe");
+      try {
+        await context.dispatch("getMe");
+      } catch (e) {
+        switch (e.statusCode) {
+          case 401:
+          case 403:
+            await context.dispatch("logout");
+            break;
+          default:
+            throw e;
+        }
+      }
       context.dispatch("loadRSubs");
+    },
+    /**
+     * Clear current state. Use this to avoid weirdness when switching between users.
+     *
+     * @param context
+     */
+    clearStore(context) {
+      context.commit("clearUser");
+      context.commit("clearRSubs");
     },
   },
   modules: {
