@@ -202,7 +202,12 @@ export default {
     },
     displayUrl() {
       if (!this.postUrl) return;
-      const url = new URL(this.postUrl);
+      let url;
+      try {
+        url = new URL(this.postUrl);
+      } catch (e) {
+        return this.postUrl;
+      }
       const domain =
         (!this.post.is_self && this.post.domain) || url.host || url.hostname;
 
