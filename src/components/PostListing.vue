@@ -12,6 +12,13 @@
           <reddit-post :post="post" />
         </v-sheet>
       </v-hover>
+      <div
+        v-if="hasMore"
+        v-intersect="getData"
+        class="load-more-trigger d-flex align-center justify-center"
+      >
+        <double-bounce-spinner class="my-12" />
+      </div>
     </div>
     <v-card v-if="selectedPost" elevation="24" class="selected-post">
       <pre>
@@ -38,11 +45,17 @@ export default {
   },
   data() {
     return {
+      limit: 10,
       loading: true,
       nextParams: {},
       posts: [],
       selectedPost: null,
     };
+  },
+  computed: {
+    hasMore() {
+      return !!this.nextParams.after;
+    },
   },
   watch: {
     endpoint() {
@@ -53,34 +66,30 @@ export default {
     },
   },
   mounted() {
-    this.getData();
+    this.loading = true;
+    this.getData().finally(() => (this.loading = false));
   },
   methods: {
     ...mapActions(["apiCall"]),
-    async getData(limit = 20) {
-      this.loading = true;
-      try {
-        const response = await this.apiCall({
-          method: "GET",
-          endpoint: this.endpoint,
-          params: {
-            ...this.nextParams,
-            limit,
-          },
-        });
-        this.posts = [
-          ...this.posts,
-          ...response.data.children.map((child) => {
-            return { ...child.data, all_awardings: undefined };
-          }),
-        ];
-        this.nextParams = {
-          after: response.data.after,
-          count: this.posts.length,
-        };
-      } finally {
-        this.loading = false;
-      }
+    async getData() {
+      const response = await this.apiCall({
+        method: "GET",
+        endpoint: this.endpoint,
+        params: {
+          ...this.nextParams,
+          limit: this.limit,
+        },
+      });
+      this.posts = [
+        ...this.posts,
+        ...response.data.children.map((child) => {
+          return { ...child.data, all_awardings: undefined };
+        }),
+      ];
+      this.nextParams = {
+        after: response.data.after,
+        count: this.posts.length,
+      };
     },
   },
 };

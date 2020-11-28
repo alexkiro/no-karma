@@ -249,9 +249,4 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
-.load-more-trigger {
-  position: relative;
-  margin-bottom: 30rem;
-}
-</style>
+<style scoped lang="scss"></style>

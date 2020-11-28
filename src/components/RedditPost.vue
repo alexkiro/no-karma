@@ -25,7 +25,7 @@
         <v-icon dense small>open_in_new</v-icon>
       </a>
     </div>
-    <div class="text-h5">{{ post.title }}</div>
+    <div class="text-h5 post-title">{{ post.title }}</div>
     <div class="d-flex align-start justify-center body-2 mt-3 post-body">
       <div
         v-if="postText"
@@ -263,6 +263,10 @@ export default {
   border: none;
   overflow: hidden;
   margin: 0 auto;
+}
+
+.post-title {
+  word-break: break-word;
 }
 
 .post-body {
