@@ -3,13 +3,13 @@
     <v-navigation-drawer
       v-model="drawer"
       app
-      class="pt-4 elevation-2"
+      class="elevation-2"
       :mini-variant="mini"
       bottom
       fixed
     >
       <template #prepend>
-        <v-list-item class="px-2">
+        <v-list-item class="px-2 elevation-2">
           <v-list-item-avatar
             color="primary"
             class="elevation-2"
