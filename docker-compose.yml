@@ -31,6 +31,7 @@ services:
     depends_on:
       - frontend
     command: daemon --docker
+    restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
 
