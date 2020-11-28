@@ -20,11 +20,6 @@
         <double-bounce-spinner class="my-12" />
       </div>
     </div>
-    <v-card v-if="selectedPost" elevation="24" class="selected-post">
-      <pre>
-      {{ selectedPost }}
-      </pre>
-    </v-card>
   </div>
 </template>
 
