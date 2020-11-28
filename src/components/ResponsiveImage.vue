@@ -1,10 +1,7 @@
 <template>
   <div class="responsive-image">
     <v-overlay v-if="showLoading && !loaded" absolute>
-      <v-progress-circular
-        indeterminate
-        color="grey lighten-5"
-      ></v-progress-circular>
+      <v-progress-circular indeterminate color="grey lighten-5" />
     </v-overlay>
     <picture>
       <source

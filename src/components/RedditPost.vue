@@ -56,7 +56,7 @@
           :image="currentImage"
           :alt="post.title"
         />
-        <div v-if="images.length > 0" class="image-controls">
+        <div v-if="images.length > 1" class="image-controls">
           <v-btn
             v-visible="imageIndex > 0"
             elevation="8"
@@ -143,7 +143,10 @@ export default {
     },
     images() {
       if (this.post.preview && this.post.preview.images) {
-        return this.post.preview.images;
+        // TODO: there are also mp4 available here, we could display those instead?
+        return this.post.preview.images.map(
+          (image) => image.variants.gif || image
+        );
       }
       if (this.post.media_metadata) {
         return Object.values(this.post.media_metadata);
