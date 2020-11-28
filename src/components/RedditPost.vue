@@ -75,10 +75,14 @@
 <script>
 import ResponsiveImage from "@/components/ResponsiveImage";
 import ResponsiveVideo from "@/components/ResponsiveVideo";
-import { mapGetters } from "vuex";
 
 // Google and others are doo-doo, and do not work while sandboxed.
-const sandboxExceptions = new Set(["youtube.com", "streamable.com"]);
+const sandboxExceptions = new Set([
+  "youtube.com",
+  "streamable.com",
+  "YouTube",
+  "BandCamp", // Looks kinda wonky :/
+]);
 
 export default {
   name: "RedditPost",
@@ -95,7 +99,6 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["csp"]),
     toSubRedditPage() {
       return {
         name: "home-sub",
@@ -142,7 +145,10 @@ export default {
         return;
       let sandbox = "allow-scripts";
       if (this.post.secure_media) {
-        if (sandboxExceptions.has(this.post.secure_media.type)) {
+        if (
+          sandboxExceptions.has(this.post.secure_media.type) ||
+          sandboxExceptions.has(this.post.secure_media.oembed.provider_name)
+        ) {
           sandbox = undefined;
         }
       }
