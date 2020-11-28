@@ -59,16 +59,18 @@
         <div v-if="images.length > 0" class="image-controls">
           <v-btn
             v-visible="imageIndex > 0"
-            icon
             elevation="8"
+            fab
+            small
             @click="imageIndex -= 1"
           >
             <v-icon> navigate_before </v-icon>
           </v-btn>
           <v-btn
             v-visible="imageIndex < images.length - 1"
-            icon
             elevation="8"
+            fab
+            small
             @click="imageIndex += 1"
           >
             <v-icon> navigate_next </v-icon>
