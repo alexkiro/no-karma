@@ -9,8 +9,14 @@
       fixed
     >
       <template #prepend>
-        <v-list-item class="px-2 elevation-2">
+        <v-list-item
+          class="px-2 elevation-2"
+          dense
+          @click="!user.name && login()"
+        >
           <v-list-item-avatar
+            tile
+            size="32"
             color="primary"
             class="elevation-2"
             @click="mini = false"
@@ -33,7 +39,7 @@
             </v-list-item-action-text>
           </v-list-item-content>
           <v-list-item-content v-else>
-            <v-list-item-action-text class="anchor" @click="login">
+            <v-list-item-action-text class="anchor">
               <a href="#" class="text-decoration-none text--primary">Login</a>
             </v-list-item-action-text>
           </v-list-item-content>
