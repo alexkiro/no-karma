@@ -458,3 +458,4 @@ Temporary Items
 .nfs*
 
 docker-compose.override.yml
+tests/e2e/videos/

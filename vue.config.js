@@ -2,7 +2,7 @@ const { GenerateSW } = require("workbox-webpack-plugin");
 
 const plugins = [];
 
-if (process.env.NODE_ENV !== "development") {
+if (process.env.NODE_ENV === "production" && !process.env.VUE_APP_NO_PWA) {
   plugins.push(
     new GenerateSW({
       // Always force update to new version
