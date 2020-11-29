@@ -26,14 +26,6 @@ export default {
       this.setLocalStorage("theme", dark ? "dark" : "light");
     },
   },
-  created() {
-    if (this.$workbox) {
-      // Force update to new version
-      this.$workbox.addEventListener("waiting", () => {
-        this.$workbox.messageSW({ type: "SKIP_WAITING" });
-      });
-    }
-  },
   mounted() {
     this.$vuetify.theme.dark =
       (this.getLocalStorage("theme") || "dark") === "dark";
