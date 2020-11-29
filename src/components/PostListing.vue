@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex flex-grow-1 justify-space-around">
-    <double-bounce-spinner v-if="loading" />
+    <double-bounce-spinner v-if="initialLoading" />
     <div>
       <v-hover v-for="post in posts" v-slot="{ hover }" :key="post.name">
         <v-sheet
@@ -41,7 +41,8 @@ export default {
   data() {
     return {
       limit: 10,
-      loading: true,
+      loading: false,
+      initialLoading: true,
       nextParams: {},
       posts: [],
       selectedPost: null,
@@ -61,30 +62,37 @@ export default {
     },
   },
   mounted() {
-    this.loading = true;
-    this.getData().finally(() => (this.loading = false));
+    this.initialLoading = true;
+    this.getData().finally(() => (this.initialLoading = false));
   },
   methods: {
     ...mapActions(["apiCall"]),
     async getData() {
-      const response = await this.apiCall({
-        method: "GET",
-        endpoint: this.endpoint,
-        params: {
-          ...this.nextParams,
-          limit: this.limit,
-        },
-      });
-      this.posts = [
-        ...this.posts,
-        ...response.data.children.map((child) => {
-          return { ...child.data, all_awardings: undefined };
-        }),
-      ];
-      this.nextParams = {
-        after: response.data.after,
-        count: this.posts.length,
-      };
+      // Check if we are already loading something, and NOOP in that case.
+      if (this.loading) return;
+      try {
+        this.loading = true;
+        const response = await this.apiCall({
+          method: "GET",
+          endpoint: this.endpoint,
+          params: {
+            ...this.nextParams,
+            limit: this.limit,
+          },
+        });
+        this.posts = [
+          ...this.posts,
+          ...response.data.children.map((child) => {
+            return { ...child.data, all_awardings: undefined };
+          }),
+        ];
+        this.nextParams = {
+          after: response.data.after,
+          count: this.posts.length,
+        };
+      } finally {
+        this.loading = false;
+      }
     },
   },
 };
