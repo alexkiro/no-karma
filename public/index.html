@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <title>no-karma</title>
+    <link rel="stylesheet" href="<%= BASE_URL %>index.css" />
 
     <link rel="manifest" href="<%= BASE_URL %>manifest.json" />
     <meta name="theme-color" content="#1976d2" />
@@ -65,7 +66,15 @@
         enabled. Please enable it to continue.
       </strong>
     </noscript>
-    <div id="app"></div>
+    <div id="app">
+      <div class="app-loader double-bounce-spinner">
+        <h1>Loading no-karma.app</h1>
+        <div class="spinner">
+          <div class="double-bounce1 primary"></div>
+          <div class="double-bounce2 primary"></div>
+        </div>
+      </div>
+    </div>
     <!-- built files will be auto injected -->
   </body>
 </html>

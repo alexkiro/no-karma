@@ -8,7 +8,7 @@
     "build": "vue-cli-service build",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "run-s lint:css lint:js",
-    "lint:css": "prettier --write -c \"src/**/*.scss\" \"public/**/*.html\"",
+    "lint:css": "prettier --write -c \"src/**/*.scss\" \"public/**/*.html\" \"public/**/*.css\"",
     "lint:js": "vue-cli-service lint"
   },
   "dependencies": {
