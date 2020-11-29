@@ -2,19 +2,23 @@
   <v-app v-if="loaded" id="app">
     <subreddit-sidebar />
     <v-main>
-      <router-view class="router-view" />
+      <router-view v-if="online" class="router-view" />
+      <offline-view v-else />
     </v-main>
   </v-app>
 </template>
 
 <script>
 import SubredditSidebar from "@/components/SubredditSidebar";
+import OfflineView from "@/views/OfflineView";
+import EventBus from "@/lib/event-bus";
 export default {
-  components: { SubredditSidebar },
+  components: { OfflineView, SubredditSidebar },
   data() {
     return {
       theme: "dark",
       loaded: false,
+      online: true,
     };
   },
   watch: {
@@ -34,6 +38,13 @@ export default {
     this.$vuetify.theme.dark =
       (this.getLocalStorage("theme") || "dark") === "dark";
     this.$store.dispatch("initStore").finally(() => (this.loaded = true));
+    EventBus.$on(EventBus.events.apiConnectError, this.onConnectError);
+    window.addEventListener("online", () => (this.online = true));
+  },
+  methods: {
+    onConnectError() {
+      this.online = navigator.onLine;
+    },
   },
 };
 </script>

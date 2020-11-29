@@ -1,3 +1,5 @@
+import EventBus from "@/lib/event-bus";
+
 class APIError extends Error {
   constructor(message, details) {
     message = `${message}: ${details.detail}`;
@@ -16,6 +18,7 @@ async function _processJSONResponse(response) {
   // We don't know what to do with anything other than a JSON
   // so just quit here and don't read the body.
   if (contentType !== "application/json") {
+    EventBus.$emit(EventBus.events.apiUnknownError);
     throw new APIError("Unknown API error", {
       requestURL: response.url,
       statusCode: response.status,
@@ -24,7 +27,12 @@ async function _processJSONResponse(response) {
   }
 
   let jsonBody;
-  jsonBody = await response.json();
+  try {
+    jsonBody = await response.json();
+  } catch (readBodyError) {
+    EventBus.$emit(EventBus.events.apiReadError);
+    throw readBodyError;
+  }
 
   // XXX Reddit API weirdness, if there is no data, it returns a string
   //  instead of an empty Object.
@@ -119,9 +127,19 @@ export default {
             fetchOptions.body = data;
         }
       }
-
-      const response = await fetch(url.toString(), fetchOptions);
-      return await _processJSONResponse(response);
+      try {
+        EventBus.$emit(EventBus.events.requestStarted);
+        let response;
+        try {
+          response = await fetch(url.toString(), fetchOptions);
+        } catch (e) {
+          EventBus.$emit(EventBus.events.apiConnectError);
+          throw e;
+        }
+        return await _processJSONResponse(response);
+      } finally {
+        EventBus.$emit(EventBus.events.requestFinished);
+      }
     },
   },
   getters: {},
