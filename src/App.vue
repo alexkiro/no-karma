@@ -39,9 +39,15 @@ export default {
       (this.getLocalStorage("theme") || "dark") === "dark";
     this.$store.dispatch("initStore").finally(() => (this.loaded = true));
     EventBus.$on(EventBus.events.apiConnectError, this.onConnectError);
-    window.addEventListener("online", () => (this.online = true));
+    window.addEventListener("online", this.onOnline);
   },
   methods: {
+    async onOnline() {
+      if (this.online === false) {
+        await this.$store.dispatch("initStore");
+      }
+      this.online = true;
+    },
     onConnectError() {
       this.online = navigator.onLine;
     },
