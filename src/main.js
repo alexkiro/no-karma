@@ -6,9 +6,10 @@ import locale from "@/lib/mixins/locale";
 import vuetify from "./plugins/vuetify";
 import "material-design-icons-iconfont/dist/material-design-icons.css";
 import localStorage from "@/lib/mixins/localStorage";
-import "./registerServiceWorker";
+import wb from "./registerServiceWorker";
 
 Vue.config.productionTip = false;
+Vue.prototype.$workbox = wb;
 
 /**
  * Directive that hides the visibility of an element, instead of removing it

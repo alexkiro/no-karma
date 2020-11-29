@@ -1,7 +1,10 @@
+const { GenerateSW } = require("workbox-webpack-plugin");
+
 module.exports = {
   integrity: true,
   lintOnSave: false,
   configureWebpack: {
+    plugins: [new GenerateSW()],
     optimization: {
       splitChunks: {
         cacheGroups: {

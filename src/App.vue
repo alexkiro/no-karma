@@ -22,10 +22,23 @@ export default {
       this.setLocalStorage("theme", dark ? "dark" : "light");
     },
   },
+  created() {
+    if (this.$workbox) {
+      this.$workbox.addEventListener("waiting", () => {
+        this.showUpgradeUI = true;
+      });
+    }
+  },
   mounted() {
     this.$vuetify.theme.dark =
       (this.getLocalStorage("theme") || "dark") === "dark";
     this.$store.dispatch("initStore").then(() => (this.loaded = true));
+  },
+  methods: {
+    async accept() {
+      this.showUpgradeUI = false;
+      await this.$workbox.messageSW({ type: "SKIP_WAITING" });
+    },
   },
 };
 </script>
