@@ -103,6 +103,7 @@ const sandboxExceptions = new Set([
   "YouTube",
   "BandCamp", // Looks kinda wonky :/
   "Gfycat",
+  "imgur.com",
 ]);
 
 export default {
@@ -294,7 +295,7 @@ export default {
   max-height: 36rem;
 
   @media #{map-get($display-breakpoints, 'md-and-up')} {
-    height: 36rem;
+    max-height: 36rem;
   }
 }
 
