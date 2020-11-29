@@ -1,14 +1,20 @@
 const { GenerateSW } = require("workbox-webpack-plugin");
 
+const plugins = [];
+
+if (process.env.NODE_ENV !== "development") {
+  plugins.push(
+    new GenerateSW({
+      navigateFallback: "index.html",
+    })
+  );
+}
+
 module.exports = {
   integrity: true,
   lintOnSave: false,
   configureWebpack: {
-    plugins: [
-      new GenerateSW({
-        navigateFallback: "index.html",
-      }),
-    ],
+    plugins,
     optimization: {
       splitChunks: {
         cacheGroups: {
