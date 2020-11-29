@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "@/views/Home";
 import OAuthRedirect from "@/views/OAuthRedirect";
+import Logout from "@/views/Logout";
 
 Vue.use(VueRouter);
 
@@ -22,6 +23,11 @@ const routes = [
     path: "/_oauth/redirect",
     name: "oauth-redirect",
     component: OAuthRedirect,
+  },
+  {
+    path: "/logout",
+    name: "logout",
+    component: Logout,
   },
 ];
 

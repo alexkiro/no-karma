@@ -34,13 +34,6 @@ export default {
       });
       context.commit("setUser", meResponse);
     },
-    async logout(context) {
-      await context.dispatch("apiCall", {
-        method: "POST",
-        endpoint: "/_oauth/revoke",
-      });
-      await context.dispatch("getMe");
-    },
   },
   getters: {
     user(state) {

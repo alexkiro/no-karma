@@ -23,8 +23,13 @@
             <v-list-item-title>
               {{ user.name }}
             </v-list-item-title>
-            <v-list-item-action-text @click="logoutAndReloadApp">
-              <a href="#" class="text-decoration-none text--primary">Logout</a>
+            <v-list-item-action-text>
+              <router-link
+                :to="{ name: 'logout' }"
+                class="text-decoration-none text--primary"
+              >
+                Logout
+              </router-link>
             </v-list-item-action-text>
           </v-list-item-content>
           <v-list-item-content v-else>
@@ -226,24 +231,13 @@ export default {
     });
   },
   methods: {
-    ...mapActions([
-      "apiCall",
-      "logout",
-      "clearStore",
-      "initStore",
-      "loadRSubs",
-    ]),
+    ...mapActions(["apiCall", "loadRSubs"]),
     async login() {
       const response = await this.apiCall({
         method: "GET",
         endpoint: "/_oauth/authorize",
       });
       window.setTimeout(() => (window.location = response.url), 100);
-    },
-    async logoutAndReloadApp() {
-      await this.logout();
-      await this.clearStore();
-      await this.initStore();
     },
   },
 };
