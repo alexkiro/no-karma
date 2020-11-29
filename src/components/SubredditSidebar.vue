@@ -5,15 +5,10 @@
       app
       class="elevation-2"
       :mini-variant="mini"
-      bottom
       fixed
     >
       <template #prepend>
-        <v-list-item
-          class="px-2 elevation-2"
-          dense
-          @click="!user.name && login()"
-        >
+        <v-list-item class="elevation-2 pl-3 pr-1" dense>
           <v-list-item-avatar
             tile
             size="32"
@@ -24,7 +19,6 @@
             <v-img v-if="user.icon" :src="user.icon" />
             <v-icon v-else dark>person</v-icon>
           </v-list-item-avatar>
-
           <v-list-item-content v-if="user.name">
             <v-list-item-title>
               {{ user.name }}
@@ -39,15 +33,15 @@
             </v-list-item-action-text>
           </v-list-item-content>
           <v-list-item-content v-else>
-            <v-list-item-action-text class="anchor">
+            <v-list-item-action-text class="anchor" @click="login">
               <a href="#" class="text-decoration-none text--primary">Login</a>
             </v-list-item-action-text>
           </v-list-item-content>
 
-          <v-btn icon class="d-none d-sm-flex" @click="mini = true">
+          <v-btn icon class="d-none d-lg-flex" @click="mini = true">
             <v-icon>chevron_left</v-icon>
           </v-btn>
-          <v-btn icon class="d-flex d-sm-none" @click="drawer = false">
+          <v-btn icon class="d-flex d-lg-none" @click="drawer = false">
             <v-icon>close</v-icon>
           </v-btn>
         </v-list-item>
