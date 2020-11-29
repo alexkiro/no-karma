@@ -24,5 +24,5 @@ CONF = {
     # https://flask.palletsprojects.com/en/1.1.x/config/#PERMANENT_SESSION_LIFETIME
     "PERMANENT_SESSION_LIFETIME": int(os.getenv("PERMANENT_SESSION_LIFETIME", "0")),
     # https://flask.palletsprojects.com/en/1.1.x/config/#SERVER_NAME
-    "SERVER_NAME": VUE_APP_API_HOST,
+    # "SERVER_NAME": VUE_APP_API_HOST,
 }
