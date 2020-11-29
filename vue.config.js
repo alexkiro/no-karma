@@ -4,7 +4,11 @@ module.exports = {
   integrity: true,
   lintOnSave: false,
   configureWebpack: {
-    plugins: [new GenerateSW()],
+    plugins: [
+      new GenerateSW({
+        navigateFallback: "index.html",
+      }),
+    ],
     optimization: {
       splitChunks: {
         cacheGroups: {

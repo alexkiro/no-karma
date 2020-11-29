@@ -24,21 +24,16 @@ export default {
   },
   created() {
     if (this.$workbox) {
+      // Force update to new version
       this.$workbox.addEventListener("waiting", () => {
-        this.showUpgradeUI = true;
+        this.$workbox.messageSW({ type: "SKIP_WAITING" });
       });
     }
   },
   mounted() {
     this.$vuetify.theme.dark =
       (this.getLocalStorage("theme") || "dark") === "dark";
-    this.$store.dispatch("initStore").then(() => (this.loaded = true));
-  },
-  methods: {
-    async accept() {
-      this.showUpgradeUI = false;
-      await this.$workbox.messageSW({ type: "SKIP_WAITING" });
-    },
+    this.$store.dispatch("initStore").finally(() => (this.loaded = true));
   },
 };
 </script>
