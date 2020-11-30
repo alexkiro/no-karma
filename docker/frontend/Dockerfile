@@ -3,7 +3,7 @@ FROM node:14 as builder
 # Install packages
 COPY package.json .
 COPY package-lock.json .
-RUN npm install
+RUN npm install --no-optional
 
 # Copy app
 COPY vue.config.js .
