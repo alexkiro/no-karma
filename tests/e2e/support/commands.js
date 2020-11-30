@@ -23,3 +23,18 @@
 //
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+Cypress.Commands.add("interceptXHR", (url, response) => {
+  if (typeof url === "string") {
+    url = {
+      url,
+    };
+  }
+  url.hostname = "fake-api.test";
+  response.headers = {
+    ...response.headers,
+    "Access-Control-Allow-Origin": window.location.origin,
+    "Access-Control-Allow-Credentials": "true",
+  };
+  return cy.intercept(url, response);
+});
