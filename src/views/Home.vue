@@ -17,7 +17,11 @@
           alt=""
         />
       </header>
-      <v-sheet elevation="8" class="d-flex align-center justify-center pa-2">
+      <v-sheet
+        v-if="subDetails"
+        elevation="8"
+        class="d-flex align-center justify-center pa-2"
+      >
         <div class="d-flex align-center flex-grow-1 sub-title">
           <v-avatar size="80" class="sub-icon mr-4 grey--text elevation-4">
             <img
