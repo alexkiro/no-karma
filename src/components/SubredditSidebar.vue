@@ -203,7 +203,7 @@ export default {
             params: { subreddit: sub.display_name, sort: this.sort },
           },
           display: sub.display_name_prefixed,
-          img: sub.community_icon || sub.icon_img,
+          img: this.getSubRedditIcon(sub),
           id: sub.id,
           icon: "public",
         };

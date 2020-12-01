@@ -9,7 +9,7 @@
           class="my-4"
           @click="selectedPost = post"
         >
-          <reddit-post :post="post" />
+          <reddit-post :post="post" :show-sub-reddit-info="showSubRedditInfo" />
         </v-sheet>
       </v-hover>
       <div
@@ -36,6 +36,11 @@ export default {
       type: String,
       default: "/best",
       required: false,
+    },
+    showSubRedditInfo: {
+      type: Boolean,
+      required: false,
+      default: true,
     },
   },
   data() {
@@ -70,15 +75,20 @@ export default {
     async getData() {
       // Check if we are already loading something, and NOOP in that case.
       if (this.loading) return;
+      const params = {
+        ...this.nextParams,
+        limit: this.limit,
+      };
+      if (this.showSubRedditInfo) {
+        params.sr_detail = "true";
+      }
+
       try {
         this.loading = true;
         const response = await this.apiCall({
           method: "GET",
           endpoint: this.endpoint,
-          params: {
-            ...this.nextParams,
-            limit: this.limit,
-          },
+          params,
         });
         this.posts = [
           ...this.posts,

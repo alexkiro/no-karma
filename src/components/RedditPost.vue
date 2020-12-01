@@ -3,13 +3,28 @@
     <div class="caption d-flex justify-space-between align-center">
       <div>
         <router-link
+          v-if="showSubRedditInfo"
           :to="toSubRedditPage"
           class="text-decoration-none text--primary"
         >
+          <v-avatar size="18" class="mr-1">
+            <img
+              v-if="subredditIcon"
+              :src="subredditIcon"
+              loading="lazy"
+              rel="noopener noreferrer"
+              referrerpolicy="no-referrer"
+              alt=""
+              width="256px"
+              height="256px"
+            />
+            <v-icon v-else>public</v-icon>
+          </v-avatar>
           {{ post.subreddit_name_prefixed }}
+          &nbsp; &middot;
         </router-link>
-        &nbsp;
-        <span class="text--secondary">&middot; by u/{{ post.author }}</span>
+        <span v-else class="text--secondary">Posted &nbsp;</span>
+        <span class="text--secondary">by u/{{ post.author }}</span>
         &nbsp;
         <span class="text--secondary">
           {{ relativeDateString(createdDate) }}
@@ -114,6 +129,11 @@ export default {
       type: Object,
       required: true,
     },
+    showSubRedditInfo: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
   },
   data() {
     return {
@@ -142,6 +162,9 @@ export default {
         // We actually need an image to display
         this.currentImage
       );
+    },
+    subredditIcon() {
+      return this.getSubRedditIcon(this.post.sr_detail);
     },
     images() {
       if (this.post.preview && this.post.preview.images) {

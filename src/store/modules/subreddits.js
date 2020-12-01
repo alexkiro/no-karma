@@ -43,6 +43,19 @@ export default {
         context.commit("addRSubs", response.data);
       }
     },
+    async getSubRedditDetails(context, subName) {
+      subName = subName.toLocaleString();
+      let subDetails = context.state.rSubs.find(
+        (sub) => sub.display_name.toLowerCase === subName
+      );
+      if (subDetails) return;
+
+      const response = await context.dispatch("apiCall", {
+        method: "GET",
+        endpoint: `/r/${subName}/about`,
+      });
+      return response.data;
+    },
   },
   getters: {
     rSubs(state) {

@@ -1,8 +1,48 @@
 <template>
   <div class="home">
     <main>
+      <header
+        v-if="subDetails"
+        class="sub-banner"
+        :style="{
+          'background-color': bannerColor,
+        }"
+      >
+        <img
+          class="banner-image"
+          :src="subDetails.banner_background_image"
+          loading="lazy"
+          rel="noopener noreferrer"
+          referrerpolicy="no-referrer"
+          alt=""
+        />
+      </header>
+      <v-sheet elevation="8" class="d-flex align-center justify-center pa-2">
+        <div class="d-flex align-center flex-grow-1 sub-title">
+          <v-avatar size="80" class="sub-icon mr-4 grey--text elevation-4">
+            <img
+              v-if="subredditIcon"
+              :src="subredditIcon"
+              loading="lazy"
+              rel="noopener noreferrer"
+              referrerpolicy="no-referrer"
+              alt=""
+              width="256px"
+              height="256px"
+            />
+            <v-icon v-else class="grey--text" size="48">public</v-icon>
+          </v-avatar>
+          <h3>
+            {{ subDetails.title }}
+          </h3>
+        </div>
+      </v-sheet>
       <keep-alive :max="5">
-        <post-listing :key="endpoint" :endpoint="endpoint" />
+        <post-listing
+          :key="endpoint"
+          :endpoint="endpoint"
+          :show-sub-reddit-info="isMultiSubReddit"
+        />
       </keep-alive>
     </main>
   </div>
@@ -10,6 +50,9 @@
 
 <script>
 import PostListing from "@/components/PostListing";
+import { mapActions } from "vuex";
+
+const multiSubReddits = new Set(["", "all", "popular"]);
 
 export default {
   name: "Home",
@@ -27,7 +70,9 @@ export default {
     },
   },
   data() {
-    return {};
+    return {
+      subDetails: null,
+    };
   },
   computed: {
     endpoint() {
@@ -36,8 +81,59 @@ export default {
       parts.push(this.sort);
       return parts.join("/");
     },
+    isMultiSubReddit() {
+      return multiSubReddits.has(this.subreddit);
+    },
+    bannerColor() {
+      return (
+        this.subDetails.banner_background_color ||
+        this.subDetails.key_color ||
+        "var(--v-secondary-base)"
+      );
+    },
+    subredditIcon() {
+      return this.getSubRedditIcon(this.subDetails);
+    },
+  },
+  watch: {
+    subreddit() {
+      this.loadSubDetails();
+    },
+  },
+  mounted() {
+    this.loadSubDetails();
+  },
+  methods: {
+    ...mapActions(["getSubRedditDetails"]),
+    async loadSubDetails() {
+      if (this.isMultiSubReddit) {
+        this.subDetails = null;
+        return;
+      }
+      this.subDetails = await this.getSubRedditDetails(this.subreddit);
+    },
   },
 };
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.sub-banner {
+  overflow: hidden;
+  min-height: 5rem;
+  max-height: 10rem;
+
+  .banner-image {
+    width: 100%;
+  }
+}
+
+.sub-title {
+  max-width: 55rem;
+
+  .sub-icon {
+    border: 4px solid white;
+    margin-top: -1.5rem;
+    background-color: white;
+  }
+}
+</style>
