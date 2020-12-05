@@ -45,11 +45,12 @@ export default {
   },
   data() {
     return {
-      limit: 10,
+      limit: 20,
       loading: false,
       initialLoading: true,
       nextParams: {},
       posts: [],
+      uniqueIds: new Set(),
       selectedPost: null,
     };
   },
@@ -75,6 +76,7 @@ export default {
     async getData() {
       // Check if we are already loading something, and NOOP in that case.
       if (this.loading) return;
+      let newPosts = [];
       const params = {
         ...this.nextParams,
         limit: this.limit,
@@ -90,18 +92,22 @@ export default {
           endpoint: this.endpoint,
           params,
         });
-        this.posts = [
-          ...this.posts,
-          ...response.data.children.map((child) => {
-            return { ...child.data, all_awardings: undefined };
-          }),
-        ];
+        newPosts = response.data.children
+          .filter((child) => !this.uniqueIds.has(child.data.id))
+          .map((child) => child.data);
+        this.posts.push(...newPosts);
+        newPosts.forEach((child) => this.uniqueIds.add(child.id));
         this.nextParams = {
           after: response.data.after,
           count: this.posts.length,
         };
       } finally {
         this.loading = false;
+      }
+
+      // All duplicates maybe?
+      if (newPosts.length === 0 && this.nextParams.after) {
+        await this.getData();
       }
     },
   },
