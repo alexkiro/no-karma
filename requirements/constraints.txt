@@ -10,7 +10,7 @@ colorama==0.4.4
 contextlib2==0.6.0
 decorator==4.4.2
 distlib==0.3.0
-distro==1.4.0
+distro==1.5.0
 Flask==1.1.2
 Flask-Cors==3.0.9
 gunicorn==20.0.4
@@ -41,7 +41,7 @@ ptyprocess==0.6.0
 py==1.9.0
 Pygments==2.7.2
 pyparsing==2.4.7
-pytest==6.1.2
+pytest==6.2.1
 python-dotenv==0.15.0
 pytoml==0.1.21
 regex==2020.11.13
