@@ -15,7 +15,7 @@ Flask==1.1.2
 Flask-Cors==3.0.9
 gunicorn==20.0.4
 html5lib==1.1
-idna==2.10
+idna==3.0
 iniconfig==1.1.1
 ipaddr==2.2.0
 ipdb==0.13.4
