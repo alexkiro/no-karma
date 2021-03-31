@@ -21,7 +21,7 @@
     "vue-router": "^3.4.9",
     "vuetify": "^2.4.8",
     "vuex": "^3.6.0",
-    "workbox-webpack-plugin": "^6.0.2"
+    "workbox-webpack-plugin": "^6.1.2"
   },
   "devDependencies": {
     "@vue/cli-service": "~4.5.12",
