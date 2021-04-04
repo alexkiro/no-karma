@@ -22,7 +22,7 @@ Steps:
    ```
    npm install
    ```
-  - Create `.env.local` file, starting from example 
+ - Create `.env.local` file, starting from example 
    ```
    cp .env.dev.example .env.local
    ```
