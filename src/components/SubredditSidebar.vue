@@ -109,7 +109,7 @@
       />
       <v-toolbar-title class="pa-0 mr-2">
         <span>
-          {{ this.$route.params.subreddit || "no-karma" }}
+          {{ $route.params.subreddit || "no-karma" }}
         </span>
       </v-toolbar-title>
       <v-spacer />
