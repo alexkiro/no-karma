@@ -1,29 +1,19 @@
-# no-karma
+### no-karma
 
-## Project setup
-```
-npm install
-```
+Reddit Client built with vuetify 
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+[![E2E tests](https://github.com/alexkiro/no-karma/actions/workflows/e2e.yml/badge.svg)](https://github.com/alexkiro/no-karma/actions/workflows/e2e.yml) 
+[![CodeQL](https://github.com/alexkiro/no-karma/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/alexkiro/no-karma/actions/workflows/codeql-analysis.yml)
 
-### Compiles and minifies for production
-```
-npm run build
-```
 
-### Run your end-to-end tests
-```
-npm run test:e2e
-```
+---
 
-### Lints and fixes files
-```
-npm run lint
-```
+Documentation:
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+ - [Production Build & Deployment](./docs/production.md)
+
+Development guides:
+
+ - [Development Installation Guide](./docs/development.md)
+ - [Automated Tests Guide](./docs/tests.md)
+
