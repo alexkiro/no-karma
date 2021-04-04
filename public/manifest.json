@@ -1,7 +1,7 @@
 {
   "name": "no-karma",
   "short_name": "no-karma",
-  "theme_color": "#1976d2",
+  "theme_color": "#121212",
   "icons": [
     {
       "src": "./img/icons/android-chrome-192x192.png",
