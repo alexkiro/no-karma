@@ -16,9 +16,13 @@
    cp .env.example .env.local
    ```
  - Edit and configure settings in the `.env.local` file
+ - Build images 
+   ```
+   docker-compose build --pull
+   ```
  - Start stack with docker-compose:
    ```
-   docker-compose up -d --build
+   docker-compose up -d
    ```
  - Enable HTTPS
    ```
@@ -30,5 +34,6 @@
  - Update local clone 
  - Re-build and restart stack 
    ```
-   docker-compose up -d --build
+   docker-compose build --pull
+   docker-compose up -d
    ```
