@@ -11,8 +11,8 @@ services:
     logging:
       driver: "json-file"
       options:
-        max-size: "10m"
-        max-file: "10"
+        max-size: "10k"
+        max-file: "5"
 
   frontend:
     build:
@@ -29,8 +29,8 @@ services:
     logging:
       driver: "json-file"
       options:
-        max-size: "10m"
-        max-file: "10"
+        max-size: "10k"
+        max-file: "5"
     labels:
       ofelia.enabled: "true"
       ofelia.job-exec.certbotcron.schedule: "@midnight"
