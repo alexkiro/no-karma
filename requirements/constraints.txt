@@ -12,7 +12,7 @@ gunicorn==20.1.0
 idna==2.10
 iniconfig==1.1.1
 ipdb==0.13.7
-ipython==7.23.1
+ipython==7.24.0
 ipython-genutils==0.2.0
 itsdangerous==2.0.1
 jedi==0.18.0
