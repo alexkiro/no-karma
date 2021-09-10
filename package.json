@@ -13,7 +13,7 @@
     "serve:prod": "vue-cli-service serve --mode production"
   },
   "dependencies": {
-    "core-js": "^3.13.0",
+    "core-js": "^3.17.3",
     "dashjs": "^3.2.2",
     "material-design-icons": "^3.0.1",
     "material-design-icons-iconfont": "^6.1.0",
