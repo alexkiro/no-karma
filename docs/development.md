@@ -4,7 +4,7 @@
 
 Pre-requisites:
 
- - Node 14+ installed
+ - Node 16+ installed
  - Python3.8+ installed  
 
    
