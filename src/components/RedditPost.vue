@@ -293,6 +293,13 @@ export default {
   hr {
     margin: 1rem 0;
   }
+
+  max-width: 100%;
+
+  pre {
+    max-width: 95vw;
+    overflow: auto;
+  }
 }
 </style>
 

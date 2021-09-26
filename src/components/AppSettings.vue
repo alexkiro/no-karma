@@ -19,6 +19,17 @@
         </v-list-item-content>
       </v-list-item>
       <v-divider></v-divider>
+      <v-subheader>About</v-subheader>
+      <v-list-item
+        href="https://github.com/alexkiro/no-karma/"
+        target="_blank"
+        rel="noopener noreferrer"
+        referrerpolicy="no-referrer"
+      >
+        <v-icon left class="mr-8">mdi-github</v-icon>
+        Fork me on GitHub
+      </v-list-item>
+      <v-divider></v-divider>
       <v-list-item class="d-flex align-center justify-center">
         <v-switch
           v-model="$vuetify.theme.dark"
