@@ -41,4 +41,4 @@ traitlets==5.1.0
 typing-extensions==3.10.0.2
 urllib3==1.26.7
 wcwidth==0.2.5
-Werkzeug==2.0.1
+Werkzeug==2.0.2
