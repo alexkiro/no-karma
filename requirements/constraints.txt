@@ -32,7 +32,7 @@ Pygments==2.10.0
 pyparsing==2.4.7
 pytest==6.2.5
 python-dotenv==0.19.0
-regex==2021.9.24
+regex==2021.10.8
 requests==2.26.0
 six==1.16.0
 toml==0.10.2
