@@ -19,7 +19,7 @@ jobs:
       - name: Use Node.js 16.x
         uses: actions/setup-node@v2.1.5
         with:
-          node-version: 16U.x
+          node-version: 16.x
       - run: npm ci
       - run: npm audit --production
       - run: npm run test:e2e:headless -- -b ${{ matrix.browser }}
