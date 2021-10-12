@@ -23,7 +23,7 @@
           {{ post.subreddit_name_prefixed }}
           &nbsp; &middot;
         </router-link>
-        <span v-else class="text--secondary">Posted &nbsp;</span>
+        <span v-else class="text--secondary">Posted&nbsp;</span>
         <span class="text--secondary">by u/{{ post.author }}</span>
         &nbsp;
         <span class="text--secondary">
@@ -44,7 +44,11 @@
       <div
         v-if="postText"
         key="text-post"
-        class="flex-grow-1"
+        ref="textPostEl"
+        class="flex-grow-1 text-post"
+        :class="{
+          overflowing: isOverflowing,
+        }"
         v-html="postText"
       />
       <iframe
@@ -138,6 +142,7 @@ export default {
   data() {
     return {
       imageIndex: 0,
+      isOverflowing: false,
     };
   },
   computed: {
@@ -275,6 +280,16 @@ export default {
       return this.post.selftext_html || this.post.selftext;
     },
   },
+  mounted() {
+    this.$nextTick(() => {
+      this.isOverflowing = this.checkIfOverflowing(this.$refs.textPostEl);
+    });
+  },
+  methods: {
+    checkIfOverflowing(el) {
+      return el && el.scrollHeight > el.clientHeight;
+    },
+  },
 };
 </script>
 
@@ -329,7 +344,16 @@ export default {
   }
 }
 
-.embedded-media {
+.text-post {
+  max-height: 36rem;
+  overflow: hidden;
+
+  &.overflowing {
+    mask-image: linear-gradient(180deg, #000 80%, transparent);
+  }
+}
+
+.text-post .embedded-media {
   object-fit: contain;
   outline: none;
   border: none;
