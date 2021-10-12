@@ -21,5 +21,4 @@ jobs:
         with:
           node-version: 16.x
       - run: npm ci
-      - run: npm audit --production
       - run: npm run test:e2e:headless -- -b ${{ matrix.browser }}
