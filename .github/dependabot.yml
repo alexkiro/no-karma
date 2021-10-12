@@ -14,21 +14,21 @@ updates:
     # to pip against the `develop` branch
     target-branch: "main"
 
-  # Maintain dependencies for npm
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "daily"
-    open-pull-requests-limit: 10
-    # Raise pull requests for version updates
-    # to pip against the `main` branch
-    target-branch: "main"
-
-  # Maintain dependencies for pip
-  - package-ecosystem: "pip"
-    directory: "/"
-    schedule:
-      interval: "daily"
-    # Raise pull requests for version updates
-    # to pip against the `main` branch
-    target-branch: "main"
+#  # Maintain dependencies for npm
+#  - package-ecosystem: "npm"
+#    directory: "/"
+#    schedule:
+#      interval: "daily"
+#    open-pull-requests-limit: 10
+#    # Raise pull requests for version updates
+#    # to pip against the `main` branch
+#    target-branch: "main"
+#
+#  # Maintain dependencies for pip
+#  - package-ecosystem: "pip"
+#    directory: "/"
+#    schedule:
+#      interval: "daily"
+#    # Raise pull requests for version updates
+#    # to pip against the `main` branch
+#    target-branch: "main"
