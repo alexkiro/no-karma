@@ -36,9 +36,19 @@
             />
             <v-icon v-else class="grey--text" size="48">public</v-icon>
           </v-avatar>
-          <h3>
-            {{ subDetails.title }}
-          </h3>
+          <div class="d-flex justify-space-between align-center flex-grow-1">
+            <h3>
+              {{ subDetails.title }}
+            </h3>
+            <a
+              :href="redditLink"
+              class="material-icons text-decoration-none"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <v-icon dense small>open_in_new</v-icon>
+            </a>
+          </div>
         </div>
       </v-sheet>
       <keep-alive :max="5">
@@ -97,6 +107,9 @@ export default {
     },
     subredditIcon() {
       return this.getSubRedditIcon(this.subDetails);
+    },
+    redditLink() {
+      return `https://reddit.com${this.endpoint}`;
     },
   },
   watch: {
