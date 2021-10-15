@@ -25,7 +25,7 @@
 
 <script>
 import { mapActions } from "vuex";
-import RedditPost from "@/components/RedditPost";
+import RedditPost from "@/components/post/RedditPost";
 import DoubleBounceSpinner from "@/components/DoubleBounceSpinner";
 
 export default {

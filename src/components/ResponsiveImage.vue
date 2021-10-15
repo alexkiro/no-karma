@@ -54,7 +54,7 @@ export default {
       return this.normalize(this.image.source || this.image.s);
     },
     resolutions() {
-      return (this.image.resolutions || this.image.p)
+      return (this.image.resolutions || this.image.p || [])
         .map((img) => this.normalize(img))
         .reverse();
     },
