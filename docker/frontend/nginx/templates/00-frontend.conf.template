@@ -1,5 +1,6 @@
 server {
-    listen [::]:80 ipv6only=off;
+    listen 80;
+    listen [::]:80;
     server_tokens off;
     server_name $VUE_APP_HOST;
 
