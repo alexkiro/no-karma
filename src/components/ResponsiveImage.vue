@@ -80,9 +80,12 @@ export default {
 <style scoped>
 img {
   max-width: 100%;
-  height: auto;
-  object-fit: contain;
   max-height: 100%;
+
+  height: auto;
+  width: fit-content;
+
+  object-fit: contain;
 }
 
 .responsive-image {

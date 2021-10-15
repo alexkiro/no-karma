@@ -53,7 +53,7 @@
         </v-btn>
       </div>
     </div>
-    <div v-else-if="postUrl" key="link-post" class="flex-grow-1">
+    <div v-else-if="postUrl" key="link-post" class="flex-grow-1 link-post">
       <a
         :href="postUrl"
         class="caption d-flex align-center text-decoration-none"
@@ -96,6 +96,16 @@ export default {
       }
       if (this.post.media_metadata) {
         return Object.values(this.post.media_metadata);
+      }
+      if (this.post.is_reddit_media_domain && this.post.url) {
+        return [
+          {
+            source: {
+              url: this.post.url,
+            },
+            resolutions: [],
+          },
+        ];
       }
       return [];
     },

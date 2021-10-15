@@ -133,7 +133,6 @@ export default {
 .post-body-container {
   position: relative;
   overflow: hidden;
-  min-height: 4rem;
 }
 
 .blurred {
