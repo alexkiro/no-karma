@@ -5,7 +5,7 @@
 Pre-requisites:
 
  - Node 16+ installed
- - Python3.8+ installed  
+ - Python3.9+ installed  
 
    
 ### Installation
