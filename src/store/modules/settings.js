@@ -23,6 +23,7 @@ export default {
     settings: {
       autoplayVideos: false,
       mutedVideos: true,
+      showNSFW: false,
     },
   },
   mutations: {
@@ -34,11 +35,16 @@ export default {
       state.settings.mutedVideos = value;
       setLS("mutedVideos", value);
     },
+    setShowNSFW(state, value) {
+      state.settings.showNSFW = value;
+      setLS("showNSFW", value);
+    },
   },
   actions: {
     initUserSettings(context) {
       getLS(context, "autoplayVideos", "setAutoplayVideos");
       getLS(context, "mutedVideos", "setMutedVideos");
+      getLS(context, "showNSFW", "setShowNSFW");
     },
   },
   getters: {
@@ -47,6 +53,9 @@ export default {
     },
     mutedVideos(state) {
       return state.settings.mutedVideos;
+    },
+    showNSFW(state) {
+      return state.settings.showNSFW;
     },
   },
 };

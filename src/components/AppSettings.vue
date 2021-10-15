@@ -2,6 +2,7 @@
   <div>
     <v-list subheader min-width="17rem">
       <v-subheader>Settings</v-subheader>
+
       <v-list-item>
         <v-list-item-action>
           <v-checkbox v-model="autoplayVideos"></v-checkbox>
@@ -10,6 +11,7 @@
           <v-list-item-title>Auto play videos</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
+
       <v-list-item>
         <v-list-item-action>
           <v-checkbox v-model="mutedVideos"></v-checkbox>
@@ -18,6 +20,16 @@
           <v-list-item-title>Muted videos</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
+
+      <v-list-item>
+        <v-list-item-action>
+          <v-checkbox v-model="showNSFW"></v-checkbox>
+        </v-list-item-action>
+        <v-list-item-content @click="showNSFW = !showNSFW">
+          <v-list-item-title>Show NSFW</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
       <v-divider></v-divider>
       <v-subheader>About</v-subheader>
       <v-list-item
@@ -56,6 +68,10 @@ export default {
       mutedVideos: {
         getter: "mutedVideos",
         setter: "setMutedVideos",
+      },
+      showNSFW: {
+        getter: "showNSFW",
+        setter: "setShowNSFW",
       },
     }),
   },
