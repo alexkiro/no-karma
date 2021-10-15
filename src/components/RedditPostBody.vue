@@ -20,7 +20,6 @@
       allowfullscreen
       loading="lazy"
       referrerpolicy="no-referrer"
-      :sandbox="secureEmbed.sandbox"
       scrolling="no"
     />
     <v-lazy v-else-if="video" key="image-post" class="video-post">
@@ -72,17 +71,6 @@
 import ResponsiveImage from "@/components/ResponsiveImage";
 import ResponsiveVideo from "@/components/ResponsiveVideo";
 
-// XXX TBH, not sure if this is sustainable.
-// Google and others are doo-doo, and do not work while sandboxed.
-const sandboxExceptions = new Set([
-  "youtube.com",
-  "streamable.com",
-  "YouTube",
-  "BandCamp", // Looks kinda wonky :/
-  "Gfycat",
-  "imgur.com",
-]);
-
 export default {
   name: "RedditPostBody",
   components: { ResponsiveVideo, ResponsiveImage },
@@ -130,15 +118,6 @@ export default {
         !this.post.secure_media_embed.media_domain_url
       )
         return;
-      let sandbox = "allow-scripts";
-      if (this.post.secure_media) {
-        if (
-          sandboxExceptions.has(this.post.secure_media.type) ||
-          sandboxExceptions.has(this.post.secure_media.oembed.provider_name)
-        ) {
-          sandbox = undefined;
-        }
-      }
 
       const url = new URL(this.post.secure_media_embed.media_domain_url);
       // Mystery params from reddit
@@ -149,7 +128,6 @@ export default {
       );
 
       return {
-        sandbox,
         url: url.toString(),
         width: this.post.secure_media_embed.width,
         height: this.post.secure_media_embed.height,
