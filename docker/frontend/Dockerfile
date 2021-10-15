@@ -35,8 +35,10 @@ COPY docker/frontend/nginx/nginx.conf /etc/nginx/nginx.conf
 # Using the large prefix ensures that it is run after the nginx templates
 # have been generated.
 COPY docker/frontend/docker-entrypoint.d/ /docker-entrypoint.d/
+
 # Add script that can be used to renew certificates
 COPY docker/frontend/run-certbot.sh /usr/bin/
+COPY docker/frontend/enable-http2.sh /usr/bin/
 # Add healthcheck
 COPY docker/frontend/healthcheck.py /usr/bin/
 

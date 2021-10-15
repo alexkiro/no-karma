@@ -9,5 +9,5 @@ done
 
 # If successful the previous commands would will start nginx prematurely, stop it here
 nginx -s stop && sleep 1 || echo ""
-# Enable http2, see https://github.com/certbot/certbot/issues/3646
-sed -i "s/listen 443 ssl;/listen 443 ssl http2;/" /etc/nginx/conf.d/*.conf
+
+/usr/bin/enable-http2.sh
