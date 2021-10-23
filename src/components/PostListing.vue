@@ -3,13 +3,23 @@
     <double-bounce-spinner v-if="initialLoading" />
     <div>
       <v-hover v-for="post in posts" v-slot="{ hover }" :key="post.id">
-        <v-sheet
-          :elevation="hover ? 16 : 4"
-          max-width="55rem"
-          class="my-4"
-          @click.native="addToCache(post)"
-        >
-          <reddit-post :post="post" :show-sub-reddit-info="showSubRedditInfo" />
+        <v-sheet :elevation="hover ? 16 : 4" max-width="55rem" class="my-4">
+          <router-link
+            :to="{
+              name: 'post-view',
+              params: {
+                subreddit: post.subreddit,
+                postId: post.id,
+              },
+            }"
+            class="unstyled"
+          >
+            <reddit-post
+              :post="post"
+              :show-sub-reddit-info="showSubRedditInfo"
+              @click.native="addToCache(post)"
+            />
+          </router-link>
         </v-sheet>
       </v-hover>
       <div

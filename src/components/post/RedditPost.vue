@@ -1,9 +1,6 @@
 <template>
-  <router-link
-    :to="postViewRoute"
-    class="reddit-post unstyled pa-4 d-flex align-start justify-space-between"
-  >
-    <div class="flex-grow-1" @click="addToCache">
+  <div class="reddit-post pa-4 d-flex align-start justify-space-between">
+    <div class="flex-grow-1">
       <reddit-post-header
         :post="post"
         :show-sub-reddit-info="showSubRedditInfo"
@@ -122,7 +119,7 @@
     >
       <responsive-image :image="{ source: thumbnail }" class="post-thumbnail" />
     </a>
-  </router-link>
+  </div>
 </template>
 
 <script>
@@ -168,15 +165,6 @@ export default {
       if (this.showImage) return "image";
       if (this.postUrl) return "link";
       return "empty";
-    },
-    postViewRoute() {
-      return {
-        name: "post-view",
-        params: {
-          subreddit: this.post.subreddit,
-          postId: this.post.id,
-        },
-      };
     },
     isNSFW() {
       return !this.showNSFW && this.post.over_18;
@@ -321,9 +309,6 @@ export default {
     });
   },
   methods: {
-    addToCache() {
-      this.$store.commit("cachePost", { ...this.post });
-    },
     checkIfOverflowing(el) {
       return el && el.scrollHeight > el.clientHeight;
     },
