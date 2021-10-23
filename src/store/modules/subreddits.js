@@ -44,11 +44,11 @@ export default {
       }
     },
     async getSubRedditDetails(context, subName) {
-      subName = subName.toLocaleString();
-      let subDetails = context.state.rSubs.find(
-        (sub) => sub.display_name.toLowerCase === subName
+      subName = subName.toLowerCase();
+      const cachedSubDetails = context.state.rSubs.find(
+        (sub) => sub.display_name.toLowerCase() === subName
       );
-      if (subDetails) return;
+      if (cachedSubDetails) return cachedSubDetails;
 
       const response = await context.dispatch("apiCall", {
         method: "GET",
