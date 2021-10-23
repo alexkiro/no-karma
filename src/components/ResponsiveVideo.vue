@@ -1,5 +1,13 @@
 <template>
-  <video controls muted class="hosted-video"></video>
+  <video
+    controls
+    muted
+    class="hosted-video"
+    :style="{
+      width: video.width + 'px',
+      height: video.height + 'px',
+    }"
+  ></video>
 </template>
 
 <script>
@@ -43,8 +51,7 @@ export default {
   object-fit: contain;
   outline: none;
   max-height: 36rem;
-  height: 100%;
-  width: 100%;
+  max-width: 100%;
   background-color: black;
 }
 </style>

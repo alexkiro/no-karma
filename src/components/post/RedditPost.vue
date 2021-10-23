@@ -257,19 +257,25 @@ export default {
         "is_nightmode",
         this.$vuetify.theme.dark.toString()
       );
-
       return {
         url: url.toString(),
-        width: this.post.secure_media_embed.width,
-        height: this.post.secure_media_embed.height,
+        ...this.getBestFit(
+          this.post.secure_media_embed.width,
+          this.post.secure_media_embed.height
+        ),
       };
     },
     video() {
-      return (
+      const videoData =
         (this.post.secure_media && this.post.secure_media.reddit_video) ||
         (this.post.preview && this.post.preview.reddit_video_preview) ||
-        (this.post.media && this.post.media.reddit_video)
-      );
+        (this.post.media && this.post.media.reddit_video);
+      if (!videoData) return;
+
+      return {
+        ...videoData,
+        ...this.getBestFit(videoData.width, videoData.height),
+      };
     },
     postUrl() {
       if (
@@ -311,6 +317,19 @@ export default {
   methods: {
     checkIfOverflowing(el) {
       return el && el.scrollHeight > el.clientHeight;
+    },
+    getBestFit(width, height) {
+      const maxWidth = Math.min(window.innerWidth, 55 * 16);
+      const maxHeight = Math.min(window.innerHeight, 36 * 16);
+
+      const widthRatio = maxWidth / width;
+      const heightRatio = maxHeight / height;
+      const bestRatio = Math.min(widthRatio, heightRatio);
+
+      return {
+        width: width * bestRatio,
+        height: height * bestRatio,
+      };
     },
   },
 };
@@ -383,12 +402,7 @@ export default {
 
 .video-post,
 .embedded-media {
-  width: 100%;
   max-height: 36rem;
-
-  @media #{map-get($display-breakpoints, 'md-and-up')} {
-    max-height: 36rem;
-  }
 }
 
 .text-post {
