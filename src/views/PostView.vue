@@ -2,7 +2,6 @@
   <div>
     <subreddit-header :subreddit="subreddit" />
     <main class="d-flex flex-grow-1 justify-space-around">
-      <double-bounce-spinner v-if="initialLoading" />
       <v-sheet max-width="55rem" class="my-4">
         <reddit-post
           v-if="post"
@@ -16,14 +15,13 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import SubredditHeader from "@/components/SubredditHeader";
 import RedditPost from "@/components/post/RedditPost";
-import DoubleBounceSpinner from "@/components/DoubleBounceSpinner";
 
 export default {
   name: "PostView",
-  components: { DoubleBounceSpinner, RedditPost, SubredditHeader },
+  components: { RedditPost, SubredditHeader },
   props: {
     subreddit: {
       type: String,
@@ -42,16 +40,14 @@ export default {
   data() {
     return {
       initialLoading: true,
+      post: null,
       comments: [],
     };
   },
   computed: {
+    ...mapGetters(["postCache"]),
     commentsEndpoint() {
       return `/r/${this.subreddit}/comments/${this.postId}`;
-    },
-    post() {
-      if (!this.comments[0]) return;
-      return this.comments[0].data.children[0].data;
     },
   },
   mounted() {
@@ -62,6 +58,7 @@ export default {
     async loadComments() {
       this.initialLoading = true;
       try {
+        this.post = this.postCache.get(this.postId);
         this.comments = await this.apiCall({
           endpoint: this.commentsEndpoint,
           params: {
@@ -69,6 +66,9 @@ export default {
             sr_detail: false,
           },
         });
+        if (!this.post && this.comments[0]) {
+          this.post = this.comments[0].data.children[0].data;
+        }
       } finally {
         this.initialLoading = false;
       }

@@ -4,6 +4,7 @@ import Vuex from "vuex";
 import api from "@/store/modules/api";
 import env from "@/store/modules/env";
 import user from "@/store/modules/user";
+import posts from "@/store/modules/posts";
 import subreddits from "@/store/modules/subreddits";
 import locale from "@/store/modules/locale";
 import settings from "@/store/modules/settings";
@@ -45,6 +46,7 @@ export default new Vuex.Store({
      */
     clearStore(context) {
       context.commit("clearUser");
+      context.commit("clearPosts");
       context.commit("clearRSubs");
     },
   },
@@ -52,6 +54,7 @@ export default new Vuex.Store({
     env,
     api,
     user,
+    posts,
     locale,
     settings,
     subreddits,

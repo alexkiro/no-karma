@@ -3,7 +3,7 @@
     :to="postViewRoute"
     class="reddit-post unstyled pa-4 d-flex align-start justify-space-between"
   >
-    <div class="flex-grow-1">
+    <div class="flex-grow-1" @click="addToCache">
       <reddit-post-header
         :post="post"
         :show-sub-reddit-info="showSubRedditInfo"
@@ -321,6 +321,9 @@ export default {
     });
   },
   methods: {
+    addToCache() {
+      this.$store.commit("cachePost", { ...this.post });
+    },
     checkIfOverflowing(el) {
       return el && el.scrollHeight > el.clientHeight;
     },

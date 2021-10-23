@@ -2,8 +2,13 @@
   <div class="d-flex flex-grow-1 justify-space-around">
     <double-bounce-spinner v-if="initialLoading" />
     <div>
-      <v-hover v-for="post in posts" v-slot="{ hover }" :key="post.name">
-        <v-sheet :elevation="hover ? 16 : 4" max-width="55rem" class="my-4">
+      <v-hover v-for="post in posts" v-slot="{ hover }" :key="post.id">
+        <v-sheet
+          :elevation="hover ? 16 : 4"
+          max-width="55rem"
+          class="my-4"
+          @click.native="addToCache(post)"
+        >
           <reddit-post :post="post" :show-sub-reddit-info="showSubRedditInfo" />
         </v-sheet>
       </v-hover>
@@ -66,6 +71,9 @@ export default {
   },
   methods: {
     ...mapActions(["apiCall"]),
+    addToCache(post) {
+      this.$store.commit("cachePost", { ...post });
+    },
     async getData() {
       // Check if we are already loading something, and NOOP in that case.
       if (this.loading) return;
