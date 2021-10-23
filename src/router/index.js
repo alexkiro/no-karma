@@ -21,7 +21,7 @@ const routes = [
     props: true,
   },
   {
-    path: "/r/:subreddit/post/:postId/:sort?",
+    path: "/r/:subreddit/comments/:postId/:sort?",
     name: "post-view",
     component: PostView,
     props: true,
