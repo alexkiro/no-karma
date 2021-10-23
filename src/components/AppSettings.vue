@@ -42,6 +42,7 @@
         Fork me on GitHub
       </v-list-item>
       <v-divider></v-divider>
+      <v-subheader>Dark mode</v-subheader>
       <v-list-item class="d-flex align-center justify-center">
         <v-switch
           v-model="$vuetify.theme.dark"
