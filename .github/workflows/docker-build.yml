@@ -7,8 +7,7 @@ on:
   push:
     branches:
       - 'main'
-    tags:
-      - '*'
+
 env:
   REGISTRY: ghcr.io
 
@@ -40,9 +39,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ github.repository }}-${{ matrix.image }}
           tags: |
-            type=edge
-            type=schedule
-            type=ref,event=tag
+            type=raw,value=latest
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
