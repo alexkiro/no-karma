@@ -81,7 +81,7 @@ export default {
       return this.getSubRedditIcon(this.subDetails);
     },
     redditLink() {
-      return `https://reddit.com${this.endpoint}`;
+      return `https://reddit.com/r/${this.subreddit}`;
     },
   },
   watch: {
