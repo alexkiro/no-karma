@@ -167,14 +167,24 @@ export default {
     thumbnail() {
       if (
         !this.post.thumbnail ||
+        this.post.thumbnail === "default" ||
         this.post.thumbnail === "self" ||
         !this.post.thumbnail_height ||
         !this.post.thumbnail_width
       )
         return;
 
+      let url;
+      try {
+        // Make sure this is an URL and not some weird
+        // Reddit thing.
+        url = new URL(this.post.thumbnail);
+      } catch (e) {
+        return;
+      }
+
       return {
-        url: this.post.thumbnail,
+        url: url.toString(),
         height: this.post.thumbnail_height,
         width: this.post.thumbnail_width,
       };
