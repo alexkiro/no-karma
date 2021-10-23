@@ -7,7 +7,6 @@ on:
   push:
     branches:
       - 'main'
-      - 'develop'
     tags:
       - '*'
 env:
@@ -40,10 +39,10 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: ${{ env.REGISTRY }}/${{ github.repository }}-${{ matrix.image }}
-          flavor: |
-            latest=auto
-            prefix=
-            suffix=
+          tags: |
+            type=edge
+            type=schedule
+            type=ref,event=tag
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
