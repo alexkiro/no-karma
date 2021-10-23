@@ -3,23 +3,23 @@
     <v-list subheader min-width="17rem">
       <v-subheader>Settings</v-subheader>
 
-      <v-list-item>
-        <v-list-item-action>
-          <v-checkbox v-model="autoplayVideos"></v-checkbox>
-        </v-list-item-action>
-        <v-list-item-content @click="autoplayVideos = !autoplayVideos">
-          <v-list-item-title>Auto play videos</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
+      <!--      <v-list-item>-->
+      <!--        <v-list-item-action>-->
+      <!--          <v-checkbox v-model="autoplayVideos"></v-checkbox>-->
+      <!--        </v-list-item-action>-->
+      <!--        <v-list-item-content @click="autoplayVideos = !autoplayVideos">-->
+      <!--          <v-list-item-title>Auto play videos</v-list-item-title>-->
+      <!--        </v-list-item-content>-->
+      <!--      </v-list-item>-->
 
-      <v-list-item>
-        <v-list-item-action>
-          <v-checkbox v-model="mutedVideos"></v-checkbox>
-        </v-list-item-action>
-        <v-list-item-content @click="mutedVideos = !mutedVideos">
-          <v-list-item-title>Muted videos</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
+      <!--      <v-list-item>-->
+      <!--        <v-list-item-action>-->
+      <!--          <v-checkbox v-model="mutedVideos"></v-checkbox>-->
+      <!--        </v-list-item-action>-->
+      <!--        <v-list-item-content @click="mutedVideos = !mutedVideos">-->
+      <!--          <v-list-item-title>Muted videos</v-list-item-title>-->
+      <!--        </v-list-item-content>-->
+      <!--      </v-list-item>-->
 
       <v-list-item>
         <v-list-item-action>
