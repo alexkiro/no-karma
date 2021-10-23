@@ -1,6 +1,9 @@
 name: Create and publish a Docker image
 
 on:
+  schedule:
+    # Schedule daily builds for security updates
+    - cron: '0 0 * * *'
   push:
     branches:
       - 'main'
@@ -37,6 +40,10 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: ${{ env.REGISTRY }}/${{ github.repository }}-${{ matrix.image }}
+          flavor: |
+            latest=auto
+            prefix=
+            suffix=
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
