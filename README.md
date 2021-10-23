@@ -2,7 +2,8 @@
 
 Reddit Client built with vuetify, as seen here: https://no-karma.app/
 
-[![E2E tests](https://github.com/alexkiro/no-karma/actions/workflows/e2e.yml/badge.svg)](https://github.com/alexkiro/no-karma/actions/workflows/e2e.yml) 
+[![Docker Build](https://github.com/alexkiro/no-karma/actions/workflows/docker-build.yml/badge.svg)](https://github.com/alexkiro/no-karma/actions/workflows/docker-build.yml)
+[![E2E Tests](https://github.com/alexkiro/no-karma/actions/workflows/e2e.yml/badge.svg)](https://github.com/alexkiro/no-karma/actions/workflows/e2e.yml) 
 [![CodeQL](https://github.com/alexkiro/no-karma/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/alexkiro/no-karma/actions/workflows/codeql-analysis.yml)
 
 
