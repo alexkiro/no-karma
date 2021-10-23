@@ -104,7 +104,7 @@
       :href="postUrl"
       target="_blank"
       rel="noopener noreferrer"
-      class="ml-4 mr-2 my-2 d-flex justify-center align-center"
+      class="d-none ml-4 mr-2 my-2 d-sm-flex justify-center align-center"
     >
       <responsive-image :image="{ source: thumbnail }" class="post-thumbnail" />
     </a>
