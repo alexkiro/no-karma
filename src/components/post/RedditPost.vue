@@ -1,5 +1,8 @@
 <template>
-  <div class="reddit-post pa-4 d-flex align-start justify-space-between">
+  <router-link
+    :to="postViewRoute"
+    class="reddit-post unstyled pa-4 d-flex align-start justify-space-between"
+  >
     <div class="flex-grow-1">
       <reddit-post-header
         :post="post"
@@ -17,6 +20,7 @@
             ref="textPostEl"
             class="flex-grow-1 text-post"
             :class="{
+              full: showFullPost,
               overflowing: isOverflowing,
             }"
             v-html="postText"
@@ -51,22 +55,22 @@
               :image="currentImage"
               :alt="post.title"
             />
-            <div v-if="images.length > 1" class="image-controls">
+            <div v-if="images.length > 1" class="image-controls px-1">
               <v-btn
                 v-visible="imageIndex > 0"
-                elevation="8"
+                elevation="4"
                 fab
                 small
-                @click="imageIndex -= 1"
+                @click.stop.prevent="imageIndex -= 1"
               >
                 <v-icon> navigate_before </v-icon>
               </v-btn>
               <v-btn
                 v-visible="imageIndex < images.length - 1"
-                elevation="8"
+                elevation="4"
                 fab
                 small
-                @click="imageIndex += 1"
+                @click.stop.prevent="imageIndex += 1"
               >
                 <v-icon> navigate_next </v-icon>
               </v-btn>
@@ -91,8 +95,18 @@
         <v-fade-transition>
           <!-- Use an overlay here in case the post has a -->
           <!-- color that makes the text invisible-->
-          <v-overlay v-if="isBlurred" absolute>
-            <v-btn x-large tile outlined @click="manualShowConfirmed = true">
+          <v-overlay
+            v-if="isBlurred"
+            absolute
+            class="normal-cursor"
+            @click.native.stop.prevent=""
+          >
+            <v-btn
+              x-large
+              tile
+              outlined
+              @click.stop.prevent="manualShowConfirmed = true"
+            >
               Show {{ blurReason }}
             </v-btn>
           </v-overlay>
@@ -108,7 +122,7 @@
     >
       <responsive-image :image="{ source: thumbnail }" class="post-thumbnail" />
     </a>
-  </div>
+  </router-link>
 </template>
 
 <script>
@@ -130,6 +144,11 @@ export default {
       required: false,
       default: true,
     },
+    showFullPost: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   data() {
     return {
@@ -149,6 +168,15 @@ export default {
       if (this.showImage) return "image";
       if (this.postUrl) return "link";
       return "empty";
+    },
+    postViewRoute() {
+      return {
+        name: "post-view",
+        params: {
+          subreddit: this.post.subreddit,
+          postId: this.post.id,
+        },
+      };
     },
     isNSFW() {
       return !this.showNSFW && this.post.over_18;
@@ -326,6 +354,10 @@ export default {
 </style>
 
 <style scoped lang="scss">
+.reddit-post {
+  cursor: pointer;
+}
+
 .post-body-container {
   position: relative;
   overflow: hidden;
@@ -377,6 +409,11 @@ export default {
 
   &.overflowing {
     mask-image: linear-gradient(180deg, #000 80%, transparent);
+  }
+
+  &.full {
+    max-height: unset;
+    mask-image: none;
   }
 }
 

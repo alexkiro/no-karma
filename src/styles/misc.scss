@@ -1,3 +1,12 @@
+.v-application a.unstyled {
+  color: unset;
+  text-decoration: none;
+}
+
+.normal-cursor {
+  cursor: default;
+}
+
 .v-navigation-drawer__content {
   overflow: auto;
 

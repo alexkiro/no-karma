@@ -2,8 +2,10 @@
   <v-app v-if="loaded" id="app">
     <subreddit-sidebar />
     <v-main>
-      <router-view v-if="online" class="router-view" />
-      <offline-view v-else />
+      <keep-alive :max="5">
+        <router-view v-if="online" :key="$route.fullPath" class="router-view" />
+      </keep-alive>
+      <offline-view v-if="!online" />
     </v-main>
   </v-app>
 </template>

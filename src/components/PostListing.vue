@@ -3,12 +3,7 @@
     <double-bounce-spinner v-if="initialLoading" />
     <div>
       <v-hover v-for="post in posts" v-slot="{ hover }" :key="post.name">
-        <v-sheet
-          :elevation="hover ? 16 : 4"
-          max-width="55rem"
-          class="my-4"
-          @click="selectedPost = post"
-        >
+        <v-sheet :elevation="hover ? 16 : 4" max-width="55rem" class="my-4">
           <reddit-post :post="post" :show-sub-reddit-info="showSubRedditInfo" />
         </v-sheet>
       </v-hover>
@@ -51,7 +46,6 @@ export default {
       nextParams: {},
       posts: [],
       uniqueIds: new Set(),
-      selectedPost: null,
     };
   },
   computed: {
@@ -63,7 +57,6 @@ export default {
     endpoint() {
       this.posts = [];
       this.nextParams = {};
-      this.selectedPost = null;
       this.getData();
     },
   },
