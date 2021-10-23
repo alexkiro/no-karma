@@ -335,31 +335,6 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.post-body .md {
-  h1,
-  h2,
-  h3,
-  h5,
-  h5,
-  h6 {
-    margin: 2rem 0;
-    line-height: 1;
-  }
-
-  hr {
-    margin: 1rem 0;
-  }
-
-  max-width: 100%;
-
-  pre {
-    max-width: 95vw;
-    overflow: auto;
-  }
-}
-</style>
-
 <style scoped lang="scss">
 .reddit-post {
   cursor: pointer;

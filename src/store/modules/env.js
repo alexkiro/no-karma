@@ -54,5 +54,8 @@ export default {
     videoBase(state) {
       return state.envConfig.VUE_APP_VIDEO_HOST;
     },
+    avatarBase(state) {
+      return `${window.location.protocol}//${state.envConfig.VUE_APP_AVATAR_HOST}`;
+    },
   },
 };

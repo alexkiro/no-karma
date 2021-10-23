@@ -53,6 +53,7 @@ export default {
 <style lang="scss">
 @import "styles/misc";
 @import "styles/theme";
+@import "styles/md";
 
 @font-face {
   font-family: "Rubik";
