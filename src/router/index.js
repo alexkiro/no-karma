@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "@/views/Home";
+import PostListView from "@/views/PostListView";
 import OAuthRedirect from "@/views/OAuthRedirect";
 import Logout from "@/views/Logout";
 
@@ -10,13 +10,13 @@ const routes = [
   {
     path: "/:sort?",
     name: "home",
-    component: Home,
+    component: PostListView,
     props: true,
   },
   {
     path: "/r/:subreddit/:sort?",
     name: "home-sub",
-    component: Home,
+    component: PostListView,
     props: true,
   },
   {
