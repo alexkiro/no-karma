@@ -3,47 +3,48 @@
     <subreddit-sidebar />
     <v-main>
       <keep-alive :max="5">
-        <router-view v-if="online" :key="$route.fullPath" class="router-view" />
+        <router-view v-if="!error" :key="$route.fullPath" class="router-view" />
       </keep-alive>
-      <offline-view v-if="!online" />
+      <error-view v-if="error" />
     </v-main>
   </v-app>
 </template>
 
 <script>
-import SubredditSidebar from "@/components/SubredditSidebar";
-import OfflineView from "@/views/OfflineView";
 import EventBus from "@/lib/event-bus";
+import SubredditSidebar from "@/components/SubredditSidebar";
+import ErrorView from "@/views/ErrorView";
+
 export default {
-  components: { OfflineView, SubredditSidebar },
+  components: { ErrorView, SubredditSidebar },
   data() {
     return {
       theme: "dark",
       loaded: false,
-      online: true,
+      error: false,
     };
   },
   watch: {
     "$vuetify.theme.dark"(dark) {
       this.setLocalStorage("theme", dark ? "dark" : "light");
     },
+    $route() {
+      this.error = false;
+    },
   },
   mounted() {
     this.$vuetify.theme.dark =
       (this.getLocalStorage("theme") || "dark") === "dark";
+
+    EventBus.$on(EventBus.events.apiReadError, this.onApiError);
+    EventBus.$on(EventBus.events.apiUnknownError, this.onApiError);
+    EventBus.$on(EventBus.events.apiConnectError, this.onApiError);
+
     this.$store.dispatch("initStore").finally(() => (this.loaded = true));
-    EventBus.$on(EventBus.events.apiConnectError, this.onConnectError);
-    window.addEventListener("online", this.onOnline);
   },
   methods: {
-    async onOnline() {
-      if (this.online === false) {
-        await this.$store.dispatch("initStore");
-      }
-      this.online = true;
-    },
-    onConnectError() {
-      this.online = navigator.onLine;
+    onApiError() {
+      this.error = true;
     },
   },
 };
