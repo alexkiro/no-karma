@@ -36,5 +36,14 @@ Cypress.Commands.add("interceptXHR", (url, response) => {
     "Access-Control-Allow-Origin": window.location.origin,
     "Access-Control-Allow-Credentials": "true",
   };
-  return cy.intercept(url, response);
+  return cy.intercept(url, async (req) => {
+    console.log(
+      "Intercepted request",
+      req.method,
+      req.url,
+      "fixture:",
+      response.fixture
+    );
+    req.reply(response);
+  });
 });

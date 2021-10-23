@@ -20,10 +20,13 @@ sizes.forEach((size) => {
       } else {
         cy.viewport(size);
       }
-      cy.interceptXHR("/api/v1/me", { fixture: "anon/me.json" });
-      cy.interceptXHR("/subreddits/mine/subscriber", {
-        fixture: "anon/subscriber.json",
-      });
+      cy.interceptXHR({ pathname: "/api/v1/me" }, { fixture: "anon/me.json" });
+      cy.interceptXHR(
+        { pathname: "/subreddits/mine/subscriber" },
+        {
+          fixture: "anon/subscriber.json",
+        }
+      );
       cy.interceptXHR({ pathname: "/best" }, { fixture: "anon/posts1.json" });
       cy.interceptXHR(
         { pathname: "/r/popular/best" },
@@ -33,10 +36,7 @@ sizes.forEach((size) => {
     it("Check main page", () => {
       cy.visit("/");
       cy.contains(".v-toolbar__title", "no-karma");
-      cy.contains(
-        ":nth-child(1) > .reddit-post > .text-h5",
-        "This game use to be my life"
-      );
+      cy.contains(".reddit-post .post-title", "This game use to be my life");
     });
     it("Change to r/popular", () => {
       cy.visit("/");
@@ -45,10 +45,7 @@ sizes.forEach((size) => {
       }
       cy.get('[href="/r/popular"]').click();
       cy.contains(".v-toolbar__title", "popular");
-      cy.contains(
-        ":nth-child(1) > .reddit-post > .text-h5",
-        "This is our new tree!"
-      );
+      cy.contains(".reddit-post .post-title", "This is our new tree!");
     });
   });
 });
