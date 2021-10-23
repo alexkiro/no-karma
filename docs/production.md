@@ -2,10 +2,11 @@
  
 ### Prerequisites
 
- - Have 3 hostnames available for:
+ - Have 4 hostnames available for:
    - frontend app host
    - api proxy host
    - video proxy host 
+   - host for avatar service (https://github.com/dicebear/api) 
  - Docker and docker-compose installed
 
 ### Deploying with Docker

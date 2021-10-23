@@ -9,6 +9,10 @@ services:
       - .env.local
     restart: always
 
+  avatar:
+    image: ghcr.io/alexkiro/dicebear-api:latest
+    restart: always
+
   frontend:
     build:
       dockerfile: "./docker/frontend/Dockerfile"
