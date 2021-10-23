@@ -41,7 +41,7 @@ REDDIT_OAUTH_REDIRECT_URI = f"{VUE_APP_URL}/_oauth/redirect"
 REDDIT_OAUTH_USER_AGENT = f"web:{REDDIT_OAUTH_APP_NAME}:{__version__} (by /u/alexkiro)"
 REDDIT_OAUTH_SCOPES = " ".join(
     [
-        "identity",
+        "identity",  # Required to get user details
         # "edit",
         # "flair",
         # "history",
@@ -50,16 +50,16 @@ REDDIT_OAUTH_SCOPES = " ".join(
         # "modlog",
         # "modposts",
         # "modwiki",
-        "mysubreddits",
+        "mysubreddits",  # Required to get the list of subreddits
         # "privatemessages",
-        "read",
+        "read",  # Required to get posts
         # "report",
         # "save",
         # "submit",
-        "subscribe",
-        "vote",
+        # "subscribe",
+        # "vote",
         # "wikiedit",
-        "wikiread",
+        # "wikiread",
     ]
 )
 
