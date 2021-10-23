@@ -8,11 +8,6 @@ services:
     env_file:
       - .env.local
     restart: always
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10k"
-        max-file: "5"
 
   frontend:
     build:
@@ -26,11 +21,6 @@ services:
     restart: always
     volumes:
       - letsencrypt:/etc/letsencrypt
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10k"
-        max-file: "5"
     labels:
       ofelia.enabled: "true"
       ofelia.job-exec.certbotcron.schedule: "@midnight"
@@ -44,11 +34,6 @@ services:
     restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "200k"
-        max-file: "10"
 
 volumes:
   letsencrypt:
