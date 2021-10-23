@@ -91,7 +91,7 @@
           </v-tooltip>
         </v-list>
         <div
-          v-if="hasMoreRSubs"
+          v-if="hasMoreSubscribedSubreddits"
           v-intersect="loadRSubs"
           class="load-more-trigger d-flex align-center justify-center"
         >
@@ -154,7 +154,11 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["user", "rSubs", "hasMoreRSubs"]),
+    ...mapGetters([
+      "user",
+      "subscribedSubreddits",
+      "hasMoreSubscribedSubreddits",
+    ]),
     menuItems() {
       return [
         {
@@ -196,7 +200,7 @@ export default {
       ];
     },
     communities() {
-      return this.rSubs.map((sub) => {
+      return this.subscribedSubreddits.map((sub) => {
         return {
           to: {
             name: "home-sub",

@@ -1,7 +1,7 @@
 function initialState() {
   return {
     nextParams: {},
-    rSubs: [],
+    subscribedSubreddits: {},
   };
 }
 
@@ -17,12 +17,21 @@ export default {
     },
     addRSubs(state, { after, children }) {
       // TODO: don't store unnecessary data.
-      state.rSubs = [...state.rSubs, ...children.map((child) => child.data)];
+      const newSubs = {};
+      children.forEach((child) => {
+        newSubs[child.data.display_name.toLowerCase()] = child.data;
+      });
+
+      state.subscribedSubreddits = {
+        ...state.subscribedSubreddits,
+        ...newSubs,
+      };
+
       if (after) {
         // Store next params to load more
         state.nextParams = {
           after,
-          count: state.rSubs.length,
+          count: Object.keys(state.subscribedSubreddits).length,
         };
       } else {
         state.nextParams = {};
@@ -45,7 +54,7 @@ export default {
     },
     async getSubRedditDetails(context, subName) {
       subName = subName.toLowerCase();
-      const cachedSubDetails = context.state.rSubs.find(
+      const cachedSubDetails = context.getters.subscribedSubreddits.find(
         (sub) => sub.display_name.toLowerCase() === subName
       );
       if (cachedSubDetails) return cachedSubDetails;
@@ -58,10 +67,10 @@ export default {
     },
   },
   getters: {
-    rSubs(state) {
-      return state.rSubs;
+    subscribedSubreddits(state) {
+      return Object.values(state.subscribedSubreddits);
     },
-    hasMoreRSubs(state) {
+    hasMoreSubscribedSubreddits(state) {
       return !!state.nextParams.after;
     },
   },
