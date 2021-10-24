@@ -39,7 +39,7 @@ export default {
     factor: {
       type: Number,
       required: false,
-      default: 0.5,
+      default: 1,
     },
   },
   data() {
@@ -53,9 +53,11 @@ export default {
       return this.normalize(this.image.source || this.image.s);
     },
     resolutions() {
-      return (this.image.resolutions || this.image.p || [])
-        .map((img) => this.normalize(img))
-        .reverse();
+      const result = (this.image.resolutions || this.image.p || []).map((img) =>
+        this.normalize(img)
+      );
+      result.push(this.source);
+      return result.reverse();
     },
   },
   mounted() {
