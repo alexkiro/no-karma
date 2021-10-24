@@ -55,7 +55,6 @@ export default {
       initialLoading: true,
       post: null,
       comments: [],
-      x: [],
     };
   },
   computed: {
@@ -85,13 +84,6 @@ export default {
         }
 
         this.comments = response[1].data.children;
-
-        const ids = this.comments.map(
-          (comment) => comment.data.author_fullname
-        );
-        this.x = await this.apiCall({
-          endpoint: `/by_ids/${ids[0]}`,
-        });
       } finally {
         this.initialLoading = false;
       }
