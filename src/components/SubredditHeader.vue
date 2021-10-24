@@ -20,7 +20,15 @@
       elevation="8"
       class="d-flex align-center justify-center pa-2"
     >
-      <div class="d-flex align-center flex-grow-1 sub-title">
+      <router-link
+        :to="{
+          name: 'home-sub',
+          params: {
+            subreddit,
+          },
+        }"
+        class="sub-title unstyled d-flex align-center flex-grow-1"
+      >
         <v-avatar size="80" class="sub-icon mr-4 grey--text elevation-4">
           <img
             v-if="subredditIcon"
@@ -47,7 +55,7 @@
             <v-icon dense small>open_in_new</v-icon>
           </a>
         </div>
-      </div>
+      </router-link>
     </v-sheet>
   </div>
 </template>
