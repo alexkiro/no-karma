@@ -12,6 +12,14 @@
           />
         </v-sheet>
 
+        <div class="text-center">
+          <v-progress-circular
+            v-if="initialLoading"
+            indeterminate
+            color="grey lighten-5"
+          />
+        </div>
+
         <v-sheet
           v-for="comment in comments"
           :key="comment.data.id"
