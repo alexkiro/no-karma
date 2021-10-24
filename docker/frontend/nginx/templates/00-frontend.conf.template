@@ -26,11 +26,6 @@ server {
     location / {
         include /etc/nginx/conf.d/secure-headers;
 
-        sendfile on;
-        tcp_nopush on;
-        gzip on;
-        gzip_min_length 1500;
-        gzip_types text/plain text/css application/javascript application/json;
         # For added speed boost we could in theory set theses as immutable for
         # the cache as we always have hashes at the end of resources.
         expires 365d;
