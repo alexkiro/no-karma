@@ -96,9 +96,10 @@ export default {
 .post-view {
   max-width: 100vw;
   margin: auto;
+  overflow: hidden;
 }
 
 .comment-body {
-  word-break: break-all;
+  word-break: break-word;
 }
 </style>
