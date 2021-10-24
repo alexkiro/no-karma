@@ -1,5 +1,8 @@
 <template>
-  <div class="reddit-post pa-4 d-flex align-start justify-space-between">
+  <div
+    class="reddit-post pa-4 d-flex align-start justify-space-between"
+    :class="{ full: showFullPost }"
+  >
     <div class="flex-grow-1">
       <reddit-post-header
         :post="post"
@@ -17,7 +20,6 @@
             ref="textPostEl"
             class="flex-grow-1 text-post"
             :class="{
-              full: showFullPost,
               overflowing: isOverflowing,
             }"
             v-html="postText"
@@ -387,8 +389,11 @@ export default {
   &.overflowing {
     mask-image: linear-gradient(180deg, #000 80%, transparent);
   }
+}
 
-  &.full {
+.reddit-post.full {
+  .text-post,
+  .image-post {
     max-height: unset;
     mask-image: none;
   }
