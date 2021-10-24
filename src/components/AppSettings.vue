@@ -3,30 +3,32 @@
     <v-list subheader min-width="17rem">
       <v-subheader>Settings</v-subheader>
 
-      <!--      <v-list-item>-->
-      <!--        <v-list-item-action>-->
-      <!--          <v-checkbox v-model="autoplayVideos"></v-checkbox>-->
-      <!--        </v-list-item-action>-->
-      <!--        <v-list-item-content @click="autoplayVideos = !autoplayVideos">-->
-      <!--          <v-list-item-title>Auto play videos</v-list-item-title>-->
-      <!--        </v-list-item-content>-->
-      <!--      </v-list-item>-->
-
-      <!--      <v-list-item>-->
-      <!--        <v-list-item-action>-->
-      <!--          <v-checkbox v-model="mutedVideos"></v-checkbox>-->
-      <!--        </v-list-item-action>-->
-      <!--        <v-list-item-content @click="mutedVideos = !mutedVideos">-->
-      <!--          <v-list-item-title>Muted videos</v-list-item-title>-->
-      <!--        </v-list-item-content>-->
-      <!--      </v-list-item>-->
-
-      <v-list-item>
+      <v-list-item class="pointer-cursor" @click="showNSFW = !showNSFW">
         <v-list-item-action>
-          <v-checkbox v-model="showNSFW"></v-checkbox>
+          <v-checkbox :input-value="showNSFW" />
         </v-list-item-action>
-        <v-list-item-content @click="showNSFW = !showNSFW">
-          <v-list-item-title>Show NSFW</v-list-item-title>
+
+        <v-list-item-content>
+          <v-list-item-title>NSFW</v-list-item-title>
+          <v-list-item-subtitle>
+            Don't blur over 18 posts
+          </v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-list-item
+        class="pointer-cursor"
+        @click="showRedditLinks = !showRedditLinks"
+      >
+        <v-list-item-action>
+          <v-checkbox :input-value="showRedditLinks" />
+        </v-list-item-action>
+
+        <v-list-item-content>
+          <v-list-item-title>Reddit Links</v-list-item-title>
+          <v-list-item-subtitle>
+            Add links to the original posts on Reddit
+          </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
 
@@ -60,6 +62,11 @@ import mapStore from "@/lib/mapStore";
 
 export default {
   name: "AppSettings",
+  data() {
+    return {
+      settings: [],
+    };
+  },
   computed: {
     ...mapStore({
       autoplayVideos: {
@@ -73,6 +80,10 @@ export default {
       showNSFW: {
         getter: "showNSFW",
         setter: "setShowNSFW",
+      },
+      showRedditLinks: {
+        getter: "showRedditLinks",
+        setter: "setShowRedditLinks",
       },
     }),
   },

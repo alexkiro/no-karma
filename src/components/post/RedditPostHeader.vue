@@ -30,6 +30,7 @@
       </span>
     </div>
     <a
+      v-if="showRedditLinks"
       :href="redditLink"
       class="material-icons text-decoration-none"
       target="_blank"
@@ -41,6 +42,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "RedditPostHeader",
   props: {
@@ -55,6 +58,7 @@ export default {
     },
   },
   computed: {
+    ...mapGetters(["showRedditLinks"]),
     toSubRedditPage() {
       return {
         name: "home-sub",

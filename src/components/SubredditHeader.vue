@@ -40,6 +40,7 @@
             {{ subDetails.title }}
           </h3>
           <a
+            v-if="showRedditLinks"
             :href="redditLink"
             class="material-icons text-decoration-none"
             target="_blank"
@@ -54,7 +55,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "SubredditHeader",
@@ -70,6 +71,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(["showRedditLinks"]),
     bannerColor() {
       return (
         this.subDetails.banner_background_color ||
