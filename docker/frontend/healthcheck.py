@@ -12,6 +12,10 @@ responses = [
         "http://localhost/robots.txt",
         headers={"Host": os.environ["VUE_APP_VIDEO_HOST"]},
     ),
+    requests.get(
+        "http://localhost/",
+        headers={"Host": os.environ["VUE_APP_AVATAR_HOST"]},
+    ),
 ]
 
 for response in responses:
