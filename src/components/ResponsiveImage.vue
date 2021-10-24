@@ -13,7 +13,6 @@
       <img
         loading="lazy"
         :src="source.url"
-        rel="noopener noreferrer"
         referrerpolicy="no-referrer"
         :alt="alt"
         :width="source.width"

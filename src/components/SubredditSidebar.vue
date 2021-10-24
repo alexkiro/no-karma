@@ -16,7 +16,13 @@
             class="elevation-2"
             @click="mini = false"
           >
-            <v-img v-if="user.icon" :src="user.icon" />
+            <img
+              v-if="user.icon"
+              :src="user.icon"
+              loading="lazy"
+              referrerpolicy="no-referrer"
+              alt=""
+            />
             <v-icon v-else dark>person</v-icon>
           </v-list-item-avatar>
           <v-list-item-content v-if="user.name">
@@ -74,7 +80,6 @@
                     v-if="item.img"
                     :src="item.img"
                     loading="lazy"
-                    rel="noopener noreferrer"
                     referrerpolicy="no-referrer"
                     :alt="item.display"
                     width="256px"

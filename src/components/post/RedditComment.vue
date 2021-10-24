@@ -15,7 +15,6 @@
           <img
             :src="iconSrc"
             loading="lazy"
-            rel="noopener noreferrer"
             referrerpolicy="no-referrer"
             alt=""
           />

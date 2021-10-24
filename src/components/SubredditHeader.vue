@@ -11,7 +11,6 @@
         class="banner-image"
         :src="subDetails.banner_background_image"
         loading="lazy"
-        rel="noopener noreferrer"
         referrerpolicy="no-referrer"
         alt=""
       />
@@ -27,7 +26,6 @@
             v-if="subredditIcon"
             :src="subredditIcon"
             loading="lazy"
-            rel="noopener noreferrer"
             referrerpolicy="no-referrer"
             alt=""
             width="256px"
