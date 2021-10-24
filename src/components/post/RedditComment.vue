@@ -6,11 +6,12 @@
     @mouseout.self="hovering = false"
   >
     <li v-if="comment.body_html">
-      <div
-        class="d-flex align-center user-info my-2 pointer-cursor"
+      <v-sheet
+        v-ripple
+        class="user-info d-flex align-center py-2 px-1 pointer-cursor"
         @click="expanded = !expanded"
       >
-        <v-avatar size="32" class="elevation-2 mr-2" color="white">
+        <div class="user-avatar elevation-2 mr-2">
           <img
             :src="iconSrc"
             loading="lazy"
@@ -18,7 +19,7 @@
             referrerpolicy="no-referrer"
             alt=""
           />
-        </v-avatar>
+        </div>
         <span class="text--secondary">
           {{ comment.author }}
         </span>
@@ -31,7 +32,7 @@
         <v-icon v-if="!expanded" color="secondary" class="mr-2">
           unfold_more
         </v-icon>
-      </div>
+      </v-sheet>
       <div v-if="expanded" v-html="comment.body_html" />
     </li>
 
@@ -75,6 +76,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "~vuetify/src/styles/settings/_variables";
+
 ul {
   box-sizing: border-box;
   list-style: none;
@@ -88,7 +91,39 @@ ul {
   }
 }
 
+.user-avatar {
+  box-sizing: border-box;
+  width: 32px;
+  height: 32px;
+  background-color: white;
+  border-radius: 50%;
+  overflow: hidden;
+
+  img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+}
+
 .user-info {
-  margin-left: -40px;
+  margin-left: -44px;
+}
+
+@media #{map-get($display-breakpoints, 'md-and-down')} {
+  ul {
+    padding-left: 16px;
+    &.hovering {
+      padding-left: 15px;
+    }
+  }
+
+  .user-avatar {
+    width: 24px;
+    height: 24px;
+  }
+
+  .user-info {
+    margin-left: -32px;
+  }
 }
 </style>

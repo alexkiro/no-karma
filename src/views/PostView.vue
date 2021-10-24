@@ -1,7 +1,7 @@
 <template>
   <div>
     <subreddit-header :subreddit="subreddit" />
-    <main class="d-flex flex-grow-1 justify-space-around">
+    <main class="post-view d-flex flex-grow-1 justify-space-around">
       <div>
         <v-sheet max-width="55rem" class="my-4" :elevation="4">
           <reddit-post
@@ -16,7 +16,7 @@
           v-for="comment in comments"
           :key="comment.data.id"
           max-width="55rem"
-          class="my-4 px-6 py-2 comment-body"
+          class="comment-body my-4 py-2 px-4 px-md-6"
           :elevation="4"
         >
           <reddit-comment :comment="comment.data" />
@@ -100,4 +100,13 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.post-view {
+  max-width: 100vw;
+  margin: auto;
+}
+
+.comment-body {
+  word-break: break-all;
+}
+</style>
