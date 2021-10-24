@@ -74,6 +74,27 @@ export default {
 };
 </script>
 
+<style lang="scss">
+.theme--dark .comment-body {
+  ul {
+    border-color: var(--v-secondary-base);
+
+    &.hovering {
+      border-color: var(--v-secondary-lighten4);
+    }
+  }
+}
+.theme--light .comment-body {
+  ul {
+    border-color: var(--v-secondary-lighten5);
+
+    &.hovering {
+      border-color: var(--v-secondary-lighten3);
+    }
+  }
+}
+</style>
+
 <style scoped lang="scss">
 @import "~vuetify/src/styles/settings/_variables";
 
@@ -81,12 +102,13 @@ ul {
   box-sizing: border-box;
   list-style: none;
   padding-left: 24px;
-  border-left: 2px solid var(--v-secondary-base);
+  border-left-width: 2px;
+  border-left-style: solid;
 
   &.hovering {
     cursor: pointer;
     padding-left: 23px;
-    border-left: 3px solid var(--v-secondary-lighten4);
+    border-left-width: 3px;
   }
 }
 
