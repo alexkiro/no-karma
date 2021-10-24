@@ -20,7 +20,7 @@ server {
 
         expires off;
         add_header Cache-Control "no-store, no-cache, must-revalidate";
-        try_files /env.json;
+        try_files /env.json =404;
     }
 
     location / {
