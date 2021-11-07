@@ -3,6 +3,7 @@ export default {
   state: {
     locales: {
       relTime: null,
+      shortRelTime: null,
       longDateTime: null,
     },
   },
@@ -19,6 +20,11 @@ export default {
           localeMatcher,
           numeric: "always",
           style: "long",
+        }),
+        shortRelTime: new Intl.RelativeTimeFormat(locale, {
+          localeMatcher,
+          numeric: "always",
+          style: "short",
         }),
         longDateTime: new Intl.DateTimeFormat(locale, {
           dateStyle: "long",

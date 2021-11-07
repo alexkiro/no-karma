@@ -12,10 +12,14 @@ export default {
      * @param dateTo {Date}, date to format
      * @param dateFrom {Date}, relative from date; defaults to
      *   current time
+     * @param short {Boolean}
      * @return {string|*}
      */
-    relativeDateString(dateTo, dateFrom = null) {
+    relativeDateString(dateTo, dateFrom = null, short = false) {
       if (!dateTo) return;
+      const formatter = short
+        ? this.locales.shortRelTime
+        : this.locales.relTime;
       dateFrom = dateFrom || new Date();
       const seconds = (dateTo.getTime() - dateFrom.getTime()) / 1000;
       const years = dateTo.getFullYear() - dateFrom.getFullYear();
@@ -32,7 +36,7 @@ export default {
         .slice(-1)[0];
 
       if (!args) return "just now";
-      return this.locales.relTime.format(...args);
+      return formatter.format(...args).replace(" ago", "");
     },
   },
 };

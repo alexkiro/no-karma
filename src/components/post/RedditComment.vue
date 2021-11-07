@@ -22,6 +22,10 @@
         <span class="text--secondary">
           {{ comment.author }}
         </span>
+        &nbsp;&middot;&nbsp;
+        <span class="text--disabled">
+          {{ relativeDateString(createdDate, null, true) }}
+        </span>
         <span
           v-if="comment.is_submitter"
           class="primary--text font-weight-bold mx-2"
@@ -64,6 +68,9 @@ export default {
   },
   computed: {
     ...mapGetters(["avatarBase"]),
+    createdDate() {
+      return new Date(this.comment.created_utc * 1000);
+    },
     replies() {
       return (this.comment.replies && this.comment.replies.data.children) || [];
     },
