@@ -42,7 +42,7 @@
     <li v-if="expanded">
       <template v-for="(reply, index) in replies">
         <v-sheet
-          v-if="reply.kind === 'more'"
+          v-if="reply.kind === 'more' && reply.data.count > 0"
           :key="reply.data.id + reply.kind"
           class="py-2 pointer-cursor primary--text"
           @click="loadMore(reply, index)"
