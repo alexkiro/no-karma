@@ -1,75 +1,56 @@
-function setLS(key, value) {
-  try {
-    console.log("SETLS", key, value);
-    window.localStorage.setItem(key, value.toString());
-  } catch (e) {
-    // pass
-  }
-}
-
-function getLS(context, key, mutation) {
-  try {
-    const storedValue = window.localStorage.getItem(key);
-    if (storedValue) {
-      context.commit(mutation, storedValue);
-    }
-  } catch (e) {
-    // pass
-  }
-}
-
-function boolParse(value) {
-  return value.toString() === "true";
-}
+export const DEFAULTS = {
+  autoplayVideos: false,
+  mutedVideos: true,
+  showNSFW: false,
+  showRedditLinks: false,
+  openPostInNewTab: true,
+  darkTheme: true,
+  drawerMini: false,
+};
+const ALLOWED = new Set(Object.keys(DEFAULTS));
+const LS_KEY = "noKarmaSettings";
 
 export default {
   strict: true,
   state: {
-    settings: {
-      autoplayVideos: false,
-      mutedVideos: true,
-      showNSFW: false,
-      showRedditLinks: false,
-    },
+    settings: { ...DEFAULTS },
   },
   mutations: {
-    setAutoplayVideos(state, value) {
-      state.settings.autoplayVideos = boolParse(value);
-      setLS("autoplayVideos", value);
+    setOption(state, { key, value }) {
+      if (!ALLOWED.has(key)) throw Error(`Invalid setting: ${key}`);
+
+      state.settings[key] = value;
+      try {
+        localStorage.setItem(LS_KEY, JSON.stringify(state.settings));
+      } catch (e) {
+        // pass
+      }
     },
-    setMutedVideos(state, value) {
-      state.settings.mutedVideos = boolParse(value);
-      setLS("mutedVideos", value);
-    },
-    setShowNSFW(state, value) {
-      state.settings.showNSFW = boolParse(value);
-      setLS("showNSFW", value);
-    },
-    setShowRedditLinks(state, value) {
-      state.settings.showRedditLinks = boolParse(value);
-      setLS("showRedditLinks", value);
+    setSettings(state, newSettings) {
+      Object.keys(state.settings).forEach((key) => {
+        state.settings[key] = newSettings[key] || state.settings[key];
+      });
     },
   },
   actions: {
     initUserSettings(context) {
-      getLS(context, "autoplayVideos", "setAutoplayVideos");
-      getLS(context, "mutedVideos", "setMutedVideos");
-      getLS(context, "showNSFW", "setShowNSFW");
-      getLS(context, "showRedditLinks", "setShowRedditLinks");
+      try {
+        context.commit("setSettings", JSON.parse(localStorage.getItem(LS_KEY)));
+      } catch (e) {
+        // pass
+      }
     },
   },
   getters: {
-    autoplayVideos(state) {
-      return state.settings.autoplayVideos;
-    },
-    mutedVideos(state) {
-      return state.settings.mutedVideos;
-    },
-    showNSFW(state) {
-      return state.settings.showNSFW;
-    },
-    showRedditLinks(state) {
-      return state.settings.showRedditLinks;
-    },
+    ...Object.fromEntries(
+      Object.keys(DEFAULTS).map((key) => {
+        return [
+          key,
+          function (state) {
+            return state.settings[key];
+          },
+        ];
+      })
+    ),
   },
 };

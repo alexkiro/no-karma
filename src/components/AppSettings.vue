@@ -3,31 +3,22 @@
     <v-list subheader min-width="17rem">
       <v-subheader>Settings</v-subheader>
 
-      <v-list-item class="pointer-cursor" @click="showNSFW = !showNSFW">
-        <v-list-item-action>
-          <v-checkbox :input-value="showNSFW" />
-        </v-list-item-action>
-
-        <v-list-item-content>
-          <v-list-item-title>NSFW</v-list-item-title>
-          <v-list-item-subtitle>
-            Don't blur over 18 posts
-          </v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
-
       <v-list-item
+        v-for="option in options"
+        :key="option.key"
         class="pointer-cursor"
-        @click="showRedditLinks = !showRedditLinks"
+        @click="toggleValue(option.key)"
       >
         <v-list-item-action>
-          <v-checkbox :input-value="showRedditLinks" />
+          <v-checkbox :input-value="option.value" />
         </v-list-item-action>
 
         <v-list-item-content>
-          <v-list-item-title>Reddit Links</v-list-item-title>
+          <v-list-item-title>
+            {{ option.name }}
+          </v-list-item-title>
           <v-list-item-subtitle>
-            Add links to the original posts on Reddit
+            {{ option.description }}
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
@@ -43,49 +34,44 @@
         <v-icon left class="mr-8">mdi-github</v-icon>
         Fork me on GitHub
       </v-list-item>
-      <v-divider></v-divider>
-      <v-subheader>Dark mode</v-subheader>
-      <v-list-item class="d-flex align-center justify-center">
-        <v-switch
-          v-model="$vuetify.theme.dark"
-          dense
-          append-icon="brightness_4"
-          color="accent"
-        />
-      </v-list-item>
     </v-list>
   </div>
 </template>
 
 <script>
-import mapStore from "@/lib/mapStore";
+import appSettings from "@/lib/mixins/appSettings";
 
 export default {
   name: "AppSettings",
-  data() {
-    return {
-      settings: [],
-    };
-  },
+  mixins: [appSettings],
   computed: {
-    ...mapStore({
-      autoplayVideos: {
-        getter: "autoplayVideos",
-        setter: "setAutoplayVideos",
-      },
-      mutedVideos: {
-        getter: "mutedVideos",
-        setter: "setMutedVideos",
-      },
-      showNSFW: {
-        getter: "showNSFW",
-        setter: "setShowNSFW",
-      },
-      showRedditLinks: {
-        getter: "showRedditLinks",
-        setter: "setShowRedditLinks",
-      },
-    }),
+    options() {
+      return [
+        {
+          key: "darkTheme",
+          name: "Dark Theme",
+          value: this.darkTheme,
+          description: "Turn this on, don't strain your eyes",
+        },
+        {
+          key: "showNSFW",
+          name: "NSFW",
+          value: this.showNSFW,
+          description: "Don't blur over NSFW posts",
+        },
+        {
+          key: "showRedditLinks",
+          name: "Reddit Links",
+          value: this.showRedditLinks,
+          description: "Add links to the original posts on Reddit",
+        },
+      ];
+    },
+  },
+  methods: {
+    toggleValue(key) {
+      this[key] = !this[key];
+    },
   },
 };
 </script>

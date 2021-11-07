@@ -4,7 +4,7 @@
       v-model="drawer"
       app
       class="elevation-2"
-      :mini-variant="mini"
+      :mini-variant="drawerMini"
       fixed
     >
       <template #prepend>
@@ -14,7 +14,7 @@
             size="32"
             color="primary"
             class="elevation-2"
-            @click="mini = false"
+            @click="drawerMini = false"
           >
             <img
               v-if="user.icon"
@@ -44,7 +44,7 @@
             </v-list-item-action-text>
           </v-list-item-content>
 
-          <v-btn icon class="d-none d-lg-flex" @click="mini = true">
+          <v-btn icon class="d-none d-lg-flex" @click="drawerMini = true">
             <v-icon>chevron_left</v-icon>
           </v-btn>
           <v-btn icon class="d-flex d-lg-none" @click="drawer = false">
@@ -63,7 +63,7 @@
             v-for="item in group.items"
             :key="item.id"
             right
-            :disabled="!mini"
+            :disabled="!drawerMini"
           >
             <template #activator="{ on, attrs }">
               <v-list-item
@@ -109,7 +109,7 @@
         class="d-flex d-lg-none"
         @click="
           drawer = !drawer;
-          mini = false;
+          drawerMini = false;
         "
       />
       <v-toolbar-title class="pa-0 mr-2">
@@ -146,15 +146,16 @@ import { includesLax } from "@/lib/utils";
 import AppSettings from "@/components/AppSettings";
 import SortSwitch from "@/components/SortSwitch";
 import DoubleBounceSpinner from "@/components/DoubleBounceSpinner";
+import appSettings from "@/lib/mixins/appSettings";
 
 export default {
   name: "SubredditSidebar",
   components: { DoubleBounceSpinner, SortSwitch, AppSettings },
+  mixins: [appSettings],
   data() {
     return {
       menu: false,
       drawer: true,
-      mini: false,
       searchText: "",
     };
   },
@@ -225,17 +226,11 @@ export default {
       );
     },
   },
-  watch: {
-    mini(value) {
-      this.setLocalStorage("drawerMini", value.toString());
-    },
-  },
   mounted() {
-    this.mini = this.getLocalStorage("drawerMini") === "true";
     this.$nextTick(() => {
       if (this.$vuetify.breakpoint.mobile) {
         this.drawer = false;
-        this.mini = false;
+        this.drawerMini = false;
       }
     });
   },

@@ -14,33 +14,36 @@
 import EventBus from "@/lib/event-bus";
 import SubredditSidebar from "@/components/SubredditSidebar";
 import ErrorView from "@/views/ErrorView";
+import appSettings from "@/lib/mixins/appSettings";
 
 export default {
   components: { ErrorView, SubredditSidebar },
+  mixins: [appSettings],
   data() {
     return {
-      theme: "dark",
       loaded: false,
       error: false,
     };
   },
   watch: {
-    "$vuetify.theme.dark"(dark) {
-      this.setLocalStorage("theme", dark ? "dark" : "light");
+    darkTheme(value) {
+      this.$vuetify.theme.dark = value;
     },
     $route() {
       this.error = false;
     },
   },
-  mounted() {
-    this.$vuetify.theme.dark =
-      (this.getLocalStorage("theme") || "dark") === "dark";
-
+  async mounted() {
     EventBus.$on(EventBus.events.apiReadError, this.onApiError);
     EventBus.$on(EventBus.events.apiUnknownError, this.onApiError);
     EventBus.$on(EventBus.events.apiConnectError, this.onApiError);
 
-    this.$store.dispatch("initStore").finally(() => (this.loaded = true));
+    try {
+      await this.$store.dispatch("initStore");
+      this.$vuetify.theme.dark = this.darkTheme;
+    } finally {
+      this.loaded = true;
+    }
   },
   methods: {
     onApiError() {
