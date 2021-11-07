@@ -1,35 +1,41 @@
 <template>
   <div>
     <subreddit-header :subreddit="subreddit" />
-    <main class="post-view d-flex flex-grow-1 justify-space-around">
-      <div>
-        <v-sheet max-width="55rem" class="my-4" :elevation="4">
-          <reddit-post
-            v-if="post"
-            :post="post"
-            :show-sub-reddit-info="false"
-            :show-full-post="true"
-          />
-        </v-sheet>
+    <main
+      class="
+        post-view
+        d-flex
+        flex-grow-1 flex-column
+        align-center
+        justify-center
+      "
+    >
+      <v-sheet max-width="55rem" class="my-4 flex-grow-1" :elevation="4">
+        <reddit-post
+          v-if="post"
+          :post="post"
+          :show-sub-reddit-info="false"
+          :show-full-post="true"
+        />
+      </v-sheet>
 
-        <div class="text-center">
-          <v-progress-circular
-            v-if="initialLoading"
-            indeterminate
-            color="grey lighten-5"
-          />
-        </div>
-
-        <v-sheet
-          v-for="comment in comments"
-          :key="comment.data.id"
-          max-width="55rem"
-          class="comment-body my-4 py-2 px-4 px-md-6"
-          :elevation="4"
-        >
-          <reddit-comment :comment="comment.data" />
-        </v-sheet>
+      <div class="text-center">
+        <v-progress-circular
+          v-if="initialLoading"
+          indeterminate
+          color="grey lighten-5"
+        />
       </div>
+
+      <v-sheet
+        v-for="comment in comments"
+        :key="comment.data.id"
+        max-width="55rem"
+        class="comment-body my-4 py-2 px-4 px-md-6"
+        :elevation="4"
+      >
+        <reddit-comment :comment="comment.data" />
+      </v-sheet>
     </main>
   </div>
 </template>
@@ -105,6 +111,10 @@ export default {
   max-width: 100vw;
   margin: auto;
   overflow: hidden;
+
+  & > * {
+    width: 100%;
+  }
 }
 
 .comment-body {

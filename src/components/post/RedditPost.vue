@@ -43,38 +43,12 @@
           >
             <responsive-video :video="video" />
           </v-lazy>
-          <div
+          <reddit-image-post
             v-else-if="postType === 'image'"
             key="image-post"
-            class="image-post"
-          >
-            <responsive-image
-              v-if="showImage"
-              :key="currentImage.id"
-              :image="currentImage"
-              :alt="post.title"
-            />
-            <div v-if="images.length > 1" class="image-controls px-1">
-              <v-btn
-                v-visible="imageIndex > 0"
-                elevation="4"
-                fab
-                small
-                @click.stop.prevent="imageIndex -= 1"
-              >
-                <v-icon> navigate_before </v-icon>
-              </v-btn>
-              <v-btn
-                v-visible="imageIndex < images.length - 1"
-                elevation="4"
-                fab
-                small
-                @click.stop.prevent="imageIndex += 1"
-              >
-                <v-icon> navigate_next </v-icon>
-              </v-btn>
-            </div>
-          </div>
+            :post="post"
+            :show-full-post="showFullPost"
+          />
           <div
             v-else-if="postType === 'link'"
             key="link-post"
@@ -119,7 +93,7 @@
       rel="noopener noreferrer"
       class="d-none ml-4 mr-2 my-2 d-sm-flex justify-center align-center"
     >
-      <responsive-image :image="{ source: thumbnail }" class="post-thumbnail" />
+      <responsive-image :source="thumbnail" class="post-thumbnail" />
     </a>
   </div>
 </template>
@@ -129,11 +103,18 @@ import RedditPostHeader from "@/components/post/RedditPostHeader";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import ResponsiveVideo from "@/components/ResponsiveVideo";
 import appSettings from "@/lib/mixins/appSettings";
+import RedditImagePost from "@/components/post/RedditImagePost";
+import bestFit from "@/lib/mixins/bestFit";
 
 export default {
   name: "RedditPost",
-  components: { ResponsiveImage, ResponsiveVideo, RedditPostHeader },
-  mixins: [appSettings],
+  components: {
+    RedditImagePost,
+    ResponsiveImage,
+    ResponsiveVideo,
+    RedditPostHeader,
+  },
+  mixins: [appSettings, bestFit],
   props: {
     post: {
       type: Object,
@@ -152,7 +133,6 @@ export default {
   },
   data() {
     return {
-      imageIndex: 0,
       isOverflowing: false,
       // Some post will require manual confirmation to show,
       // e.g. spoilers and NSFW.
@@ -207,43 +187,24 @@ export default {
         width: this.post.thumbnail_width,
       };
     },
-    images() {
-      if (this.post.preview && this.post.preview.images) {
-        // TODO: there are also mp4 available here, we could display those instead?
-        return this.post.preview.images.map(
-          (image) => image.variants.gif || image
-        );
-      }
-      if (this.post.media_metadata) {
-        return Object.values(this.post.media_metadata);
-      }
+    showImage() {
+      // Text post maybe, no need to show an image for these?
+      if (this.post.post_hint === "self") return false;
+      // Only show thumbnail for links
+      if (this.post.post_hint === "link") return false;
+
+      // Various checks, because reddit is weird with this.
+      if (this.post.post_hint === "image") return true;
+      if (this.post.is_gallery) return true;
+      if (this.post.media_metadata) return true;
+      if (this.post.preview && this.post.preview.images) return true;
       if (
         this.post.is_reddit_media_domain &&
         this.post.url &&
         this.looksLikeImageUrl(this.post.url)
-      ) {
-        return [
-          {
-            source: {
-              url: this.post.url,
-            },
-          },
-        ];
-      }
-      return [];
-    },
-    currentImage() {
-      return this.images[this.imageIndex];
-    },
-    showImage() {
-      return (
-        // Text post maybe, no need to show an image for these?
-        this.post.post_hint !== "self" &&
-        // Only show thumbnail for links
-        this.post.post_hint !== "link" &&
-        // We actually need an image to display
-        this.currentImage
-      );
+      )
+        return true;
+      return false;
     },
     secureEmbed() {
       if (
@@ -258,10 +219,10 @@ export default {
       url.searchParams.append("is_nightmode", this.darkTheme.toString());
       return {
         url: url.toString(),
-        ...this.getBestFit(
-          this.post.secure_media_embed.width,
-          this.post.secure_media_embed.height
-        ),
+        ...this.getBestFit({
+          width: this.post.secure_media_embed.width,
+          height: this.post.secure_media_embed.height,
+        }),
       };
     },
     video() {
@@ -273,7 +234,10 @@ export default {
 
       return {
         ...videoData,
-        ...this.getBestFit(videoData.width, videoData.height),
+        ...this.getBestFit({
+          width: videoData.width,
+          height: videoData.height,
+        }),
       };
     },
     postUrl() {
@@ -317,19 +281,6 @@ export default {
     checkIfOverflowing(el) {
       return el && el.scrollHeight > el.clientHeight;
     },
-    getBestFit(width, height) {
-      const maxWidth = Math.min(window.innerWidth, 55 * 16);
-      const maxHeight = Math.min(window.innerHeight, 36 * 16);
-
-      const widthRatio = maxWidth / width;
-      const heightRatio = maxHeight / height;
-      const bestRatio = Math.min(widthRatio, heightRatio);
-
-      return {
-        width: width * bestRatio,
-        height: height * bestRatio,
-      };
-    },
   },
 };
 </script>
@@ -360,22 +311,8 @@ export default {
   }
 }
 
-.image-post {
-  max-height: 36rem;
-
-  .image-controls {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-}
-
 .video-post,
+.image-post,
 .embedded-media {
   max-height: 36rem;
 }
