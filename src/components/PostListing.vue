@@ -3,12 +3,7 @@
     <double-bounce-spinner v-if="initialLoading" />
     <div>
       <v-hover v-for="post in posts" v-slot="{ hover }" :key="post.id">
-        <v-sheet
-          v-ripple
-          :elevation="hover ? 16 : 4"
-          max-width="55rem"
-          class="my-4"
-        >
+        <v-sheet :elevation="hover ? 16 : 4" max-width="55rem" class="my-4">
           <router-link
             :to="{
               name: 'post-view',

@@ -7,6 +7,7 @@
     hide-delimiter-background
     show-arrows-on-hover
     :height="maxHeight"
+    @click.native.stop.prevent=""
   >
     <template #default>
       <v-carousel-item v-for="image in normalizedImages" :key="image.id" eager>
