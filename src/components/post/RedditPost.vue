@@ -125,14 +125,15 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 import RedditPostHeader from "@/components/post/RedditPostHeader";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import ResponsiveVideo from "@/components/ResponsiveVideo";
+import appSettings from "@/lib/mixins/appSettings";
 
 export default {
   name: "RedditPost",
   components: { ResponsiveImage, ResponsiveVideo, RedditPostHeader },
+  mixins: [appSettings],
   props: {
     post: {
       type: Object,
@@ -159,7 +160,6 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["showNSFW"]),
     postType() {
       if (this.postText) return "text";
       if (this.secureEmbed) return "embedded";
@@ -255,10 +255,7 @@ export default {
       const url = new URL(this.post.secure_media_embed.media_domain_url);
       // Mystery params from reddit
       url.searchParams.append("responsive", "true");
-      url.searchParams.append(
-        "is_nightmode",
-        this.$vuetify.theme.dark.toString()
-      );
+      url.searchParams.append("is_nightmode", this.darkTheme.toString());
       return {
         url: url.toString(),
         ...this.getBestFit(

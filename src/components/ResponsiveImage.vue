@@ -6,7 +6,7 @@
     <picture>
       <source
         v-for="r in resolutions"
-        :key="r.width"
+        :key="r.id"
         :srcset="`${r.url} ${r.width}w`"
         :media="`(min-width: ${r.width * factor}px)`"
       />
@@ -50,7 +50,7 @@ export default {
   },
   computed: {
     source() {
-      return this.normalize(this.image.source || this.image.s);
+      return this.normalize(this.image.source || this.image.s, true);
     },
     resolutions() {
       const result = (this.image.resolutions || this.image.p || []).map((img) =>
@@ -58,6 +58,9 @@ export default {
       );
       result.push(this.source);
       return result.reverse();
+    },
+    imageId() {
+      return this.image.id;
     },
   },
   mounted() {
@@ -67,12 +70,15 @@ export default {
     imageLoaded() {
       this.loaded = true;
     },
-    normalize(img) {
-      return {
+    normalize(img, isSource = false) {
+      const norm = {
         width: img.width || img.x,
         height: img.height || img.y,
         url: img.url || img.u,
+        isSource,
       };
+      norm.id = `${this.imageId}-${norm.width}-${norm.height}-${isSource}`;
+      return norm;
     },
   },
 };
