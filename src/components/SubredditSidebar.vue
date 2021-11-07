@@ -132,7 +132,7 @@
             <v-icon>more_vert</v-icon>
           </v-btn>
         </template>
-        <v-card>
+        <v-card elevation="18">
           <app-settings />
         </v-card>
       </v-menu>

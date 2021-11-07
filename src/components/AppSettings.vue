@@ -1,27 +1,31 @@
 <template>
   <div>
     <v-list subheader min-width="17rem">
-      <v-subheader>Settings</v-subheader>
+      <template v-for="group in options">
+        <v-subheader :key="group.key">
+          {{ group.groupName }}
+        </v-subheader>
 
-      <v-list-item
-        v-for="option in options"
-        :key="option.key"
-        class="pointer-cursor"
-        @click="toggleValue(option.key)"
-      >
-        <v-list-item-action>
-          <v-checkbox :input-value="option.value" />
-        </v-list-item-action>
+        <v-list-item
+          v-for="option in group.items"
+          :key="option.key"
+          class="pointer-cursor"
+          @click="toggleValue(option.key)"
+        >
+          <v-list-item-action>
+            <v-checkbox :input-value="option.value" />
+          </v-list-item-action>
 
-        <v-list-item-content>
-          <v-list-item-title>
-            {{ option.name }}
-          </v-list-item-title>
-          <v-list-item-subtitle>
-            {{ option.description }}
-          </v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
+          <v-list-item-content>
+            <v-list-item-title>
+              {{ option.name }}
+            </v-list-item-title>
+            <v-list-item-subtitle>
+              {{ option.description }}
+            </v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+      </template>
 
       <v-divider></v-divider>
       <v-subheader>About</v-subheader>
@@ -48,28 +52,40 @@ export default {
     options() {
       return [
         {
-          key: "openPostInNewTab",
-          name: "Open post in new tab",
-          value: this.openPostInNewTab,
-          description: "Posts will be opened in a new tab by default",
+          key: "appearance",
+          groupName: "Appearance",
+          items: [
+            {
+              key: "darkTheme",
+              name: "Dark theme",
+              value: this.darkTheme,
+              description: "Turn this on, don't strain your eyes",
+            },
+          ],
         },
         {
-          key: "darkTheme",
-          name: "Dark theme",
-          value: this.darkTheme,
-          description: "Turn this on, don't strain your eyes",
-        },
-        {
-          key: "showNSFW",
-          name: "NSFW",
-          value: this.showNSFW,
-          description: "Don't blur over NSFW posts",
-        },
-        {
-          key: "showRedditLinks",
-          name: "Reddit links",
-          value: this.showRedditLinks,
-          description: "Add links to the original posts on Reddit",
+          key: "settings",
+          groupName: "Settings",
+          items: [
+            {
+              key: "openPostInNewTab",
+              name: "Open post in new tab",
+              value: this.openPostInNewTab,
+              description: "Posts will be opened in a new tab by default",
+            },
+            {
+              key: "showNSFW",
+              name: "NSFW",
+              value: this.showNSFW,
+              description: "Don't blur over NSFW posts",
+            },
+            {
+              key: "showRedditLinks",
+              name: "Reddit links",
+              value: this.showRedditLinks,
+              description: "Add links to the original posts on Reddit",
+            },
+          ],
         },
       ];
     },
