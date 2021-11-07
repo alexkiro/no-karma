@@ -13,6 +13,7 @@
               },
             }"
             class="unstyled"
+            :target="openPostInNewTab ? '_blank' : '_self'"
           >
             <reddit-post
               :post="post"
@@ -37,10 +38,12 @@
 import { mapActions } from "vuex";
 import RedditPost from "@/components/post/RedditPost";
 import DoubleBounceSpinner from "@/components/DoubleBounceSpinner";
+import appSettings from "@/lib/mixins/appSettings";
 
 export default {
   name: "PostListing",
   components: { DoubleBounceSpinner, RedditPost },
+  mixins: [appSettings],
   props: {
     endpoint: {
       type: String,

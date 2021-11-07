@@ -48,8 +48,14 @@ export default {
     options() {
       return [
         {
+          key: "openPostInNewTab",
+          name: "Open post in new tab",
+          value: this.openPostInNewTab,
+          description: "Posts will be opened in a new tab by default",
+        },
+        {
           key: "darkTheme",
-          name: "Dark Theme",
+          name: "Dark theme",
           value: this.darkTheme,
           description: "Turn this on, don't strain your eyes",
         },
@@ -61,7 +67,7 @@ export default {
         },
         {
           key: "showRedditLinks",
-          name: "Reddit Links",
+          name: "Reddit links",
           value: this.showRedditLinks,
           description: "Add links to the original posts on Reddit",
         },

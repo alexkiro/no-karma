@@ -28,7 +28,10 @@ export default {
     },
     setSettings(state, newSettings) {
       Object.keys(state.settings).forEach((key) => {
-        state.settings[key] = newSettings[key] || state.settings[key];
+        state.settings[key] =
+          newSettings[key] === undefined
+            ? state.settings[key]
+            : newSettings[key];
       });
     },
   },
