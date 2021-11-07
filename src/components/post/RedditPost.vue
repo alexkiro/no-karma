@@ -337,6 +337,7 @@ export default {
 <style scoped lang="scss">
 .reddit-post {
   cursor: pointer;
+  overflow: hidden;
 }
 
 .post-body-container {

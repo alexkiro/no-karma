@@ -17,7 +17,42 @@
   max-width: 100%;
 
   pre {
-    max-width: 95vw;
+    padding: 0.5rem;
+    max-width: 50rem;
     overflow: auto;
+
+    @media (max-width: 800px) {
+      max-width: 95vw;
+    }
+  }
+
+  code {
+    padding: 0;
+  }
+}
+
+.theme--dark {
+  .post-body .md,
+  .comment-body .md {
+    pre {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    code {
+      background: none;
+    }
+  }
+}
+
+.theme--light {
+  .post-body .md,
+  .comment-body .md {
+    pre {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    code {
+      background: none;
+    }
   }
 }
