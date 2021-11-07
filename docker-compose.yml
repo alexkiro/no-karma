@@ -10,7 +10,7 @@ services:
     restart: always
 
   avatar:
-    image: ghcr.io/alexkiro/dicebear-api:latest
+    image: ghcr.io/dicebear/api:latest
     restart: always
 
   frontend:
