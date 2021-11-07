@@ -40,17 +40,37 @@
     </li>
 
     <li v-if="expanded">
-      <reddit-comment
-        v-for="reply in replies"
-        :key="reply.data.id"
-        :comment="reply.data"
-      />
+      <template v-for="(reply, index) in replies">
+        <v-sheet
+          v-if="reply.kind === 'more'"
+          :key="reply.data.id + reply.kind"
+          class="py-2 pointer-cursor primary--text"
+          @click="loadMore(reply, index)"
+        >
+          <a>
+            {{ reply.data.count }} more
+            {{ reply.data.count === 1 ? "reply" : "replies" }}
+          </a>
+          <v-progress-circular
+            v-if="loadingReplies"
+            indeterminate
+            color="grey lighten-5"
+            size="16"
+            class="mx-4"
+          />
+        </v-sheet>
+        <reddit-comment
+          v-else
+          :key="reply.data.id + reply.kind"
+          :comment="reply.data"
+        />
+      </template>
     </li>
   </ul>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "RedditComment",
@@ -64,6 +84,8 @@ export default {
     return {
       expanded: true,
       hovering: false,
+      replies: [],
+      loadingReplies: false,
     };
   },
   computed: {
@@ -71,11 +93,73 @@ export default {
     createdDate() {
       return new Date(this.comment.created_utc * 1000);
     },
-    replies() {
-      return (this.comment.replies && this.comment.replies.data.children) || [];
-    },
     iconSrc() {
       return `${this.avatarBase}/api/gridy/${this.comment.author_fullname}.svg`;
+    },
+  },
+  watch: {
+    "comment.replies"() {
+      this.initReplies();
+    },
+  },
+  mounted() {
+    this.initReplies();
+  },
+  methods: {
+    ...mapActions(["apiCall"]),
+    initReplies() {
+      this.replies =
+        (this.comment.replies && [...this.comment.replies.data.children]) || [];
+    },
+    async loadMore(replyStub, index) {
+      let response;
+      try {
+        this.loadingReplies = true;
+        response = await this.apiCall({
+          method: "GET",
+          endpoint: "/api/morechildren",
+          params: {
+            link_id: this.comment.link_id,
+            children: [replyStub.data.id, ...replyStub.data.children].join(","),
+            api_type: "json",
+            limit_children: false,
+          },
+        });
+      } finally {
+        this.loadingReplies = false;
+      }
+
+      const allReplies = {};
+      response.json.data.things.forEach((thing) => {
+        // Recreate the Reddit structure, for some reason comments
+        // here have an empty string as "replies"
+        thing.data.replies = {
+          kind: "Listing",
+          data: {
+            children: [],
+          },
+        };
+        allReplies[thing.data.name] = thing;
+      });
+
+      // Build comment tree, as the response is not threaded.
+      Object.values(allReplies).forEach((thing) => {
+        const parent = thing.data.parent_id;
+
+        if (parent === this.comment.name) {
+          // We are adding a sibling in the tree, push to the
+          // main replies Array
+          this.replies.push(thing);
+        } else if (!allReplies[parent]) {
+          // Something is wrong :/
+          console.warn("Unable to find parent comment", thing);
+        } else {
+          allReplies[parent].data.replies.data.children.push(thing);
+        }
+      });
+
+      // Remove the stub
+      this.replies.splice(index, 1);
     },
   },
 };
