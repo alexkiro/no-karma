@@ -26,7 +26,9 @@
       "purpose": "maskable"
     }
   ],
-  "start_url": ".",
+  "scope": "/",
+  "start_url": "/",
+  "description": "A Reddit client, but without the karma.",
   "display": "standalone",
   "background_color": "#121212"
 }
