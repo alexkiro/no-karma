@@ -7,6 +7,7 @@ from flask import abort
 from flask import Blueprint
 from flask import current_app as app
 from flask import jsonify
+from flask import redirect
 from flask import request
 from flask import session
 
@@ -39,7 +40,8 @@ def oauth_authorize():
         "state": state,
         "timestamp": int(time.time()),
     }
-    return jsonify({"url": f"{settings.REDDIT_OAUTH_AUTHORIZE_URL}?{query}"})
+
+    return redirect(f"{settings.REDDIT_OAUTH_AUTHORIZE_URL}?{query}")
 
 
 @urls.route("/_oauth/complete")

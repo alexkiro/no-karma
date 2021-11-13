@@ -39,8 +39,10 @@
             </v-list-item-action-text>
           </v-list-item-content>
           <v-list-item-content v-else>
-            <v-list-item-action-text class="anchor" @click="login">
-              <a href="#" class="text-decoration-none text--primary">Login</a>
+            <v-list-item-action-text class="anchor">
+              <a :href="loginUrl" class="text-decoration-none text--primary">
+                Login
+              </a>
             </v-list-item-action-text>
           </v-list-item-content>
 
@@ -225,6 +227,9 @@ export default {
         includesLax(item.display, this.searchText)
       );
     },
+    loginUrl() {
+      return this.$store.getters.apiBase + "/_oauth/authorize";
+    },
   },
   mounted() {
     this.$nextTick(() => {
@@ -236,13 +241,6 @@ export default {
   },
   methods: {
     ...mapActions(["apiCall", "loadRSubs"]),
-    async login() {
-      const response = await this.apiCall({
-        method: "GET",
-        endpoint: "/_oauth/authorize",
-      });
-      window.setTimeout(() => (window.location = response.url), 100);
-    },
   },
 };
 </script>
