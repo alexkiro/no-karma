@@ -21,3 +21,17 @@ export function includesLax(str, searchString) {
     .toLowerCase()
     .includes(unaccent(searchString).toLowerCase());
 }
+
+export function debounce(func, delay) {
+  let timeoutID = null;
+
+  return function () {
+    clearTimeout(timeoutID);
+    const args = arguments;
+    const that = this;
+
+    timeoutID = setTimeout(function () {
+      func.apply(that, args);
+    }, delay);
+  };
+}

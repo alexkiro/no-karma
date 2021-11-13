@@ -120,7 +120,10 @@
         </span>
       </v-toolbar-title>
       <v-spacer />
-      <sort-switch class="mr-2" />
+      <div class="d-flex align-center">
+        <subreddit-search class="mx-4 d-none d-sm-block" />
+        <sort-switch class="mr-2" />
+      </div>
       <!-- TODO: Add full screen settings on mobile.  -->
       <v-menu
         v-model="menu"
@@ -149,10 +152,11 @@ import AppSettings from "@/components/AppSettings";
 import SortSwitch from "@/components/SortSwitch";
 import DoubleBounceSpinner from "@/components/DoubleBounceSpinner";
 import appSettings from "@/lib/mixins/appSettings";
+import SubredditSearch from "@/components/SubredditSearch";
 
 export default {
   name: "SubredditSidebar",
-  components: { DoubleBounceSpinner, SortSwitch, AppSettings },
+  components: { SubredditSearch, DoubleBounceSpinner, SortSwitch, AppSettings },
   mixins: [appSettings],
   data() {
     return {
