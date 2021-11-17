@@ -19,10 +19,8 @@ FROM nginx:stable
 RUN rm /etc/nginx/conf.d/default.conf
 
 RUN apt update && \
-    apt install -y python3 python3-dev libffi6 libffi-dev libssl-dev curl build-essential procps jq && \
-    curl -L 'https://bootstrap.pypa.io/get-pip.py' | python3 && \
+    apt install -y python3 python3-pip procps jq && \
     pip install -U cffi certbot certbot-nginx && \
-    apt remove --purge -y python3-dev build-essential libffi-dev libssl-dev curl && \
     apt-get autoremove -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
