@@ -2,6 +2,9 @@
   "name": "no-karma",
   "short_name": "no-karma",
   "theme_color": "#121212",
+  "lang": "en-US",
+  "orientation": "any",
+  "categories": ["social"],
   "icons": [
     {
       "src": "./img/icons/android-chrome-192x192.png",
@@ -24,6 +27,18 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "./img/screenshots/no-karma.app-800p.png",
+      "sizes": "1280x800",
+      "type": "image/png"
+    },
+    {
+      "src": "./img/screenshots/no-karma.app-mobile.png",
+      "sizes": "1079x919",
+      "type": "image/png"
     }
   ],
   "scope": "/",
