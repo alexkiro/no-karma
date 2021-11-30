@@ -12,16 +12,22 @@ export default {
     },
   },
   mounted() {
-    this.$nextTick(this.setSpoilerEvents);
+    this.$nextTick(this.postProcess);
   },
   methods: {
     showSpoiler(e) {
       e.target.classList.add("show");
     },
-    setSpoilerEvents() {
+    postProcess() {
       this.$el
         .querySelectorAll(".md-spoiler-text")
         .forEach((el) => el.addEventListener("click", this.showSpoiler));
+
+      this.$el.querySelectorAll("a").forEach((el) => {
+        el.setAttribute("target", "_blank");
+        el.setAttribute("rel", "noopener noreferrer");
+        el.setAttribute("referrerpolicy", "no-referrer");
+      });
     },
   },
 };
