@@ -14,7 +14,7 @@
           class="d-flex align-start justify-center body-2 mt-3 post-body"
           :class="{ blurred: isBlurred }"
         >
-          <div
+          <mark-down
             v-if="postType === 'text'"
             key="text-post"
             ref="textPostEl"
@@ -22,7 +22,7 @@
             :class="{
               overflowing: isOverflowing,
             }"
-            v-html="postText"
+            :html="postText"
           />
           <iframe
             v-else-if="postType === 'embedded'"
@@ -105,10 +105,12 @@ import ResponsiveVideo from "@/components/ResponsiveVideo";
 import appSettings from "@/lib/mixins/appSettings";
 import RedditImagePost from "@/components/post/RedditImagePost";
 import bestFit from "@/lib/mixins/bestFit";
+import MarkDown from "../MarkDown";
 
 export default {
   name: "RedditPost",
   components: {
+    MarkDown,
     RedditImagePost,
     ResponsiveImage,
     ResponsiveVideo,

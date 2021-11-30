@@ -36,7 +36,7 @@
           unfold_more
         </v-icon>
       </v-sheet>
-      <div v-if="expanded" v-html="comment.body_html" />
+      <mark-down v-if="expanded" :html="comment.body_html" />
     </li>
 
     <li v-if="expanded">
@@ -71,9 +71,11 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import MarkDown from "../MarkDown";
 
 export default {
   name: "RedditComment",
+  components: { MarkDown },
   props: {
     comment: {
       type: Object,

@@ -29,6 +29,21 @@
   code {
     padding: 0;
   }
+
+  .md-spoiler-text {
+    cursor: pointer;
+    user-select: none;
+    color: transparent;
+    transition-property: color, background-color;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in;
+  }
+
+  .md-spoiler-text.show {
+    color: inherit;
+    user-select: auto;
+    background-color: transparent !important;
+  }
 }
 
 .theme--dark {
@@ -40,6 +55,10 @@
 
     code {
       background: none;
+    }
+
+    .md-spoiler-text {
+      background-color: rgba(255, 255, 255, 0.1);
     }
   }
 }
@@ -53,6 +72,10 @@
 
     code {
       background: none;
+    }
+
+    .md-spoiler-text {
+      background-color: rgba(0, 0, 0, 0.1);
     }
   }
 }
