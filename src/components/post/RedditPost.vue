@@ -155,7 +155,11 @@ export default {
       return this.post.spoiler;
     },
     isBlurred() {
-      return !this.manualShowConfirmed && (this.isSpoiler || this.isNSFW);
+      return (
+        !this.manualShowConfirmed &&
+        (this.isSpoiler || this.isNSFW) &&
+        this.postType !== "empty"
+      );
     },
     blurReason() {
       if (this.isSpoiler) return "spoiler";
