@@ -11,7 +11,7 @@
   >
     <template #default>
       <v-carousel-item v-for="image in normalizedImages" :key="image.id" eager>
-        <div class="image-container">
+        <div class="image-container" @click="showFullImage(image)">
           <responsive-image
             :source="image.source"
             :resolutions="image.resolutions"
@@ -128,6 +128,9 @@ export default {
       };
       norm.id = `${imgId}-${norm.width}-${norm.height}`;
       return norm;
+    },
+    showFullImage(image) {
+      window.open(image.source.url, "_blank", "noreferrer");
     },
   },
 };
