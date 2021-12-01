@@ -124,8 +124,8 @@
         <subreddit-search class="mx-4 d-none d-sm-block" />
         <sort-switch class="mr-2" />
       </div>
-      <!-- TODO: Add full screen settings on mobile.  -->
       <v-menu
+        v-if="!$vuetify.breakpoint.mobile"
         v-model="menu"
         left
         bottom
@@ -141,6 +141,30 @@
           <app-settings />
         </v-card>
       </v-menu>
+
+      <v-dialog
+        v-else
+        v-model="settingsDialog"
+        fullscreen
+        hide-overlay
+        transition="dialog-top-transition"
+      >
+        <template #activator="{ on, attrs }">
+          <v-btn icon v-bind="attrs" v-on="on">
+            <v-icon>more_vert</v-icon>
+          </v-btn>
+        </template>
+        <v-card>
+          <v-toolbar dark color="primary">
+            <v-toolbar-title>Settings</v-toolbar-title>
+            <v-spacer />
+            <v-btn icon dark @click="settingsDialog = false">
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
+          </v-toolbar>
+          <app-settings />
+        </v-card>
+      </v-dialog>
     </v-app-bar>
   </div>
 </template>
@@ -153,6 +177,7 @@ import SortSwitch from "@/components/SortSwitch";
 import DoubleBounceSpinner from "@/components/DoubleBounceSpinner";
 import appSettings from "@/lib/mixins/appSettings";
 import SubredditSearch from "@/components/SubredditSearch";
+import mapQueryRoutes from "../lib/mapQueryRoutes";
 
 export default {
   name: "SubredditSidebar",
@@ -171,6 +196,12 @@ export default {
       "subscribedSubreddits",
       "hasMoreSubscribedSubreddits",
     ]),
+    ...mapQueryRoutes(
+      {
+        settingsDialog: false,
+      },
+      false
+    ),
     menuItems() {
       return [
         {
