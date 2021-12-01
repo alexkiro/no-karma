@@ -64,6 +64,24 @@ export default {
           ],
         },
         {
+          key: "media",
+          groupName: "Media",
+          items: [
+            {
+              key: "autoplayMedia",
+              name: "Autoplay media",
+              value: this.autoplayMedia,
+              description: "Automatically play media content when in view",
+            },
+            {
+              key: "mutedVideos",
+              name: "Muted videos",
+              value: this.mutedVideos,
+              description: "Mute videos by default",
+            },
+          ],
+        },
+        {
           key: "settings",
           groupName: "Settings",
           items: [

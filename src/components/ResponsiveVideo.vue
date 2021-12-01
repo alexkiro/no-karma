@@ -1,7 +1,7 @@
 <template>
   <video
     controls
-    muted
+    :muted="mutedVideos"
     class="hosted-video"
     :style="{
       width: video.width + 'px',
@@ -11,8 +11,11 @@
 </template>
 
 <script>
+import appSettings from "../lib/mixins/appSettings";
+
 export default {
   name: "ResponsiveVideo",
+  mixins: [appSettings],
   props: {
     video: {
       type: Object,
@@ -38,7 +41,6 @@ export default {
   methods: {
     async initPlayer() {
       const dashjs = await import("dashjs");
-      // TODO Only init if set to play, otherwise show the placeholder
       this.player = dashjs.MediaPlayer().create();
       this.player.initialize(this.$el, this.dashUrl);
     },

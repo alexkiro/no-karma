@@ -10,85 +10,86 @@
       />
       <div class="text-h5 post-title">{{ post.title }}</div>
       <div class="post-body-container">
-        <div
+        <v-lazy
           class="d-flex align-start justify-center body-2 mt-3 post-body"
           :class="{ blurred: isBlurred }"
         >
-          <mark-down
-            v-if="postType === 'text'"
-            key="text-post"
-            ref="textPostEl"
-            class="flex-grow-1 text-post"
-            :class="{
-              overflowing: isOverflowing,
-            }"
-            :html="postText"
-          />
-          <iframe
-            v-else-if="postType === 'embedded'"
-            key="embedded-post"
-            class="embedded-media"
-            :src="secureEmbed.url"
-            :width="secureEmbed.width"
-            :height="secureEmbed.height"
-            allowfullscreen
-            loading="lazy"
-            referrerpolicy="no-referrer"
-            scrolling="no"
-          />
-          <v-lazy
-            v-else-if="postType === 'video'"
-            key="image-post"
-            class="video-post"
-          >
-            <responsive-video :video="video" />
-          </v-lazy>
-          <reddit-image-post
-            v-else-if="postType === 'image'"
-            key="image-post"
-            :post="post"
-            :show-full-post="showFullPost"
-          />
-          <div
-            v-else-if="postType === 'link'"
-            key="link-post"
-            class="flex-grow-1 link-post"
-          >
-            <a
-              :href="postUrl"
-              class="caption d-flex align-center text-decoration-none"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <span class="url">{{ displayUrl }}</span>
-              <v-icon small color="info">open_in_new</v-icon>
-            </a>
-          </div>
-          <v-sheet
-            v-else-if="postType === 'cross-post'"
-            key="cross-post"
-            outlined
-          >
-            <router-link
-              :to="{
-                name: 'post-view',
-                params: {
-                  subreddit: parentPost.subreddit,
-                  postId: parentPost.id,
-                },
+          <v-fade-transition mode="out-in">
+            <mark-down
+              v-if="postType === 'text'"
+              key="text-post"
+              ref="textPostEl"
+              class="flex-grow-1 text-post"
+              :class="{
+                overflowing: isOverflowing,
               }"
-              class="unstyled"
-              :target="openPostInNewTab ? '_blank' : '_self'"
+              :html="postText"
+            />
+            <iframe
+              v-else-if="postType === 'embedded'"
+              key="embedded-post"
+              class="embedded-media"
+              :src="secureEmbed.url"
+              :width="secureEmbed.width"
+              :height="secureEmbed.height"
+              allowfullscreen
+              loading="lazy"
+              referrerpolicy="no-referrer"
+              scrolling="no"
+            />
+            <responsive-video
+              v-else-if="postType === 'video'"
+              key="video-post"
+              :video="video"
+              class="video-post"
+            />
+            <reddit-image-post
+              v-else-if="postType === 'image'"
+              key="image-post"
+              :post="post"
+              :show-full-post="showFullPost && !showPreview"
+            />
+            <div
+              v-else-if="postType === 'link'"
+              key="link-post"
+              class="flex-grow-1 link-post"
             >
-              <reddit-post
-                :post="parentPost"
-                :show-parent-post="false"
-                :show-full-post="showFullPost"
-                :show-sub-reddit-info="true"
-              />
-            </router-link>
-          </v-sheet>
-        </div>
+              <a
+                :href="postUrl"
+                class="caption d-flex align-center text-decoration-none"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span class="url">{{ displayUrl }}</span>
+                <v-icon small color="info">open_in_new</v-icon>
+              </a>
+            </div>
+            <v-sheet
+              v-else-if="postType === 'cross-post'"
+              key="cross-post"
+              outlined
+            >
+              <router-link
+                :to="{
+                  name: 'post-view',
+                  params: {
+                    subreddit: parentPost.subreddit,
+                    postId: parentPost.id,
+                  },
+                }"
+                class="unstyled"
+                :target="openPostInNewTab ? '_blank' : '_self'"
+              >
+                <reddit-post
+                  :post="parentPost"
+                  :show-parent-post="false"
+                  :show-full-post="showFullPost"
+                  :show-sub-reddit-info="true"
+                />
+              </router-link>
+            </v-sheet>
+          </v-fade-transition>
+        </v-lazy>
         <v-fade-transition>
           <!-- Use an overlay here in case the post has a -->
           <!-- color that makes the text invisible-->
@@ -108,6 +109,14 @@
             </v-btn>
           </v-overlay>
         </v-fade-transition>
+
+        <v-overlay
+          v-if="showPreview && !isBlurred"
+          absolute
+          @click.native.stop.prevent="manualPlayClicked = true"
+        >
+          <v-icon size="90">play_circle</v-icon>
+        </v-overlay>
       </div>
     </div>
     <a
@@ -168,15 +177,16 @@ export default {
       // Some post will require manual confirmation to show,
       // e.g. spoilers and NSFW.
       manualShowConfirmed: false,
+      manualPlayClicked: false,
     };
   },
   computed: {
     postType() {
       if (this.postText) return "text";
-      if (this.secureEmbed) return "embedded";
-      if (this.video) return "video";
+      if (this.secureEmbed && !this.showPreview) return "embedded";
+      if (this.video && !this.showPreview) return "video";
       if (this.showImage) return "image";
-      if (this.showParentPost) return "cross-post";
+      if (this.showParentPost && this.parentPost) return "cross-post";
       if (this.postUrl) return "link";
       return "empty";
     },
@@ -197,6 +207,14 @@ export default {
       if (this.isSpoiler) return "spoiler";
       if (this.isNSFW) return "nsfw";
       return "";
+    },
+    showPreview() {
+      return (
+        !this.autoplayMedia &&
+        !this.manualPlayClicked &&
+        this.showImage &&
+        (this.video || this.secureEmbed)
+      );
     },
     thumbnail() {
       if (
@@ -227,7 +245,8 @@ export default {
       // Text post maybe, no need to show an image for these?
       if (this.post.post_hint === "self") return false;
       // Only show thumbnail for links
-      if (this.post.post_hint === "link") return false;
+      if (this.post.post_hint === "link" && !this.video && !this.secureEmbed)
+        return false;
 
       // Various checks, because reddit is weird with this.
       if (this.post.post_hint === "image") return true;

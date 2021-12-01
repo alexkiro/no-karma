@@ -1,5 +1,5 @@
 export const DEFAULTS = {
-  autoplayVideos: false,
+  autoplayMedia: false,
   mutedVideos: true,
   showNSFW: false,
   showRedditLinks: false,
