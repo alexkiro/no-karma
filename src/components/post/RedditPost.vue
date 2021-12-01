@@ -64,6 +64,30 @@
               <v-icon small color="info">open_in_new</v-icon>
             </a>
           </div>
+          <v-sheet
+            v-else-if="postType === 'cross-post'"
+            key="cross-post"
+            outlined
+          >
+            <router-link
+              :to="{
+                name: 'post-view',
+                params: {
+                  subreddit: parentPost.subreddit,
+                  postId: parentPost.id,
+                },
+              }"
+              class="unstyled"
+              :target="openPostInNewTab ? '_blank' : '_self'"
+            >
+              <reddit-post
+                :post="parentPost"
+                :show-parent-post="false"
+                :show-full-post="showFullPost"
+                :show-sub-reddit-info="true"
+              />
+            </router-link>
+          </v-sheet>
         </div>
         <v-fade-transition>
           <!-- Use an overlay here in case the post has a -->
@@ -132,6 +156,11 @@ export default {
       required: false,
       default: false,
     },
+    showParentPost: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
   },
   data() {
     return {
@@ -147,6 +176,7 @@ export default {
       if (this.secureEmbed) return "embedded";
       if (this.video) return "video";
       if (this.showImage) return "image";
+      if (this.showParentPost) return "cross-post";
       if (this.postUrl) return "link";
       return "empty";
     },
@@ -245,6 +275,16 @@ export default {
           height: videoData.height,
         }),
       };
+    },
+    parentPost() {
+      return (
+        this.showParentPost &&
+        this.post.crosspost_parent &&
+        this.post.crosspost_parent_list &&
+        this.post.crosspost_parent_list.find(
+          (parent) => parent.name === this.post.crosspost_parent
+        )
+      );
     },
     postUrl() {
       if (

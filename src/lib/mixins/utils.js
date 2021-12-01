@@ -4,8 +4,10 @@ export default {
   methods: {
     getSubRedditIcon(sub) {
       return (
-        (sub && (sub.community_icon || sub.icon_img)) ||
-        `${this.$store.getters.avatarBase}/api/initials/${sub.display_name}.svg`
+        sub &&
+        (sub.community_icon ||
+          sub.icon_img ||
+          `${this.$store.getters.avatarBase}/api/initials/${sub.display_name}.svg`)
       );
     },
     looksLikeImageUrl(url) {
