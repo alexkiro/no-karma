@@ -56,7 +56,7 @@ REDDIT_OAUTH_SCOPES = " ".join(
         # "report",
         # "save",
         # "submit",
-        # "subscribe",
+        "subscribe",
         # "vote",
         # "wikiedit",
         # "wikiread",

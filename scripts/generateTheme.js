@@ -5,17 +5,14 @@ const theme = {
   options: {
     customProperties: true,
   },
-  // themes: {
-  //   light: {
-  //     primary: "#ee44aa",
-  //     secondary: "#424242",
-  //     accent: "#82B1FF",
-  //     error: "#FF5252",
-  //     info: "#2196F3",
-  //     success: "#4CAF50",
-  //     warning: "#FFC107",
-  //   },
-  // },
+  themes: {
+    light: {
+      red: "#e53935",
+    },
+    dark: {
+      red: "#e53935",
+    },
+  },
 };
 
 function getTheme(dark, selector) {

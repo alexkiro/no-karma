@@ -30,7 +30,7 @@ def reddit_api(path):
         method=request.method,
         url=url,
         params=request.args,
-        data=request.data,
+        data=request.get_data(),
         headers=headers,
     )
     app.logger.debug("/%s: sending", path)

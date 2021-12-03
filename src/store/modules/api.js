@@ -78,7 +78,7 @@ export default {
         endpoint = "/",
         params = {},
         data = undefined,
-        contentType = "application/json",
+        contentType = "multipart/form-data",
         cacheMode = "no-cache",
       }
     ) {

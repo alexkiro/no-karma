@@ -72,6 +72,16 @@
   --v-warning-darken2: #bb5900;
   --v-warning-darken3: #9d4000;
   --v-warning-darken4: #802700;
+  --v-red-base: #e53935;
+  --v-red-lighten5: #ffccb3;
+  --v-red-lighten4: #ffaf98;
+  --v-red-lighten3: #ff927e;
+  --v-red-lighten2: #ff7565;
+  --v-red-lighten1: #ff584c;
+  --v-red-darken1: #c50f1f;
+  --v-red-darken2: #a50009;
+  --v-red-darken3: #860000;
+  --v-red-darken4: #690000;
 }
 
 .v-application a {
@@ -636,6 +646,86 @@
 .v-application .warning--text.text--darken-4 {
   color: var(--v-warning-darken4) !important;
   caret-color: var(--v-warning-darken4) !important;
+}
+.v-application .red {
+  background-color: var(--v-red-base) !important;
+  border-color: var(--v-red-base) !important;
+}
+.v-application .red--text {
+  color: var(--v-red-base) !important;
+  caret-color: var(--v-red-base) !important;
+}
+.v-application .red.lighten-5 {
+  background-color: var(--v-red-lighten5) !important;
+  border-color: var(--v-red-lighten5) !important;
+}
+.v-application .red--text.text--lighten-5 {
+  color: var(--v-red-lighten5) !important;
+  caret-color: var(--v-red-lighten5) !important;
+}
+.v-application .red.lighten-4 {
+  background-color: var(--v-red-lighten4) !important;
+  border-color: var(--v-red-lighten4) !important;
+}
+.v-application .red--text.text--lighten-4 {
+  color: var(--v-red-lighten4) !important;
+  caret-color: var(--v-red-lighten4) !important;
+}
+.v-application .red.lighten-3 {
+  background-color: var(--v-red-lighten3) !important;
+  border-color: var(--v-red-lighten3) !important;
+}
+.v-application .red--text.text--lighten-3 {
+  color: var(--v-red-lighten3) !important;
+  caret-color: var(--v-red-lighten3) !important;
+}
+.v-application .red.lighten-2 {
+  background-color: var(--v-red-lighten2) !important;
+  border-color: var(--v-red-lighten2) !important;
+}
+.v-application .red--text.text--lighten-2 {
+  color: var(--v-red-lighten2) !important;
+  caret-color: var(--v-red-lighten2) !important;
+}
+.v-application .red.lighten-1 {
+  background-color: var(--v-red-lighten1) !important;
+  border-color: var(--v-red-lighten1) !important;
+}
+.v-application .red--text.text--lighten-1 {
+  color: var(--v-red-lighten1) !important;
+  caret-color: var(--v-red-lighten1) !important;
+}
+.v-application .red.darken-1 {
+  background-color: var(--v-red-darken1) !important;
+  border-color: var(--v-red-darken1) !important;
+}
+.v-application .red--text.text--darken-1 {
+  color: var(--v-red-darken1) !important;
+  caret-color: var(--v-red-darken1) !important;
+}
+.v-application .red.darken-2 {
+  background-color: var(--v-red-darken2) !important;
+  border-color: var(--v-red-darken2) !important;
+}
+.v-application .red--text.text--darken-2 {
+  color: var(--v-red-darken2) !important;
+  caret-color: var(--v-red-darken2) !important;
+}
+.v-application .red.darken-3 {
+  background-color: var(--v-red-darken3) !important;
+  border-color: var(--v-red-darken3) !important;
+}
+.v-application .red--text.text--darken-3 {
+  color: var(--v-red-darken3) !important;
+  caret-color: var(--v-red-darken3) !important;
+}
+.v-application .red.darken-4 {
+  background-color: var(--v-red-darken4) !important;
+  border-color: var(--v-red-darken4) !important;
+}
+.v-application .red--text.text--darken-4 {
+  color: var(--v-red-darken4) !important;
+  caret-color: var(--v-red-darken4) !important;
 }
 
 .v-application.theme--dark {
@@ -710,6 +800,16 @@
   --v-warning-darken2: #bb5900;
   --v-warning-darken3: #9d4000;
   --v-warning-darken4: #802700;
+  --v-red-base: #e53935;
+  --v-red-lighten5: #ffccb3;
+  --v-red-lighten4: #ffaf98;
+  --v-red-lighten3: #ff927e;
+  --v-red-lighten2: #ff7565;
+  --v-red-lighten1: #ff584c;
+  --v-red-darken1: #c50f1f;
+  --v-red-darken2: #a50009;
+  --v-red-darken3: #860000;
+  --v-red-darken4: #690000;
 }
 
 .v-application a {
@@ -1274,4 +1374,84 @@
 .v-application .warning--text.text--darken-4 {
   color: var(--v-warning-darken4) !important;
   caret-color: var(--v-warning-darken4) !important;
+}
+.v-application .red {
+  background-color: var(--v-red-base) !important;
+  border-color: var(--v-red-base) !important;
+}
+.v-application .red--text {
+  color: var(--v-red-base) !important;
+  caret-color: var(--v-red-base) !important;
+}
+.v-application .red.lighten-5 {
+  background-color: var(--v-red-lighten5) !important;
+  border-color: var(--v-red-lighten5) !important;
+}
+.v-application .red--text.text--lighten-5 {
+  color: var(--v-red-lighten5) !important;
+  caret-color: var(--v-red-lighten5) !important;
+}
+.v-application .red.lighten-4 {
+  background-color: var(--v-red-lighten4) !important;
+  border-color: var(--v-red-lighten4) !important;
+}
+.v-application .red--text.text--lighten-4 {
+  color: var(--v-red-lighten4) !important;
+  caret-color: var(--v-red-lighten4) !important;
+}
+.v-application .red.lighten-3 {
+  background-color: var(--v-red-lighten3) !important;
+  border-color: var(--v-red-lighten3) !important;
+}
+.v-application .red--text.text--lighten-3 {
+  color: var(--v-red-lighten3) !important;
+  caret-color: var(--v-red-lighten3) !important;
+}
+.v-application .red.lighten-2 {
+  background-color: var(--v-red-lighten2) !important;
+  border-color: var(--v-red-lighten2) !important;
+}
+.v-application .red--text.text--lighten-2 {
+  color: var(--v-red-lighten2) !important;
+  caret-color: var(--v-red-lighten2) !important;
+}
+.v-application .red.lighten-1 {
+  background-color: var(--v-red-lighten1) !important;
+  border-color: var(--v-red-lighten1) !important;
+}
+.v-application .red--text.text--lighten-1 {
+  color: var(--v-red-lighten1) !important;
+  caret-color: var(--v-red-lighten1) !important;
+}
+.v-application .red.darken-1 {
+  background-color: var(--v-red-darken1) !important;
+  border-color: var(--v-red-darken1) !important;
+}
+.v-application .red--text.text--darken-1 {
+  color: var(--v-red-darken1) !important;
+  caret-color: var(--v-red-darken1) !important;
+}
+.v-application .red.darken-2 {
+  background-color: var(--v-red-darken2) !important;
+  border-color: var(--v-red-darken2) !important;
+}
+.v-application .red--text.text--darken-2 {
+  color: var(--v-red-darken2) !important;
+  caret-color: var(--v-red-darken2) !important;
+}
+.v-application .red.darken-3 {
+  background-color: var(--v-red-darken3) !important;
+  border-color: var(--v-red-darken3) !important;
+}
+.v-application .red--text.text--darken-3 {
+  color: var(--v-red-darken3) !important;
+  caret-color: var(--v-red-darken3) !important;
+}
+.v-application .red.darken-4 {
+  background-color: var(--v-red-darken4) !important;
+  border-color: var(--v-red-darken4) !important;
+}
+.v-application .red--text.text--darken-4 {
+  color: var(--v-red-darken4) !important;
+  caret-color: var(--v-red-darken4) !important;
 }
