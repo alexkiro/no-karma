@@ -35,3 +35,11 @@ export function debounce(func, delay) {
     }, delay);
   };
 }
+
+export function getCookie(key) {
+  const found = document.cookie
+    .split(";")
+    .map((cookie) => cookie.trim().split("="))
+    .find(([name]) => name === key);
+  return (found && found[1]) || "";
+}

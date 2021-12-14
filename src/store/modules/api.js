@@ -1,4 +1,5 @@
 import EventBus from "@/lib/event-bus";
+import { getCookie } from "@/lib/utils";
 
 class APIError extends Error {
   constructor(message, details) {
@@ -106,6 +107,7 @@ export default {
         credentials: "include",
         headers: {
           Accept: "application/json",
+          "X-CSRF-Token": getCookie("csrf-token"),
         },
         redirect: "follow",
       };

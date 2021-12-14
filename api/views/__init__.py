@@ -1,10 +1,15 @@
+import secrets
 from logging.config import dictConfig
 
 from flask import Flask
 from flask import jsonify
 from flask import redirect
 from flask import session
+from flask import request
 from flask_cors import CORS
+from itsdangerous import BadSignature
+from itsdangerous import SignatureExpired
+from itsdangerous import URLSafeTimedSerializer
 
 from api import settings
 from api.conf import CONF
@@ -41,6 +46,46 @@ CORS(
     max_age=3600,
     automatic_options=True,
 )
+
+
+csrf_serializer = URLSafeTimedSerializer(app.secret_key, salt="csrf-token")
+csrf_methods = frozenset(["POST", "PUT", "PATCH", "DELETE"])
+
+
+@app.after_request
+def csrf_cookie(response):
+    try:
+        token = session["csrf-token"]
+    except KeyError:
+        token = secrets.token_urlsafe(64)
+        session["csrf-token"] = token
+
+    response.set_cookie(
+        key="csrf-token",
+        value=csrf_serializer.dumps(token),
+        secure=settings.HAS_HTTPS,
+        httponly=False,
+        samesite="Strict",
+    )
+    return response
+
+
+@app.before_request
+def verify_csrf():
+    if request.method not in csrf_methods:
+        return
+
+    try:
+        token = csrf_serializer.loads(request.headers["X-CSRF-Token"], max_age=1800)
+    except KeyError:
+        return jsonify({"status": "missing CSRF token"}), 400
+    except SignatureExpired:
+        return jsonify({"status": "CSRF token expired"}), 400
+    except BadSignature:
+        return jsonify({"status": "invalid CSRF token"}), 400
+
+    if not secrets.compare_digest(token, session["csrf-token"]):
+        return jsonify({"status": "CSRF token does not match"}), 400
 
 
 @app.before_request
