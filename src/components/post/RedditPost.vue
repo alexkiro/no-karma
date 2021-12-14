@@ -15,15 +15,10 @@
           :class="{ blurred: isBlurred }"
         >
           <v-fade-transition mode="out-in">
-            <mark-down
+            <reddit-text-post
               v-if="postType === 'text'"
               key="text-post"
-              ref="textPostEl"
-              class="flex-grow-1 text-post"
-              :class="{
-                overflowing: isOverflowing,
-              }"
-              :html="postText"
+              :post-text="postText"
             />
             <iframe
               v-else-if="postType === 'embedded'"
@@ -138,12 +133,12 @@ import ResponsiveVideo from "@/components/ResponsiveVideo";
 import appSettings from "@/lib/mixins/appSettings";
 import RedditImagePost from "@/components/post/RedditImagePost";
 import bestFit from "@/lib/mixins/bestFit";
-import MarkDown from "../MarkDown";
+import RedditTextPost from "@/components/post/RedditTextPost";
 
 export default {
   name: "RedditPost",
   components: {
-    MarkDown,
+    RedditTextPost,
     RedditImagePost,
     ResponsiveImage,
     ResponsiveVideo,
@@ -173,7 +168,6 @@ export default {
   },
   data() {
     return {
-      isOverflowing: false,
       // Some post will require manual confirmation to show,
       // e.g. spoilers and NSFW.
       manualShowConfirmed: false,
@@ -336,17 +330,6 @@ export default {
       return this.post.selftext_html || this.post.selftext;
     },
   },
-
-  mounted() {
-    this.$nextTick(() => {
-      this.isOverflowing = this.checkIfOverflowing(this.$refs.textPostEl);
-    });
-  },
-  methods: {
-    checkIfOverflowing(el) {
-      return el && el.scrollHeight > el.clientHeight;
-    },
-  },
 };
 </script>
 
@@ -382,29 +365,12 @@ export default {
   max-height: 36rem;
 }
 
-.text-post {
-  max-height: 36rem;
-  overflow: hidden;
-
-  &.overflowing {
-    mask-image: linear-gradient(180deg, #000 80%, transparent);
-  }
-}
-
 .reddit-post.full {
   .text-post,
   .image-post {
     max-height: unset;
     mask-image: none;
   }
-}
-
-.text-post .embedded-media {
-  object-fit: contain;
-  outline: none;
-  border: none;
-  overflow: hidden;
-  margin: 0 auto;
 }
 
 .post-title {
