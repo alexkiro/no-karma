@@ -62,6 +62,7 @@ def csrf_cookie(response):
 
     response.set_cookie(
         key="csrf-token",
+        domain=settings.VUE_APP_HOST if not app.debug else None,
         value=csrf_serializer.dumps(token),
         secure=settings.HAS_HTTPS,
         httponly=False,
