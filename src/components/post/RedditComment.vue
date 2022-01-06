@@ -22,6 +22,7 @@
         <span class="text--secondary">
           {{ comment.author }}
         </span>
+        <v-icon v-if="isModerator" color="green" small>shield</v-icon>
         &nbsp;&middot;&nbsp;
         <span class="text--disabled">
           {{ relativeDateString(createdDate, null, true) }}
@@ -32,6 +33,8 @@
         >
           OP
         </span>
+        <v-icon v-if="comment.stickied" x-small color="red"> push_pin </v-icon>
+
         <v-icon v-if="!expanded" color="secondary" class="mr-2">
           unfold_more
         </v-icon>
@@ -97,6 +100,9 @@ export default {
     },
     iconSrc() {
       return `${this.avatarBase}/api/gridy/${this.comment.author_fullname}.svg`;
+    },
+    isModerator() {
+      return this.comment.distinguished === "moderator";
     },
   },
   watch: {

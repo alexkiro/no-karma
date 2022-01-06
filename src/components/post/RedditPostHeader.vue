@@ -23,7 +23,8 @@
       </router-link>
       <span v-else class="text--secondary">Posted&nbsp;</span>
       <span class="text--secondary">by u/{{ post.author }}</span>
-      &nbsp;
+      <v-icon v-if="isModerator" color="green" small>shield</v-icon>
+      &middot;
       <span class="text--secondary">
         {{ relativeDateString(createdDate) }}
       </span>
@@ -76,6 +77,9 @@ export default {
     redditLink() {
       if (!this.post.permalink) return;
       return `https://reddit.com${this.post.permalink}`;
+    },
+    isModerator() {
+      return this.post.distinguished === "moderator";
     },
   },
 };
