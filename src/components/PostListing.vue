@@ -3,7 +3,12 @@
     <double-bounce-spinner v-if="initialLoading" />
     <div>
       <v-hover v-for="post in posts" v-slot="{ hover }" :key="post.id">
-        <v-sheet :elevation="hover ? 16 : 4" max-width="55rem" class="my-4">
+        <v-sheet
+          :elevation="hover ? 16 : 4"
+          max-width="55rem"
+          class="my-4"
+          :outlined="post.stickied"
+        >
           <router-link
             :to="{
               name: 'post-view',
@@ -15,6 +20,17 @@
             class="unstyled"
             :target="openPostInNewTab ? '_blank' : '_self'"
           >
+            <v-banner
+              v-if="post.stickied"
+              color="red"
+              elevation="4"
+              icon="push_pin"
+              single-line
+              outlined
+            >
+              Pinned by moderator
+            </v-banner>
+
             <reddit-post
               :post="post"
               :show-sub-reddit-info="showSubRedditInfo"
