@@ -1,5 +1,5 @@
 <template>
-  <div v-html="html" />
+  <div v-html="htmlWithEmotes" />
 </template>
 
 <script>
@@ -9,6 +9,33 @@ export default {
     html: {
       type: String,
       required: true,
+    },
+    mediaMetadata: {
+      type: Object,
+      required: false,
+      default: null,
+    },
+  },
+  computed: {
+    htmlWithEmotes() {
+      let result = this.html;
+      Object.entries(this.mediaMetadata || {}).forEach(([key, media]) => {
+        const emoteId = key.split("|").slice(-1)[0];
+        if (!emoteId || !media || !media.s || !media.s.u) return;
+
+        const tag = `
+          <img
+            src="${media.s.u}"
+            loading="lazy"
+            referrerpolicy="no-referrer"
+            width="${media.s.x}"
+            height="${media.s.y}"
+            alt=""
+          />
+        `;
+        result = result.replace(`:${emoteId}:`, tag);
+      });
+      return result;
     },
   },
   mounted() {

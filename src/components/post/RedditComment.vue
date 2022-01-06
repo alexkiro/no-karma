@@ -39,7 +39,11 @@
           unfold_more
         </v-icon>
       </v-sheet>
-      <mark-down v-if="expanded" :html="comment.body_html" />
+      <mark-down
+        v-if="expanded"
+        :html="comment.body_html"
+        :media-metadata="comment.media_metadata"
+      />
     </li>
 
     <li v-if="expanded">
