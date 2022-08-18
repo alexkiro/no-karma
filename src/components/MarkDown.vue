@@ -51,9 +51,31 @@ export default {
         .forEach((el) => el.addEventListener("click", this.showSpoiler));
 
       this.$el.querySelectorAll("a").forEach((el) => {
+        const url = new URL(el.href);
+
         el.setAttribute("target", "_blank");
         el.setAttribute("rel", "noopener noreferrer");
         el.setAttribute("referrerpolicy", "no-referrer");
+
+        // Check for URL that look like
+        // https://preview.redd.it/vmak94hb2ei91.png
+        if (url.origin === "https://preview.redd.it") {
+          const mediaId = url.pathname.replace("/", "").split(".")[0];
+          const media = this.mediaMetadata[mediaId];
+
+          if (media) {
+            el.innerHTML = `
+              <img
+                src="${media.s.u}"
+                loading="lazy"
+                referrerpolicy="no-referrer"
+                width="${media.s.x}"
+                height="${media.s.y}"
+                alt=""
+              />
+            `;
+          }
+        }
       });
     },
   },

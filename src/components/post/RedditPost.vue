@@ -19,6 +19,7 @@
               v-if="postType === 'text'"
               key="text-post"
               :post-text="postText"
+              :post-media-metadata="postMediaMetadata"
             />
             <iframe
               v-else-if="postType === 'embedded'"
@@ -328,6 +329,9 @@ export default {
     },
     postText() {
       return this.post.selftext_html || this.post.selftext;
+    },
+    postMediaMetadata() {
+      return this.post.media_metadata || null;
     },
   },
 };

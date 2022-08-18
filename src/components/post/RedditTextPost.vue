@@ -5,6 +5,7 @@
       overflowing: isOverflowing,
     }"
     :html="postText"
+    :media-metadata="postMediaMetadata"
   />
 </template>
 
@@ -17,6 +18,11 @@ export default {
     postText: {
       type: String,
       required: true,
+    },
+    postMediaMetadata: {
+      type: Object,
+      required: false,
+      default: null,
     },
   },
   data() {
