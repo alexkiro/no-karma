@@ -130,7 +130,17 @@ export default {
       return norm;
     },
     showFullImage(image) {
-      window.open(image.source.url, "_blank", "noreferrer");
+      if (this.showFullPost) {
+        window.open(image.source.url, "_blank", "noreferrer");
+      } else {
+        this.$router.push({
+          name: "post-view",
+          params: {
+            subreddit: this.post.subreddit,
+            postId: this.post.id,
+          },
+        });
+      }
     },
   },
 };
