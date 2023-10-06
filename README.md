@@ -1,3 +1,5 @@
+# ARCHIVED AND NO LONGER WORKED ON, as Reddit API is no longer usable. 
+
 ### no-karma
 
 Reddit Client built with vuetify, as seen here: https://no-karma.app/
